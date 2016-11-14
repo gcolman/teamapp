@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<title>CompanyName - PageName</title>
+	<meta http-equiv="Content-Language" content="en-us" />
+
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+
+	<meta name="description" content="Description" />
+	<meta name="keywords" content="Keywords" />
+
+	<meta name="author" content="Enlighten Designs" />
+
+		<script src="http://www.graeme.com/node_modules/angular/angular.js"></script>
+
+	<style type="text/css" media="all">@import "css/master.css";</style>
+	<base href="/">
+
+
+</head>
+
+<body>
+		<div id="page-container">
+
+		  <div id="left">
+				<div id="sidebar">
+					<div id="team"/>
+						<ul style="list-style-type:none">
+							<li id="table"><a href="index.html"></a></li>
+							<li id="fixtures"><a href="fixtures.html"></a></li>
+							<li id="players"><a href="players.html"></a></li>
+							<li id="news"><a href="news.html"></a></li>
+							<li id="playerstats"><a href="news.html"></a></li>
+							<li id="availability"><a href="availability.html"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="main-nav">
+				<div class="padding">
+					<ul style="list-style-type:none">
+						<div ng-if="main.isadmin()==false">
+							<li id="login"><a ng-click="main.login()">Login</a></li>
+						</div>
+						<div ng-if="main.isadmin()==true">
+							<li id="login"><a ng-click="main.logout()">Logout</a></li>
+						</div>
+						<li id="settings"><a href="#">Settings</a></li>
+							<li id="settings"><a href="fixturesEdit.html">Edit</a></li>
+					</ul>
+				</div>
+			</div>
+
+
+			<div id="single">
+					<div id="leaguetable">
+						<div ng-app="myApp" ng-controller="tableCtl">
+							<div class="image" ng-style="{'background-image':'url(teamapp/images/general/wiltsfa.jpg)'}">
+								<h2>Wiltshire County Womens and Girls League U12</h2>
+							</div>
+							<table border="1" cellpadding="5" cellspacing="0" >
+									<tr>
+										<th>Pos</th>
+										<th>Team</th>
+										<th>W</th>
+										<th>D</th>
+										<th>L</th>
+										<th>Points</th>
+									</tr>
+	  						<tr ng-repeat="x in names">
+	    						<td width="50px">{{ x.POS }}</td>
+									<td width="500px">{{ x.P }}</td>
+									<td width="50px">{{ x.W }}</td>
+									<td width="50px">{{ x.D }}</td>
+	    						<td width="50px">{{ x.L }}</td>
+									<td width="50px">{{ x.PTS }}</td>
+	  						</tr>
+							</table>
+					</div>
+						<script>var app = angular.module('myApp', []);
+							app.controller('tableCtl', function($scope, $http) {
+	    					$http.get("http://www.graeme.com/json/U127-a-sideLeague.json").then(function (response) {$scope.names = response.data.records;});
+							});
+							</script>
+					</div>
+			</div>
+
+		</div>
+</body>
+</html>

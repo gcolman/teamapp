@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<title>CompanyName - PageName</title>
+	<meta http-equiv="Content-Language" content="en-us" />
+
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+
+	<meta name="description" content="Description" />
+	<meta name="keywords" content="Keywords" />
+
+	<meta name="author" content="Enlighten Designs" />
+
+	<script src="node_modules/angular/angular.js"></script>
+	<script src="node_modules/ng-dialog/js/ngDialog.js"></script>
+	<script src="js/main2.js"></script>
+	<style type="text/css" media="all">@import "css/master.css";</style>
+	<style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
+	<style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+	<script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
+	<script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
+	<script src='node_modules/textangular/dist/textAngular.min.js'></script>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
+<link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
+	<link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
+	<base href="/">
+
+
+</head>
+
+<body>
+		<div id="page-container">
+					<div ng-app="myApp" ng-controller="newsCtl as main">
+						<table border="0">
+							<tr>
+								<td><button ng-click="main.updateNews(ngDialogData)">Save</button></td>
+							</tr>
+							<tr>
+								<td colspan="4">
+										<div text-angular="text-angular" name="htmlcontent" ng-model="ngDialogData.news" ta-disabled='disabled'></div>
+								</td>
+							</tr>
+						</table>
+						</div>
+		</div>
+</body>
+</html>

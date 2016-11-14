@@ -1,0 +1,185 @@
+div {
+  border:0px solid darkblue;
+}
+
+
+.C {
+  color:#9E9E9E;
+}
+
+.N {
+  color:#9E9E9E;
+}
+
+.A {
+  color:black;font-weight: bold;
+}
+
+.S {
+  color:black;font-weight: bold;
+}
+
+.P {
+  color:black;font-weight: bold;
+}
+
+.X {
+  color:#9E9E9E;
+}
+
+.I {
+  color:#9E9E9E;
+}
+
+
+
+.cropArea {
+    background: #E4E4E4;
+    overflow: auto;
+    width:400px;
+    height:250px;
+}
+form .progress {
+    line-height: 15px;
+}
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
+
+
+.carddemoBasicUsage .card-media {
+  background-color: #fbefef; }
+
+
+.md-sidenav-left {
+  width:200px;
+  padding:0;
+  li > a {
+    color: @link-color;
+    background-color:  @link-bg;
+    i {
+      color: @icon-color;
+    }
+  }
+
+  li:hover > a, li > a:hover {
+
+    color: @link-hover-color;
+    background-color: @link-hover-bg;
+    i {
+      color: @icon-hover-color;
+    }
+  }
+
+  li:focus > a, li > a:focus {
+
+    color: @link-color;
+    background-color: @link-bg;
+    i {
+      color: @icon-hover-color;
+    }
+  }
+
+  .foo{
+      background-color: #34495e;
+  }
+
+  .virtualRepeatdemoHorizontalUsage #horizontal-container {
+    height: 100px;
+    width: 100%;
+    max-width: 830px; }
+
+  .virtualRepeatdemoHorizontalUsage .repeated-item {
+    border-right: 1px solid #ddd;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 84px;
+    padding-top: 35px;
+    text-align: center;
+    width: 50px; }
+
+  .virtualRepeatdemoHorizontalUsage md-content {
+    margin: 16px; }
+
+  .virtualRepeatdemoHorizontalUsage md-virtual-repeat-container {
+    border: solid 1px grey; }
+
+
+
+
+
+  #titlebar{
+  	float: left;
+  	padding: 5px 10px;
+  	height: 35px;
+  	width: 750px;
+  	border:0px solid black;
+  	-webkit-box-shadow: 0 4px 6px -6px #222;
+  	-moz-box-shadow: 0 4px 6px -6px #222;
+  	box-shadow: 0 6px 6px -6px #222;
+  }
+
+  #titlebar1 {
+  	height: 50px;
+  	width: 100%;
+  	float: left;
+  	background-color: #88B4E1;
+  	border:0px solid black;
+  	-webkit-box-shadow: 0 4px 6px -6px #222;
+  	-moz-box-shadow: 0 4px 6px -6px #222;
+  	box-shadow: 0 4px 6px -6px #222;
+  }
+  #titlebar1 h1 { float:left; color: white}
+
+  #titlebar2{
+  	float: left;
+  	padding: 5px 10px;
+  	height: 60px;
+  	width: 750px;
+  	border:0px solid black;
+  	-webkit-box-shadow: 0 4px 6px -6px #222;
+  	-moz-box-shadow: 0 4px 6px -6px #222;
+  	box-shadow: 0 8px 6px -6px #222;
+  }
+  #titlebar2 a:hover {
+  	color: red;
+  }
+
+  #titlebar2Header{
+  	float: right;
+  	height: 33px;
+  	width: 500px;
+  	position: relative; left: 10px;
+  	border:0px solid black;
+  }
+
+  #titlebarHeader{
+  	float: left;
+  	height: 33px;
+  	width: 500px;
+  	position: relative; left: 0px;
+  	border:0px solid black;
+  }
+
+  #titlebarIcon{
+  	float: left;
+  	height: 50px;
+  	width: 50px;
+  	position: relative; left: 0px;
+  	border:0px solid black;
+  }
+
+  #editbar{
+  	margin: 0; padding: 0;
+  	float: right;
+  	height: 33px;
+  	width: 100px;
+  	border:0px solid black;
+  }

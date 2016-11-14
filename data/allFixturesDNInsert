@@ -1,0 +1,39 @@
+
+			  db.fixtures.insert({ "id" : 7, "LC" : "L", "DATE" : "2016/11/05", "HOMETEAM" : "FC Chippenham Onyx Girls", "AWAYTEAM" : "Melksham TownGirls Yellow", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "November", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "", 
+		"availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 8, "LC" : "L", "DATE" : "2016/12/11", "HOMETEAM" : "Marlborough Youth U12", "AWAYTEAM" : "FC Chippenham Onyx", "VENUE" : "Marlborough common", "COMPETITION" : "U12 7-a-side League", "MONTH" : "November", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog1","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 9, "LC" : "L", "DATE" : "2016/11/19", "HOMETEAM" : "Westbury Allstars Girls", "AWAYTEAM" : "FC Chippenham Onyx Girls", "VENUE" : "Redland Lane 7 v 7", "COMPETITION" : "U12 7-a-side League", "MONTH" : "November", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog1","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 10, "LC" : "L", "DATE" : "2016/11/26", "HOMETEAM" : "Warminster Sky Blues U12 Girls", "AWAYTEAM" : "FC Chippenham Onyx Girls", "VENUE" : "Princecroft School 7 v 7", "COMPETITION" : "U12 7-a-side League", "MONTH" : "November", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 11, "LC" : "L", "DATE" : "2016/12/03", "HOMETEAM" : "FC Chippenham Onyx Girls", "AWAYTEAM" : "Derry Hill United", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "December", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog1","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 12, "LC" : "L", "DATE" : "2016/12/10", "HOMETEAM" : "FC Chippenham Onyx Girls", "AWAYTEAM" : "Westbury Allstars Girls", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "December", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog2","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 13, "LC" : "L", "DATE" : "2016/12/17", "HOMETEAM" : "FC Chippenham Onyx", "AWAYTEAM" : "Marlborough Youth U12", "VENUE" : "Stanley Park Sports Ground 9 v 9", "COMPETITION" : "U12 7-a-side League", "MONTH" : "December", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog2","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 14, "LC" : "L", "DATE" : "2017/01/07", "HOMETEAM" : "Swindon Spitfires Girls U12", "AWAYTEAM" : "FC Chippenham Onyx Girls", "VENUE" : "South Marston Recreation Ground", "COMPETITION" : "U12 7-a-side League", "MONTH" : "January", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 15, "LC" : "L", "DATE" : "2017/01/14", "HOMETEAM" : "FC Chippenham Onyx Girls", "AWAYTEAM" : "Warminster Sky Blues U12 Girls", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "January", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 16, "LC" : "L", "DATE" : "2017/01/21", "HOMETEAM" : "Highworth Town Junior FC U12 Girls", "AWAYTEAM" : "FC Chippenham Onyx Girls", "VENUE" : "Highworth Town Junior FC U12 Girls", "COMPETITION" : "U12 7-a-side League", "MONTH" : "January", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 17, "LC" : "L", "DATE" : "2017/01/28", "HOMETEAM" : "Melksham TownBlack Girls", "AWAYTEAM" : "FC Chippenham Onyx Girls", "VENUE" : "Melksham Football & Rugby Club 7 v 7 Pitch 1", "COMPETITION" : "U12 7-a-side League", "MONTH" : "January", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 18, "LC" : "L", "DATE" : "2017/02/04", "HOMETEAM" : "Derry Hill United", "AWAYTEAM" : "FC Chippenham Onyx Girls", "VENUE" : "Bowood Sports Ground 9-a-side", "COMPETITION" : "U12 7-a-side League", "MONTH" : "February", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog2","availability" : [
+			{}]})
+
+			  db.fixtures.insert({ "id" : 3, "LC" : "L", "DATE" : "2016/09/24", "HOMETEAM" : "FC Chippenham Onyx", "AWAYTEAM" : "Melksham Town Black", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "September", "TIME" : "10:30", "HOMESCORE" : "1", "AWAYSCORE" : "6", "SCORERS" : [ { "player" : "Siobhan", "Goals" : "1", "idNumber" : 466 } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog3","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 6, "LC" : "L", "DATE" : "2016/10/15", "HOMETEAM" : "FC Chippenham Onyx Girls", "AWAYTEAM" : "Frome Town Girls", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "October", "TIME" : "10:30", "HOMESCORE" : "-", "AWAYSCORE" : "-", "SCORERS" : [ {  } ], "MATCHREPORT" : "","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 1, "LC" : "L", "DATE" : "2016/09/10", "HOMETEAM" : "Frome Town Girls", "AWAYTEAM" : "FC Chippenham Onyx", "VENUE" : "Mells recreation Ground", "COMPETITION" : "U12 7-a-side League", "MONTH" : "September", "TIME" : "10:30", "HOMESCORE" : "2", "AWAYSCORE" : "15", "SCORERS" : [ { "player" : "Scarlett", "Goals" : 6, "idNumber" : 466 }, { "player" : "Jassie", "Goals" : 2, "idNumber" : 466 }, { "player" : "Katie", "Goals" : 3, "idNumber" : 466 }, { "player" : "Mia", "Goals" : 1, "idNumber" : 466 } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog2","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 2, "LC" : "L", "DATE" : "2016/09/17", "HOMETEAM" : "FC Chippenham Onyx", "AWAYTEAM" : "Highworth Town", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "September", "TIME" : "10:30", "HOMESCORE" : "2", "AWAYSCORE" : "9", "SCORERS" : [ { "player" : "Scarlett", "Goals" : 1, "idNumber" : 466 } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog1","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 5, "LC" : "L", "DATE" : "2016/10/08", "HOMETEAM" : "FC Chippenham Onyx", "AWAYTEAM" : "Swindon Spitfires U12", "VENUE" : "Stanley Park", "COMPETITION" : "U12 7-a-side League", "MONTH" : "October", "TIME" : "10:30", "HOMESCORE" : "3", "AWAYSCORE" : "0", "SCORERS" : [ { "player" : "Siobhan", "Goals" : "1", "idNumber" : 466 }, { "player" : "Scarlett", "Goals" : "1", "idNumber" : 466 } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog2","availability" : [{}]})
+
+			  db.fixtures.insert({ "id" : 4, "LC" : "L", "DATE" : "2016/10/02", "HOMETEAM" : "Melksham Town Yellow", "AWAYTEAM" : "FC Chippenham Onyx", "VENUE" : "Melksham Football & Rugby Club", "COMPETITION" : "U12 7-a-side League", "MONTH" : "October", "TIME" : "10:30", "HOMESCORE" : "1", "AWAYSCORE" : "3", "SCORERS" : [ { "player" : "Siobhan", "Goals" : "1", "idNumber" : 466 }, { "player" : "Scarlett", "Goals" : "1", "idNumber" : 466 } ], "MATCHREPORT" : "", "ngDialogid" : "ngdialog3","availability" : [{}]})
+

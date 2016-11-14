@@ -1,0 +1,37 @@
+<md-card ng-show="{{authSvc.isAuthenticated()}}" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+  <md-card-header>
+    <md-card-avatar>
+      <img class="md-user-avatar" src="images/people/{{authSvc.getUserid()}}"/>
+    </md-card-avatar>
+    <md-card-header-text>
+      <span class="md-title">{{authSvc.getUsername()}}</span>
+      <span class="md-subhead">Say something...</span>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content layout="row" layout-align="space-between">
+    <md-input-container class="md-block">
+      <label>Message:</label>
+      <textarea ng-model="chatText" max-rows="2" cols="60" md-select-on-focus></textarea>
+    </md-input-container>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="$ctrl.sendChat(chatText)">Send</md-button>
+  </md-card-actions>
+</md-card>
+
+    <div  style="height:485px;padding:10px">
+      <div md-whiteframe="4" style="height:515px">
+        <md-toolbar><h4>&nbsp;Onyx Team Chat...</h4></md-toolbar>
+        <div ng-app="myApp as ws" ng-controller="wsCtl" style="overflow:auto;max-height:415px">
+          <ul ng-repeat="data in chatService.collection track by $index" >
+            <li>
+              <span><b>{{data.split(',')[0]}}:</b><span style="font-size:12px">({{data.split(',')[1]}})</span></br>{{data.split(',')[2]}}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+<div layout="" layout-padding="" layout-align="center end" style="height:200px">
+  <md-checkbox ng-model="showDarkTheme">Use 'Dark' Themed Cards</md-checkbox>
+</div>

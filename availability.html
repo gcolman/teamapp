@@ -1,0 +1,152 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Scripts -->
+
+  <!-- Angular Material requires Angular.js Libraries -->
+
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/ng-dialog/js/ngDialog.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+  <script src="node_modules/angular-aria/angular-aria.min.js"></script>
+  <script src="node_modules/angular-messages/angular-messages.min.js"></script>
+  <script src="node_modules/angular-route/angular-route.min.js"></script>
+  <script src="node_modules/angular-material-icons/angular-material-icons.min.js"></script>
+  <script src="node_modules/angular-material/angular-material.min.js"></script>
+
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.js"></script> <!-- for no html5 browsers support -->
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
+  <script src="node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+
+	<script src="node_modules/angular-cookies/angular-cookies.js"></script>
+  <script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
+  <script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
+  <script src='node_modules/textangular/dist/textAngular.min.js'></script>
+  <script src='node_modules/angular-websocket/dist/angular-websocket.js'></script>
+
+  <script src="js/main.js"></script>
+  <script src="components/sidenavComponent.js"></script>
+  <script src="components/onlineComponent.js"></script>
+  <script src="components/chatComponent.js"></script>
+
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+  <link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css"/>
+  <base href="/">
+</head>
+
+<body  layout="column" style="height:500px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="gameAvailCtl as main">
+
+            <md-toolbar>
+              <div layout="row">
+                <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
+                <ul style="list-style-type:none">
+                  <div ng-app="myApp" ng-controller="authCtl as auth">
+                    <div layout="row" ng-switch="auth.isAuthenticated()">
+                      <li id="login"  ng-switch-when="false"><md-button ng-click="auth.dologin()">Login</md-button></li>
+                        <li id="login"  ng-switch-when="false"><md-button ng-href="userRegistration.html">Register</md-button></li>
+                      <li id="logout" ng-switch-when="true"><md-button ng-click="auth.logout()">Logout</md-button></li>
+                      <li id="logout" ng-switch-when="true"><md-button ng-href="userRegistration.html">Profile</md-button></li>
+                      <li id="settings" ng-switch-when="true"><md-button ng-click="main.edit(main.news[0])">edit news</md-button></li>
+                    </div>
+                  </div>
+                </ul>
+                </div>
+            </md-toolbar>
+            <div>
+              <md-content class="md-padding" layout-xs="column" layout="row" >
+                <!-- add the sidenav -->
+                <sidenav></sidenav>
+                <table>
+                    <tr>
+                      <td ng-repeat="game in main.games" valign="top">
+                          <div ng-show="true" flex-xs="" flex-gt-xs="100" flex="100" layout="column">
+                            <md-card  style="width:150" ng-if="game.AWAYTEAM.indexOf('Chippenham') >= 0" md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
+                              <md-toolbar class="md-primary md-hue-1" style="text-align:center">A<br/>{{main.getDate(game.DATE)}}</md-toolbar>
+                                <md-title style="text-align:center;height:40;font-size:18;"><b>{{game.HOMETEAM}}</b></md-title>
+                                <md-card-content>
+                                  <table style="border-collapse: collapse;" border="0">
+                                    <tr ng-repeat="player in main.players">
+                                      <td ng-click="main.toggleAvilability($index+1, game)"  style="padding:0; margin:0;" align="left">
+  <!--                                  <img class="md-user-avatar" src="images/people/players/player{{player.SquadNo}}.aspx" style="width:25px"/>-->
+  <!--                                      <img id="followbutton"  ng-src="images/icons/{{main.getAvailability(player.IDNumber, game)}}.png" ng-style="{position:'relative', bottom:'10px'}"/>-->
+                                        <div style="space-between:0" ng-switch="main.getAvailability(player.IDNumber, game)">
+                                          <div ng-switch-when="A">
+                                            <md-button aria-label="menu" class="md-fab md-mini"  style="background-color:#FBC02D;height:35px;width:35px;line-height:35px"><b>A</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="N">
+                                            <md-button aria-label="menu" class="md-fab md-mini" style="background-color:#9E9E9E;height:35px;width:35px;line-height:35px"><b>N</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="S">
+                                            <md-button aria-label="menu" class="md-fab md-mini" style="background-color:#4CAF50;height:35px;width:35px;line-height:35px"><b>S</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="X">
+                                            <md-button aria-label="menu" class="md-fab md-mini " style="background-color:#9E9E9E;height:35px;width:35px;line-height:35px"><b>X</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="P">
+                                            <md-button aria-label="menu" class="md-fab md-mini " style="background-color:#4CAF50;height:35px;width:35px;line-height:35px"><b>P</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="I">
+                                            <md-button aria-label="menu" class="md-fab md-mini " style="background-color:#9E9E9E;height:35px;width:35px;line-height:35px"><b>I</b></md-button>
+                                          </div>
+                                          <div ng-switch-default style="padding:0">
+                                            <md-button aria-label="menu" class="md-fab  md-mini" style="background-color:white;color:black;height:35px;width:35px;line-height:35px" ><b>-</b></md-button>
+                                          </div>
+                                        </div>
+                                      </td>
+                                      <td  ng-class="main.getAvailability(player.IDNumber, game)">{{player.Player}}</td>
+                                    </tr>
+                                  </table>
+                              </md-card-content>
+                              </md-card>
+                              <md-card  style="width:150" ng-if="game.AWAYTEAM.indexOf('Chippenham') < 0" md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
+                                <md-toolbar style="text-align:center">H<br/>{{main.getDate(game.DATE)}}</md-toolbar>
+                                <md-title style="text-align:center;height:35;font-size:18;"><b>{{game.AWAYTEAM}}</b></md-title>
+                                <md-card-content>
+                                  <table style="border-collapse: collapse;" border="0">
+                                    <tr ng-repeat="player in main.players" ng-click="main.toggleAvilability($index+1, game)">
+                                      <td ng-click="main.toggleAvilability($index+1, game)"  style="padding:0; margin:0;" align="left">
+                                        <!--                                  <img class="md-user-avatar" src="images/people/players/player{{player.SquadNo}}.aspx" style="width:25px"/>-->
+                                        <!--                                      <img id="followbutton"  ng-src="images/icons/{{main.getAvailability(player.IDNumber, game)}}.png" ng-style="{position:'relative', bottom:'10px'}"/>-->
+                                        <div style="space-between:0" ng-switch="main.getAvailability(player.IDNumber, game)">
+                                          <div ng-switch-when="A">
+                                            <md-button aria-label="menu" class="md-fab md-mini"  style="background-color:#FBC02D;height:35px;width:35px;line-height:35px"><b>A</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="N">
+                                            <md-button aria-label="menu" class="md-fab md-mini" style="background-color:#9E9E9E;height:35px;width:35px;line-height:35px"><b>N</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="S">
+                                            <md-button aria-label="menu" class="md-fab md-mini" style="background-color:#4CAF50;height:35px;width:35px;line-height:35px"><b>S</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="X">
+                                            <md-button aria-label="menu" class="md-fab md-mini " style="background-color:#9E9E9E;height:35px;width:35px;line-height:35px"><b>X</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="P">
+                                            <md-button aria-label="menu" class="md-fab md-mini " style="background-color:#4CAF50;height:35px;width:35px;line-height:35px"><b>P</b></md-button>
+                                          </div>
+                                          <div ng-switch-when="I">
+                                            <md-button aria-label="menu" class="md-fab md-mini " style="background-color:#9E9E9E;height:35px;width:35px;line-height:35px"><b>I</b></md-button>
+                                          </div>
+                                          <div ng-switch-default style="padding:0">
+                                            <md-button aria-label="menu" class="md-fab  md-mini" style="background-color:white;color:black;height:35px;width:35px;line-height:35px" ><b>-</b></md-button>
+                                          </div>
+                                        </div>
+                                      </td>
+                                      <td  ng-class="main.getAvailability(player.IDNumber, game)">{{player.Player}}</td>
+                                    </tr>
+                                  </table>
+                              </md-card-content>
+                            </md-card>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+              </md-content>
+  </div>
+</body>
+</html>

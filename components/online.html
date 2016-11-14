@@ -1,0 +1,18 @@
+
+    <div flex="" layout="column" layout-wrap="">
+      <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+        <md-card-header>
+          <md-card-header-text>
+            <span class="md-title">Who's Online</span>
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <md-list ng-repeat="user in $ctrl.users">
+            <md-list-item>
+              <img class="md-avatar" ng-src="images/people/{{user.userid}}" style="padding:0px">
+              <span>{{user.username}} <br/> <span style="font-size:10px" >last seen: {{user.lastlogin | date:"MMMM d 'at' ha"}}</span></span>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>

@@ -1,0 +1,13 @@
+{ "username" : "",
+  "password" : "",
+  "firstname" : "",
+  "surname" : "",
+  "email" : "",
+  "dob":  "",
+  "daughter": "",
+  "clubrole" : "",
+  "usertype": "",
+  "authrole": "",
+  "userid": 0,
+  "lastlogin":""
+}

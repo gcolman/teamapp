@@ -1,0 +1,149 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Scripts -->
+
+  <!-- Angular Material requires Angular.js Libraries -->
+
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/ng-dialog/js/ngDialog.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+  <script src="node_modules/angular-aria/angular-aria.min.js"></script>
+  <script src="node_modules/angular-messages/angular-messages.min.js"></script>
+  <script src="node_modules/angular-route/angular-route.min.js"></script>
+  <script src="node_modules/angular-material-icons/angular-material-icons.min.js"></script>
+  <script src="node_modules/angular-material/angular-material.min.js"></script>
+
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.js"></script> <!-- for no html5 browsers support -->
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
+  <script src="node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+
+	<script src="node_modules/angular-cookies/angular-cookies.js"></script>
+  <script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
+  <script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
+  <script src='node_modules/textangular/dist/textAngular.min.js'></script>
+  <script src='node_modules/angular-websocket/dist/angular-websocket.js'></script>
+
+  <script src="js/main.js"></script>
+  <script src="components/sidenavComponent.js"></script>
+  <script src="components/onlineComponent.js"></script>
+  <script src="components/chatComponent.js"></script>
+
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+  <link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css"/>
+  <base href="/">
+</head>
+
+<body  layout="column" style="height:500px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="playersCtl as players">
+
+  <div layout="row" ng-controller="AppCtrl" ng-app="MyApp">
+    <md-sidenav ng-mouseleave="toggleLeft();" class="md-sidenav-left" md-component-id="left"  md-whiteframe="4">
+      <md-content   md-colors="{background: 'indigo'}" ng-controller="LeftCtrl">
+          <section layout="column" >
+          <div style="text-align:center; padding:20px">
+            <img src="images/general/team.gif" alt="" height="130" width="180">
+          </div>
+          <md-button ng-href="index.html">- Home -</md-button>
+          <md-button ng-href="fixtures.html" >- Fixtures -</md-button>
+          <md-button ng-href="players.html">- Players -</md-button>
+          <md-button ng-href="{{googleUrl}}" target="_blank">- Games -</md-button>
+          <md-button ng-href="{{googleUrl}}" target="_blank">- Availability -</md-button>
+        </section>
+      </md-content>
+    </md-sidenav>
+  </div>
+  <md-toolbar>
+    <div layout="row">
+      <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
+      <ul style="list-style-type:none">
+        <div ng-app="myApp" ng-controller="authCtl as auth">
+          <div layout="row" ng-switch="auth.isAuthenticated()">
+            <li id="login"  ng-switch-when="false"><md-button ng-click="auth.dologin()">Login</md-button></li>
+              <li id="login"  ng-switch-when="false"><md-button ng-href="userRegistration.html">Register</md-button></li>
+            <li id="logout" ng-switch-when="true"><md-button ng-click="auth.logout()">Logout</md-button></li>
+            <li id="logout" ng-switch-when="true"><md-button ng-href="userRegistration.html">Profile</md-button></li>
+            <li id="settings" ng-switch-when="true"><md-button ng-click="main.edit(main.news[0])">edit news</md-button></li>
+          </div>
+        </div>
+      </ul>
+      </div>
+  </md-toolbar>
+  <div ng-controller="AppCtrl" ng-cloak="" class="carddemoBasicUsage" ng-app="MyApp">
+    <md-content class="md-padding" layout-xs="column" layout="row" >
+
+      <!-- add the sidenav -->
+      <sidenav></sidenav>
+
+      <div flex="60" layout="column">
+        <div flex-xs="" flex-gt-xs="50" layout-sm="column" >
+          <div ng-repeat="player in players.names">
+            <md-card  md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
+                <md-card-content layout="row" layout-align="space-between">
+                  <div layout="column">
+                    <div layout="row">
+                      <div>
+                          <img class="md-user-avatar" src="images/people/players/player{{player.SquadNo}}.aspx" style="width:45px"/>
+                      </div>
+                      <div layout="column">
+                        <div style="font-size:22px">
+                            &nbsp;{{player.Player}}&nbsp;<span style="font-size:18px">({{player.Position}})</span>
+                        </div>
+                        <div layout="row">
+                          <div>
+                              &nbsp;Appearances:{{player.gameStats.Played}}
+                          </div>
+                          <div>
+                              &nbsp;Goals:{{player.gameStats.Goals}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                  <md-card-actions layout="column">
+                    <md-fab-speed-dial  md-open="false" md-direction="left" class="md-fling">
+                      <md-fab-trigger>
+                        <md-button aria-label="menu" class="md-fab md-primary md-mini">
+                            <md-icon class="material-icons md-light md-24"> dehaze </md-icon>
+                            <md-tooltip md-direction="right">More Options</md-tooltip>
+                        </md-button>
+                      </md-fab-trigger>
+                      <md-fab-actions>
+                        <md-button aria-label="twitter" class="md-fab md-raised md-mini" ng-click="gameMain.openFixtureEdit(game)">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                            <md-tooltip md-direction="right">Edit this fixture / add match report</md-tooltip>
+                        </md-button>
+                        <md-button aria-label="facebook" class="md-fab md-raised md-mini" href="player.html?id={{player.IDNumber}}">
+                            <md-icon class="material-icons md-light md-48"> more_vert </md-icon>
+                            <md-tooltip md-direction="right">Show Player Details</md-tooltip>
+                        </md-button>
+                        <md-button aria-label="Google hangout" class="md-fab md-raised md-mini">
+                            <md-icon class="material-icons md-light md-48"> star_rate </md-icon>
+                            <md-tooltip md-direction="right">Delet this fixture</md-tooltip>
+                        </md-button>
+                      </md-fab-actions>
+                    </md-fab-speed-dial>
+                  </md-card-actions>
+                </md-card-content>
+              </md-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- the chat component -->
+      <div flex-xs="" flex-gt-xs="35" layout-sm="column" >
+          <chat></chat>
+      </div>
+
+      <!-- the Who's online component -->
+      <div flex-xs="" flex-gt-xs="15" layout="column">
+        <online></online>
+      </div>
+    </md-content>
+  </div>
+</body>
+</html>

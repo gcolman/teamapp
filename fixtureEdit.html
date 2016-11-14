@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<title>CompanyName - PageName</title>
+	<meta http-equiv="Content-Language" content="en-us" />
+
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+
+	<meta name="description" content="Description" />
+	<meta name="keywords" content="Keywords" />
+
+	<meta name="author" content="Enlighten Designs" />
+
+	<script src="node_modules/angular/angular.js"></script>
+	<script src="node_modules/ng-dialog/js/ngDialog.js"></script>
+	<script src="js/main2.js"></script>
+	<style type="text/css" media="all">@import "css/master.css";</style>
+	<style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
+	<style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+	<script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
+	<script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
+	<script src='node_modules/textangular/dist/textAngular.min.js'></script>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
+<link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
+	<link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
+	<base href="/">
+
+
+</head>
+
+<body>
+		<div id="page-container">
+					<div ng-app="myApp" ng-controller="playersCtl as players">
+
+						<table border="0">
+							<tr>
+									<td valign="top">
+										<table border="0">
+											<tr>
+													<td>Home Team</td>
+													<td><input name="ht" ng-model="ngDialogData.HOMETEAM"/></td>
+													<td>Goals</td>
+													<td><input name="ht" size="2" ng-model="ngDialogData.HOMESCORE"/></td>
+											</tr>
+											<tr>
+												<td>Away Team</td>
+												<td><input name="ht" ng-model="ngDialogData.AWAYTEAM"/></td>
+												<td>Goals</td>
+												<td><input name="ht" size="2" ng-model="ngDialogData.AWAYSCORE"/></td>
+											</tr>
+											<tr>
+												<td>Match Venue:</td>
+												<td><input name="date" ng-model="ngDialogData.VENUE"/></td>
+											</tr>
+											<tr>
+														<button ng-click="players.updateFixture(ngDialogData)">Save</button>
+											</tr>
+										</table>
+									</td>
+									<td valign="top">
+										<table border="0">
+												<tr>
+													<td width="30"></td>
+													<td><b>Goalscorer</b></td>
+													<td><b>Goals</b></td>
+												</tr>
+												<tr ng-repeat="x in ngDialogData.SCORERS">
+													<td></td>
+													<td>{{x.Player}}</td>
+													<td align="center">{{x.Goals}}</td>
+													<td><a ng-click="players.removeGoalScorer(ngDialogData.SCORERS, $index)">Remove</a></td>
+												</tr>
+												<tr>
+													<td width="30"></td>
+														<td colspan="2">
+															<select name="playerSelect" id="playerSelect" ng-model="ngDialogueData.NewScorer">
+																<option ng-repeat="player in players.names" value="{{player}}">{{player.Player}}</option>
+															</select>
+															<select name="goals" type="select" ng-model="ngDialogueData.goals">
+																<option value="-">-</option>
+																<option value="1">1</option>
+																<option value="2">2</option>
+																<option value="3">3</option>
+																<option value="4">4</option>
+																<option value="5">5</option>
+																<option value="6">6</option>
+																<option value="7">7</option>
+																<option value="8">8</option>
+																<option value="9">9</option>
+																<option value="10">10</option>
+															</select>
+														</td>
+														<td>
+															<a ng-click="players.addGoalScorer(ngDialogData.SCORERS, ngDialogueData.NewScorer, ngDialogueData.goals)">Add</a>
+														</td>
+													</tr>
+										</table>
+									</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+										<div text-angular="text-angular" name="htmlcontent" ng-model="ngDialogData.MATCHREPORT" ta-disabled='disabled'></div>
+									<!--	<textarea ng-model="ngDialogData.MATCHREPORT" style="width: 100%; background-color:white"></textarea>-->
+								</td>
+								<!--<td  colspan="3"><textarea rows="25" name="report" cols="30" name="report" ng-model="ngDialogData.MATCHREPORT"> </textarea></td>-->
+							</tr>
+						</table>
+						</div>
+		</div>
+</body>
+</html>

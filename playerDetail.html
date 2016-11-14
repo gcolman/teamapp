@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+
+	<meta http-equiv="Content-Language" content="en-us" />
+
+	<meta http-equiv="imagetoolbar" content="no" />
+
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<script src="node_modules/angular/angular.js"></script>
+	<script src="node_modules/ng-dialog/js/ngDialog.js"></script>
+	<script src="js/main2.js"></script>
+	<script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
+	<script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
+	<script src='node_modules/textangular/dist/textAngular.min.js'></script>
+	<style type="text/css" media="all">@import "css/master.css";</style>
+	<style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
+	<style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+  <base href="/">
+</head>
+
+<body>
+		 <toast></toast>
+		<form>
+		<div id="page-container">
+
+		  <div id="left">
+				<div id="sidebar">
+					<div id="team"/>
+						<ul style="list-style-type:none">
+							<li id="table"><a href="index.html"></a></li>
+							<li id="fixtures"><a href="fixtures.html"></a></li>
+							<li id="players"><a href="players.html"></a></li>
+							<li id="news"><a href="news.html"></a></li>
+							<li id="playerstats"><a href="news.html"></a></li>
+							<li id="availability"><a href="availability.html"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="main-nav">
+				<div class="padding">
+					<ul style="list-style-type:none">
+						<div ng-if="main.isadmin()==false">
+							<li id="login"><a ng-click="main.login()">Login</a></li>
+						</div>
+						<div ng-if="main.isadmin()==true">
+							<li id="login"><a ng-click="main.logout()">Logout</a></li>
+						</div>
+						<li id="settings"><a href="#">Settings</a></li>
+							<li id="settings"><a href="fixturesEdit.html">Edit</a></li>
+					</ul>
+				</div>
+			</div>
+
+
+			<div id="single" ng-app="myApp" ng-controller="IndPlayerCtl as main" >
+
+				<div id="statsBarleft">
+					<h1>PLAYER DETAILS</h1>
+				</div>
+				<div id="statsBarright1">
+					<h1>{{main.player.Player +" " +main.player.Surname}}</h1>
+				</div>
+				<div id="statsBarright2">
+					<span  class="image2" ng-style="{'background-image':'url(images/people/gcolman.png)' ,	'background-size' : '50px 50px', 'float' : 'right'}"></span>
+				</div>
+
+				<table>
+					<tr ng-repeat="(key, data) in main.player">
+
+							<td ng-if='key != "x_id"'>{{key}}</td>
+							<td ng-if='key != "x_id"'><input type="text" width="600" dynamic-model="'main.player.' + key"/></td>
+
+					</tr>
+				</table>
+ 			<button type="button" ng-click="main.updatePlayer()">Update</button>
+			</div>
+
+	</div>
+</form>
+</body>
+</html>

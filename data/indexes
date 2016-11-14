@@ -1,0 +1,5 @@
+db.users.ensureIndex( { _id: 1, username : 1 }, { unique:true, sparse:true } );
+
+db.createCollection("seq")
+
+db.seq.insert({"_id":"userid","sequence_value": 0})

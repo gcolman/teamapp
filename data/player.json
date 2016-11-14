@@ -1,0 +1,174 @@
+{
+	"Player": "",
+	"IDNumber": 1,
+	"MembershipForm": "",
+	"WiltsFAForm": "",
+	"PassportPhoto": "",
+	"Cheque": "",
+	"Email": "",
+	"PhoneNo": "",
+	"Position": "",
+	"SquadNo": 1,
+	"DOB": "",
+	"PersonalNotes": "",
+	"CoachingNotes": "",
+	"Address": "",
+	"City": "",
+	"County": "",
+	"PostCode": "",
+	"School": "",
+	"Statistics": [{
+		"Type": "Technical",
+		"Scores": [{
+			"skill": "Short range passing",
+			"score": "0"
+		}, {
+			"skill": "Long range Â passing",
+			"score": "0"
+		}, {
+			"skill": "Use both feet",
+			"score": "0"
+		}, {
+			"skill": "Shielding the ball",
+			"score": "0"
+		}, {
+			"skill": "Heading defensive",
+			"score": "0"
+		}, {
+			"skill": "Heading attacking",
+			"score": "0"
+		}, {
+			"skill": "Tackling",
+			"score": "0"
+		}, {
+			"skill": "One v One",
+			"score": "0"
+		}, {
+			"skill": "Receiving the Ball Under Pressure",
+			"score": "0"
+		}, {
+			"skill": "Tehnique / Skills",
+			"score": "0"
+		}, {
+			"skill": "Crossing",
+			"score": "0"
+		}, {
+			"skill": "Dribbling / Running with the Ball",
+			"score": "0"
+		}, {
+			"skill": "Shooting",
+			"score": "0"
+		}, {
+			"skill": "Accuracy",
+			"score": "0"
+		}, {
+			"skill": "Power / Long Shots",
+			"score": "0"
+		}, {
+			"skill": "Composure in Front of Goal",
+			"score": "0"
+		}]
+	}, {
+		"Type": "Tactical",
+		"Scores": [{
+			"skill": "Anticipation",
+			"score": "0"
+		}, {
+			"skill": "Vision Â [with / without the Ball]",
+			"score": "0"
+		}, {
+			"skill": "Support Play",
+			"score": "0"
+		}, {
+			"skill": "Timing of Runs",
+			"score": "0"
+		}, {
+			"skill": "Positional Understanding",
+			"score": "0"
+		}, {
+			"skill": "Pressing",
+			"score": "0"
+		}, {
+			"skill": "Speed of Play / Tempo",
+			"score": "0"
+		}, {
+			"skill": "Control and restraint",
+			"score": "0"
+		}, {
+			"skill": "Transitioning",
+			"score": "0"
+		}]
+	}, {
+		"Type": "Physical",
+		"Scores": [{
+			"skill": "Speed",
+			"score": "0"
+		}, {
+			"skill": "Stamina",
+			"score": "0"
+		}, {
+			"skill": "Agility / Flexibility",
+			"score": "0"
+		}, {
+			"skill": "Change of Pace",
+			"score": "0"
+		}, {
+			"skill": "Strength / Power",
+			"score": "0"
+		}, {
+			"skill": "Work Rate",
+			"score": "0"
+		}, {
+			"skill": "Balance",
+			"score": "0"
+		}, {
+			"skill": "Jumping",
+			"score": "0"
+		}, {
+			"skill": "General Fitness",
+			"score": "0"
+		}]
+	}, {
+		"Type": "Psycological",
+		"Scores": [{
+			"skill": "Confidence",
+			"score": "0"
+		}, {
+			"skill": "Understanding of the Game",
+			"score": "0"
+		}, {
+			"skill": "Leadership",
+			"score": "0"
+		}, {
+			"skill": "Motivation / Morale",
+			"score": "0"
+		}, {
+			"skill": "Decision Making",
+			"score": "0"
+		}, {
+			"skill": "Making & Learning from Mistakes",
+			"score": "0"
+		}]
+	}, {
+		"Type": "Social",
+		"Scores": [{
+			"skill": "Communication",
+			"score": "0"
+		}, {
+			"skill": "Teamwork",
+			"score": "0"
+		}, {
+			"skill": "Responds to New Challenges",
+			"score": "0"
+		}, {
+			"skill": "Interaction with other Players",
+			"score": "0"
+		}, {
+			"skill": "Interaction with Coaches",
+			"score": "0"
+		}, {
+			"skill": "Behaviour & Enjoyment",
+			"score": "0"
+		}]
+	}]
+}

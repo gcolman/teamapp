@@ -1,0 +1,242 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Scripts -->
+
+  <!-- Angular Material requires Angular.js Libraries -->
+
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/ng-dialog/js/ngDialog.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+  <script src="node_modules/angular-aria/angular-aria.min.js"></script>
+  <script src="node_modules/angular-messages/angular-messages.min.js"></script>
+  <script src="node_modules/angular-route/angular-route.min.js"></script>
+  <script src="node_modules/angular-material-icons/angular-material-icons.min.js"></script>
+  <script src="node_modules/angular-material/angular-material.min.js"></script>
+
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.js"></script> <!-- for no html5 browsers support -->
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
+  <script src="node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+
+	<script src="node_modules/angular-cookies/angular-cookies.js"></script>
+  <script src='node_modules/textangular/dist/textAngular-rangy.min.js'></script>
+  <script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
+  <script src='node_modules/textangular/dist/textAngular.min.js'></script>
+  <script src='node_modules/angular-websocket/dist/angular-websocket.js'></script>
+
+
+  <script src="js/main.js"></script>
+  <script src="components/sidenavComponent.js"></script>
+
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+  <link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="node_modules/ng-img-crop/compile/minified/ng-img-crop.css">
+  <link rel="stylesheet" href="css/main.css"/>
+  <base href="/">
+</head>
+
+<body  layout="column" style="height:500px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="registerCtl as main">
+  <div layout="row" ng-controller="AppCtrl" ng-app="MyApp">
+    <md-sidenav ng-mouseleave="toggleLeft();" class="md-sidenav-left" md-component-id="left"  md-whiteframe="4">
+      <md-content   md-colors="{background: 'indigo'}" ng-controller="LeftCtrl">
+          <section layout="column" >
+          <div style="text-align:center; padding:20px">
+            <img src="images/general/team.gif" alt="" height="130" width="180">
+          </div>
+          <md-button ng-href="index.html">- Home -</md-button>
+          <md-button ng-href="fixtures.html" >- Fixtures -</md-button>
+          <md-button ng-href="players.html">- Players -</md-button>
+          <md-button ng-href="{{googleUrl}}" target="_blank">- Games -</md-button>
+          <md-button ng-href="{{googleUrl}}" target="_blank">- Availability -</md-button>
+        </section>
+      </md-content>
+    </md-sidenav>
+  </div>
+  <md-toolbar>
+    <div layout="row">
+      <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
+      <ul style="list-style-type:none">
+        <div ng-app="myApp" ng-controller="authCtl as x">
+          <div layout="row" ng-switch="x.isAuthenticated()">
+            <li id="login"  ng-switch-when="false"><md-button ng-click="x.dologin()">Login</md-button></li>
+            <li id="logout" ng-switch-when="true"><md-button ng-click="x.logout()">Logout</md-button></li>
+          </div>
+        </div>
+      </ul>
+      </div>
+  </md-toolbar>
+  <div ng-controller="AppCtrl" ng-cloak="" class="carddemoBasicUsage" ng-app="MyApp">
+    <md-content class="md-padding" layout-xs="column" layout="row" >
+
+      <sidenav></sidenav>
+
+
+      <div flex-xs="" flex-gt-xs="50" layout="column">
+
+        <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
+
+
+          <md-card-header>
+            <md-card-avatar>
+              <img class="md-user-avatar" src="images/people/{{authSvc.getUserid()}}"/>
+            </md-card-avatar>
+            <md-card-title-text>
+              <span ng-if="authSvc.isAuthenticated()" class="md-title">Update your profile</span>
+              <span ng-if="!authSvc.isAuthenticated()" class="md-title">Register your details to use the site</span>
+            </md-card-title-text>
+          </md-card-header>
+          <md-card-content layout="row" layout-align="space-between">
+            <div layout="column">
+              <md-input-container>
+                <label>Username</label>
+                  <md-icon class="material-icons md-light md-48"> face </md-icon>
+                  <input ng-model="main.user.username" required  type="text">
+              </md-input-container>
+              <div layout="row">
+                <md-input-container>
+                  <label>First Name</label>
+                  <md-icon class="material-icons md-light md-48"> person </md-icon>
+                  <input ng-model="main.user.firstname" required  type="text">
+                </md-input-container>
+                <md-input-container>
+                  <label>Surname</label>
+                  <input ng-model="main.user.surname" required  type="text">
+                </md-input-container>
+              </div>
+              <div layout="column">
+                <md-input-container>
+                  <label>enter a password</label>
+                  <md-icon class="material-icons md-light md-48"> person </md-icon>
+                  <input ng-model="main.user.password" required  type="password">
+                </md-input-container>
+              </div>
+              <div layout="column">
+              <p>Your role within the team: <span class="radioValue">{{ data.group1 }}</span> </p>
+              <md-radio-group ng-model="main.user.usertype">
+                <md-radio-button value="Player" class="md-primary">Player</md-radio-button>
+                <md-radio-button value="ParentRelative">Parent</md-radio-button>
+                <md-radio-button value="Coach">Coach</md-radio-button>
+                <md-radio-button value="ClubOfficial">Club Official</md-radio-button>
+              </md-radio-group>
+
+
+              <div ng-if="main.user.usertype == 'Player'">
+                <md-input-container class="md-block">
+                  <md-icon class="material-icons md-light md-48"> cake </md-icon>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <md-datepicker ng-model="main.user.dob" md-hide-icons="calendar"  md-placeholder="Birthdate"></md-datepicker>
+                </md-input-container>
+              </div>
+              <div ng-if="main.user.usertype == 'ParentRelative'">
+                <md-input-container>
+                  <label>Daughter's Name</label>
+                  <md-icon class="material-icons md-light md-48"> person </md-icon>
+                  <input ng-model="main.user.daughter"   type="text">
+                </md-input-container>
+                <md-input-container class="md-block">
+                  <md-icon class="material-icons md-light md-48"> email </md-icon>
+                  <input ng-model="main.user.email" type="email" placeholder="Email (required)" ng-required="true">
+                </md-input-container>
+              </div>
+              <div ng-if="main.user.usertype == 'ClubOfficial'">
+                <md-input-container>
+                  <label>Role at club</label>
+                  <input ng-model="main.user.clubrole"  type="text">
+                </md-input-container>
+              </div>
+            </div>
+            </div>
+            <div ng-app="myApp" ng-controller="MyCtrl">
+
+              <form name="myForm">
+
+                  <md-button ng-hide="!authSvc.isAuthenticated()" class="md-raised md-primary" ngf-select ng-model="picFile" accept="image/*">Change Profile Picture</md-button>
+                  <md-button ng-hide="authSvc.isAuthenticated()" class="md-raised md-primary" ngf-select ng-model="picFile" accept="image/*">Select Profile Picture</md-button>
+
+                    <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea">
+                        <img-crop image="picFile | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''">  </img-crop>
+                    </div>
+                    <div>
+                        <img ng-src="{{croppedDataUrl}}" />
+                    </div>
+
+                    <span ng-if="!authSvc.isAuthenticated()">
+                      <md-button class="md-raised md-primary" ng-click="main.save(croppedDataUrl, picFile)">Submit</md-button>
+                    </span>
+                    <span ng-if="authSvc.isAuthenticated()">
+                      <md-button class="md-raised md-primary" ng-click="main.update(croppedDataUrl, picFile)">Update</md-button>
+                    </span>
+                  <span class="progress" ng-show="progress >= 0">
+                    <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+                  </span>
+                  <span ng-show="result">Upload Successful</span>
+                  <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+              </form>
+            </div>
+          </md-card-content>
+        </md-card>
+      </div>
+
+
+      <div flex-xs="" flex-gt-xs="35" layout="column">
+        <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+          <md-card-header>
+            <md-card-avatar>
+              <img class="md-user-avatar" src="images/general/team.gif"/>
+            </md-card-avatar>
+            <md-card-header-text>
+              <span class="md-title">Please accept our rules for using the site.</span>
+            </md-card-header-text>
+          </md-card-header>
+          <md-card-content layout="row" layout-align="space-between">
+            <md-input-container class="md-block">
+
+
+                In order for this channel to be useful for everyone, certain basic rules must be respected. You should read the following rules of usage carefully before participating:
+<br/><br/>
+      Remember that this is a public forum. By adding any data, comment or information, you are assuming that this may be visible to other users of this social network and the Bank.
+<br/><br/>
+      We request that you speak in the first person and that you add value to your comments by providing information and contrasting perspectives. Remember that you are responsible for your contributions and for any possible consequences to your image and reputation. If you have any doubts, it is better to refrain from making a contribution.
+<br/><br/>
+      This space provides a forum for an exchange of views or constructive debate; however it is not the appropriate setting for creating disputes, to discredit other users or third parties, or to lodge complaints or grievances which should be made through the specific channels established by the Bank for that purpose.
+<br/><br/>
+      Treat other users with respect; use appropriate and correct language and act as though you are in the presence of the other person.
+
+
+
+
+
+            </md-input-container>
+          </md-card-content>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-click="main.sendChat(chatText)">Accept</md-button>
+          </md-card-actions>
+        </md-card>
+
+
+        <div layout="" layout-padding="" layout-align="center end" style="height:200px">
+          <md-checkbox ng-model="showDarkTheme">Use 'Dark' Themed Cards</md-checkbox>
+        </div>
+      </div>
+
+      <div flex-xs="" flex-gt-xs="15" layout="column">
+            <div flex="" layout="column">
+              <span class="md-headline" align="center">Who's Online</span>
+              <md-list ng-repeat="user in main.users">
+                <md-list-item>
+                  <img class="md-avatar" ng-src="images/people/{{user.userid}}">
+                  <span>{{user.username}} <br/> <span style="font-size:10px" >last seen: {{user.lastlogin | date:"MMMM d 'at' ha"}}</span></span>
+                </md-list-item>
+              </md-list>
+          </div>
+      </div>
+
+
+    </md-content>
+  </div>
+</body>
+</html>

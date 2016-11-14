@@ -1,0 +1,6 @@
+{
+"IDNumber" : 1,
+"news" : "<p>Hello</p>"
+}
+
+db.news.insert({ "IDNumber" : 1, "news" : "<h3 style=\"text-align: center;\"><b>Welcome to our Onyx Team App</b></h3><p style=\"font-size: 15.4px;\">This is a new application developed by Graeme, so it is very likely to be full of bugs and things not working as expected. But, let me know and I will try to fix them up! I'll also be working on making the site look a lot prettier over the coming months!</p><p style=\"text-align: center;\"><img src=\"http://userimages.clubwebsite.co.uk/img1677_5623ebe932f4b.png\" style=\"font-size: 15.4px;\"/></p><h3 style=\"text-align: center;\"></h3><h3 style=\"text-align: center;\"><b>No training over half term, back on Sunday 6th Nov. </b></h3><div style=\"font-size: 15.4px;\"><b><br/></b></div><div style=\"font-size: 15.4px;\">Just as a reminder, we do not train on the Sunday's from the start of Half term until after the first full week back at school. So see you all back in training on 6th November!</div><p><br/></p>", "ngDialogId" : "ngdialog2" })
