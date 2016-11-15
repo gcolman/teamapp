@@ -26,6 +26,7 @@
 
   <script src="js/main.js"></script>
   <script src="components/sidenavComponent.js"></script>
+  <script src="components/topnavComponent.js"></script>
   <script src="components/onlineComponent.js"></script>
   <script src="components/chatComponent.js"></script>
 
@@ -38,24 +39,9 @@
   <base href="/">
 </head>
 
-<body  layout="column" style="height:500px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="newsCtl as main">
+<body  layout="column" style="height:4000px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="newsCtl as main">
 
-  <md-toolbar>
-    <div layout="row">
-      <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
-      <ul style="list-style-type:none">
-        <div ng-app="myApp" ng-controller="authCtl as auth">
-          <div layout="row" ng-switch="auth.isAuthenticated()">
-            <li id="login"  ng-switch-when="false"><md-button ng-click="auth.dologin()">Login</md-button></li>
-              <li id="login"  ng-switch-when="false"><md-button ng-href="userRegistration.html">Register</md-button></li>
-            <li id="logout" ng-switch-when="true"><md-button ng-click="auth.logout()">Logout</md-button></li>
-            <li id="logout" ng-switch-when="true"><md-button ng-href="userRegistration.html">Profile</md-button></li>
-            <li id="settings" ng-switch-when="true"><md-button ng-click="main.edit(main.news[0])">edit news</md-button></li>
-          </div>
-        </div>
-      </ul>
-      </div>
-  </md-toolbar>
+  <topnav></topnav>
 
   <div  ng-app="myApp" ng-controller="gamesCtl as gameMain" ng-cloak>
     <md-content class="md-padding" layout-xs="column" layout="row" >
@@ -63,9 +49,8 @@
       <sidenav></sidenav>
 
 
-<div flex="60" layout="column">
 
-      <div flex-xs="" flex-gt-xs="50" layout-sm="column" >
+      <div flex-xs="column" flex-gt-xs="50" layout-sm="column" >
         <div ng-repeat="game in gameMain.games">
           <md-card ng-show="{{gameMain.showMonth(game.MONTH)}}" md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
             <md-toolbar class="md-primary md-hue-1">&nbsp;{{game.MONTH}}</md-toolbar>
@@ -75,7 +60,7 @@
                 <div >
                   <div>
                     &nbsp;<b>{{game.DATE}}</b>&nbsp; {{game.HOMETEAM}} &nbsp; <b>{{game.HOMESCORE}} - {{game.AWAYSCORE}}</b> &nbsp; {{game.AWAYTEAM}}
-                  </br>
+                    </br>
                     <table>
                       <tr ng-show="{{game.HOMESCORE != '-'}}">
                         <td ng-repeat="scorer in game.SCORERS">{{scorer.Player}}({{scorer.Goals}})</td>
@@ -128,17 +113,16 @@
         </div>
       </div>
 
-</div>
 
 
 
       <!-- the chat component -->
-      <div flex-xs="" flex-gt-xs="35" layout-sm="column" >
+      <div flex-xs="column" flex-gt-xs="35" layout-sm="column" >
           <chat></chat>
       </div>
 
       <!-- the Who's online component -->
-      <div flex-xs="" flex-gt-xs="15" layout="column">
+      <div flex-xs="column" flex-gt-xs="15" layout="column">
         <online></online>
       </div>
 
