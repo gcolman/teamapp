@@ -63,7 +63,7 @@ var wsserver = ws.createServer(function (conn) {
 
 //static pages
 //TODO genericise
-app.use(express.static('/home/gcolman/private/5Teamapp'));
+app.use(express.static('/home/gcolman/private/teamapp'));
 //app.use(express.bodyParser());
 
 /**

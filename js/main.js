@@ -18,6 +18,7 @@ App.config(function($mdThemingProvider) {
   App.factory('chatService', function($websocket) {
      // Open a WebSocket connection
      var chatService = {};
+     //TODO externalise
      var dataStream = $websocket('ws://www.graeme.com:8001/msg');
      var collection = [];
 
