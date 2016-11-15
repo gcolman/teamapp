@@ -61,14 +61,13 @@
                   <div>
                     &nbsp;<b>{{game.DATE}}</b>&nbsp; {{game.HOMETEAM}} &nbsp; <b>{{game.HOMESCORE}} - {{game.AWAYSCORE}}</b> &nbsp; {{game.AWAYTEAM}}
                     </br>
-                    <table>
-                      <tr ng-show="{{game.HOMESCORE != '-'}}">
-                        <td ng-repeat="scorer in game.SCORERS">{{scorer.Player}}({{scorer.Goals}})</td>
-                      </tr>
-                      <tr ng-show="{{game.HOMESCORE == '-'}}">
-                        <td ng-repeat="scorer in game.SCORERS">{{game.VENUE}}</td>
-                      </tr>
-                    </table>
+                      <div layout="column" ng-show="{{game.HOMESCORE != '-'}}">
+                        <div ng-repeat="scorer in game.SCORERS">{{scorer.Player}}({{scorer.Goals}}) </div>
+                      </div>
+                      <div ng-show="{{game.HOMESCORE == '-'}}">
+                        <div ng-repeat="scorer in game.SCORERS">{{game.VENUE}}</div>
+                      </div>
+
                   </div>
                   <div id="fixtureFull" ng-show="gameMain.showReport[game.id]">
                     <table><tr><td><div ng-bind-html="game.MATCHREPORT | trust"></div></td></tr></table>
@@ -84,7 +83,7 @@
                               <md-tooltip md-direction="right">More Options</md-tooltip>
                           </md-button>
                         </md-fab-trigger>
-                        <md-fab-actions>
+                        <md-fab-actions style="width:0px">
                           <md-button aria-label="twitter" class="md-fab md-raised md-mini" ng-click="gameMain.openFixtureEdit(game)">
                               <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
                               <md-tooltip md-direction="right">Edit this fixture / add match report</md-tooltip>

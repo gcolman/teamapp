@@ -26,6 +26,7 @@
 
   <script src="js/main.js"></script>
   <script src="components/sidenavComponent.js"></script>
+  <script src="components/topnavComponent.js"></script>
   <script src="components/onlineComponent.js"></script>
   <script src="components/chatComponent.js"></script>
 
@@ -41,22 +42,7 @@
 
 <body  layout="column" style="height:500px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="gameAvailCtl as main">
 
-            <md-toolbar>
-              <div layout="row">
-                <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
-                <ul style="list-style-type:none">
-                  <div ng-app="myApp" ng-controller="authCtl as auth">
-                    <div layout="row" ng-switch="auth.isAuthenticated()">
-                      <li id="login"  ng-switch-when="false"><md-button ng-click="auth.dologin()">Login</md-button></li>
-                        <li id="login"  ng-switch-when="false"><md-button ng-href="userRegistration.html">Register</md-button></li>
-                      <li id="logout" ng-switch-when="true"><md-button ng-click="auth.logout()">Logout</md-button></li>
-                      <li id="logout" ng-switch-when="true"><md-button ng-href="userRegistration.html">Profile</md-button></li>
-                      <li id="settings" ng-switch-when="true"><md-button ng-click="main.edit(main.news[0])">edit news</md-button></li>
-                    </div>
-                  </div>
-                </ul>
-                </div>
-            </md-toolbar>
+            <topnav></topnav>
             <div>
               <md-content class="md-padding" layout-xs="column" layout="row" >
                 <!-- add the sidenav -->
