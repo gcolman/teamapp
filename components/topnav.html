@@ -1,0 +1,75 @@
+<md-toolbar style="position:relative">
+  <div layout="row">
+              <div layout="row" ng-app="myApp" ng-controller="authCtl as auth" ng-switch="auth.isAuthenticated()">
+                <md-menu>
+                      <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                        <md-icon class="material-icons md-light md-48"> dehaze </md-icon>
+                      </md-button>
+                      <md-menu-content width="4">
+                        <md-menu-item ng-switch-when="false">
+                          <md-button>
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                            Menu
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="false">
+                          <md-button ng-click="auth.dologin()">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                            Login
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="false">
+                          <md-button  ng-href="userRegistration.html">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                            New User Register
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider><md-menu-divider></md-menu-divider>
+                        <md-menu-item ng-switch-when="true">
+                          <md-button ng-click="auth.logout()">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                             Logout
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="true">
+                          <md-button ng-click="ctrl.toggleNotifications()">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                             Update Profile
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="true">
+                          <md-button >
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                             Edit News
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="true">
+                          <md-button ng-href="index.html">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                             Home
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="true">
+                          <md-button ng-href="fixtures.html">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                             Fixtures
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="true">
+                          <md-button ng-href="players.html">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                             Squad
+                          </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-switch-when="true">
+                          <md-button ng-href="availability.html">
+                            <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                             Availability
+                          </md-button>
+                        </md-menu-item>
+                      </md-menu-content>
+                    </md-menu>
+              </div>
+    <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
+    </div>
+</md-toolbar>
