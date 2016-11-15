@@ -61,8 +61,12 @@
                   <div>
                     &nbsp;<b>{{game.DATE}}</b>&nbsp; {{game.HOMETEAM}} &nbsp; <b>{{game.HOMESCORE}} - {{game.AWAYSCORE}}</b> &nbsp; {{game.AWAYTEAM}}
                     </br>
-                      <div layout="column" ng-show="{{game.HOMESCORE != '-'}}">
-                        <div ng-repeat="scorer in game.SCORERS">{{scorer.Player}}({{scorer.Goals}}) </div>
+                      <div layout="row" ng-show="{{game.HOMESCORE != '-'}}">
+
+                        <div ng-repeat="scorer in game.SCORERS">
+
+                          <div>{{scorer.Player}}({{scorer.Goals}})&nbsp;</div>
+                        </div>
                       </div>
                       <div ng-show="{{game.HOMESCORE == '-'}}">
                         <div ng-repeat="scorer in game.SCORERS">{{game.VENUE}}</div>
@@ -76,14 +80,14 @@
                 <div  ng-app="myApp" ng-controller="authCtl as auth2">
                   <div ng-show="auth2.isAuthenticated()">
                     <md-card-actions layout="column">
-                      <md-fab-speed-dial  md-open="false" md-direction="left" class="md-fling">
+                      <md-fab-speed-dial  md-open="false" md-direction="left" md-cloak class="md-scale">
                         <md-fab-trigger>
                           <md-button aria-label="menu" class="md-fab md-primary md-mini">
                               <md-icon class="material-icons md-light md-24"> dehaze </md-icon>
                               <md-tooltip md-direction="right">More Options</md-tooltip>
                           </md-button>
                         </md-fab-trigger>
-                        <md-fab-actions style="width:0px">
+                        <md-fab-actions >
                           <md-button aria-label="twitter" class="md-fab md-raised md-mini" ng-click="gameMain.openFixtureEdit(game)">
                               <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
                               <md-tooltip md-direction="right">Edit this fixture / add match report</md-tooltip>
