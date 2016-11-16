@@ -1,0 +1,51 @@
+<div ng-repeat="player in $ctrl.names" ng-cloak>
+  <md-card  md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch style="min-width:450px">
+      <md-card-content layout="row" layout-align="space-between">
+        <div layout="row">
+          <div layout="row">
+            <div>
+                <img class="md-user-avatar" src="images/people/players/player{{player.SquadNo}}.aspx" style="width:45px"/>
+            </div>
+            <div layout="column">
+              <div style="font-size:22px">
+                  &nbsp;{{player.Player}}&nbsp;<span style="font-size:18px">({{player.Position}})</span>
+              </div>
+              <div layout="row">
+                <div>
+                    &nbsp;Appearances:{{player.gameStats.Played}}
+                </div>
+                <div>
+                    &nbsp;Goals:{{player.gameStats.Goals}}
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <md-card-actions layout="row">
+        <md-fab-speed-dial  md-open="false" md-direction="left" md-cloak class="md-scale">
+          <md-fab-trigger>
+            <md-button aria-label="menu" class="md-fab md-primary md-mini">
+                <md-icon class="material-icons md-light md-24"> dehaze </md-icon>
+                <md-tooltip md-direction="right">More Options</md-tooltip>
+            </md-button>
+          </md-fab-trigger>
+          <md-fab-actions style="width:0px">
+            <md-button aria-label="twitter" class="md-fab md-raised md-mini" ng-click="gameMain.openFixtureEdit(game)">
+                <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
+                <md-tooltip md-direction="right">Edit this fixture / add match report</md-tooltip>
+            </md-button>
+            <md-button aria-label="facebook" class="md-fab md-raised md-mini" href="player.html?id={{player.IDNumber}}">
+                <md-icon class="material-icons md-light md-48"> more_vert </md-icon>
+                <md-tooltip md-direction="right">Show Player Details</md-tooltip>
+            </md-button>
+            <md-button aria-label="Google hangout" class="md-fab md-raised md-mini">
+                <md-icon class="material-icons md-light md-48"> star_rate </md-icon>
+                <md-tooltip md-direction="right">Delet this fixture</md-tooltip>
+            </md-button>
+          </md-fab-actions>
+        </md-fab-speed-dial>
+      </md-card-actions>
+      </md-card-content>
+
+    </md-card>
+</div>

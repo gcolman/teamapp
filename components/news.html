@@ -1,0 +1,13 @@
+  <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="" style="text-overflow: ellipsis;">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Onyx Team News</span>
+      </md-card-title-text>
+      <md-card-action>
+          <md-button aria-label="Edit" ng-click="$ctrl.edit($ctrl.news[0])">Edit</md-button>
+      </md-card-action>
+    </md-card-title>
+    <md-card-content layout="row" layout-align="space-between">
+      <div ng-bind-html="$ctrl.news[0].news | trust"></div>
+    </md-card-content>
+  </md-card>
