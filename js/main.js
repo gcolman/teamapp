@@ -44,6 +44,7 @@ App.config(function($mdThemingProvider) {
      var methods = {
        collection: collection,
        get: function(msg) {
+         console.log(dataStream);
          dataStream.send(msg);
        }
      };
@@ -73,29 +74,6 @@ App.config(function($mdThemingProvider) {
     }
   });
 
-  /*******************************
-  * User Factory
-  ********************************/
-/*  App.factory('userSvc', function($http) {
-   return {
-     getUser : function(userid) {
-       console.log("IN GET SINGLE USER");
-       $http.get("/getUser?" +userid).then(function (response) {
-           return response.data;
-        })
-     },
-     getAllUsers : function() {
-       console.log("IN GET USERS");
-       $http.get("/getUsers").success(function (response){
-         return response.data;
-       }
-     ).error(function (data, status, header, config) {
-       alert(status);
-     });
-   }
-  }
- });
-*/
 
 /*****************************************************************************************************
 *                             SERVICES
@@ -170,12 +148,91 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
 /*****************************************************************************************************
 *                             CONTROLERS
 *****************************************************************************************************/
+/****************************************************************************
+** Main app controler
+*****************************************************************************/
+  App.controller('appCtrl', function ($scope, $window) {
+  var self = this;
+  self.view = "news_view";
+
+  // if a view url param is set then use that
+  var requestedView = window.location.search.substring(6);//$routeParams.view;//$location.search()['view'];
+  if(requestedView != null) {
+    console.log("using requested view " +requestedView);
+    self.view = requestedView;
+  }
+
+   var originatorEv;
+   this.openMenu = function($mdOpenMenu, ev) {
+     console.log("open");
+     originatorEv = ev;
+     $mdOpenMenu(ev);
+   };
+
+ });
+
 
 /***********************
 * WEB SOCKET CONTROLLER.
 ************************/
 App.controller('wsCtl', function ($scope, chatService) {
   $scope.chatService = chatService;
+});
+
+
+/***********************
+* PLAYERS CONTROLLER.
+************************/
+App.controller('playersCtl', function ($scope, $http, ngDialog) {
+var self = this;
+self.playerID = {};
+self.player;
+self.showDetails={};
+
+$http.defaults.headers.post["Content-Type"] = "application/json";
+$http.get("/getPlayersWithStats").then(function (response) {
+    self.names = response.data;
+  });
+
+
+  self.addGoalScorer = function (scorers, scorer, goals) {
+      s = JSON.parse(scorer);
+      scorers.push({Player:s.Player, Goals:goals, IDNumber:s.IDNumber});
+  };
+
+  self.removeGoalScorer = function (scorers, index) {
+      console.log(scorers.length);
+      scorers.splice(index,1);
+  };
+
+  self.updateFixture = function(fixture) {
+    delete fixture["_id"];
+    var data= JSON.stringify(fixture);
+    $http.defaults.headers.post["Content-Type"] = "application/json";
+    $http.post("/updateFixture", fixture).success(function (fixture, status, headers, config) {
+          ngDialog.close();
+        })
+        .error(function (data, status, header, config) {
+          alert(status);
+        });
+  };
+
+});
+
+App.controller('newsCtl', function ($scope, $http, ngDialog) {
+  var self = this;
+  self.updateNews = function(news) {
+    delete news["_id"];
+    var data= JSON.stringify(news);
+    console.log(data);
+    $http.defaults.headers.post["Content-Type"] = "application/json";
+      $http.post("/updateNews", data).success(function (data, status, headers, config) {
+          ngDialog.close();
+        })
+        .error(function (data, status, header, config) {
+          alert(status);
+        });
+  };
 });
 
 /***********************
@@ -217,86 +274,6 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
 
 
 
-/***********************
-* GAMES CONTROLLER.
-************************/
-App.controller('gamesCtl', function($scope, $http, ngDialog, textAngularManager, authService) {
-  var self = this;
-  var showme = [];
-  var month = "NONE";
-  self.showmonth;
-  self.showReport = {};
-  self.fixID = {};
-
-
-  var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-  $http.get("/getFixtures").then(function (response) {
-      self.games = response.data;
-    });
-
-    // set the default value of our number
-    $scope.myNumber = 0;
-
-    // function to evaluate if a number is even
-    $scope.isEven = function(value) {
-
-    if (value % 2 == 0)
-      return true;
-    else
-      return false;
-
-    };
-
-
-    self.showMonth = function(newmonth) {
-      if(newmonth != month) {
-        month = newmonth;
-        return  true;
-      } else {
-        return  false;
-      }
-    };
-
-    self.reset = function() {
-    console.log(count++);
-    };
-
-    self.isAuthenticated = function() {
-      return authService.isAuthenticated();
-    };
-
-    self.updateFixture = function(fixture) {
-      delete fixture["_id"];
-      //console.log(fixture.DATETIME);
-      var data= JSON.stringify(fixture);
-      //fixture.DATETIME = new Date("2020-09-10T10:30:00.000Z");
-      $http.defaults.headers.post["Content-Type"] = "application/json";
-      $http.post("/updateFixture", fixture).success(function (fixture, status, headers, config) {
-
-          })
-          .error(function (data, status, header, config) {
-            alert(status);
-          });
-    };
-
-    self.openFixtureEdit = function (x) {
-      console.log("edit fixture");
-        ngDialog.open({ template: '../fixtureEdit.html', className: 'ngdialog-theme-default', data: x , showClose: false});
-    };
-
-
-    self.showreport = function (id) {
-      //console.log("ID=" +this.showReport[id]);
-        //if(this.showReport[id] === null || this.showReport[id] === undefined) {
-          self.showReport[id] = true;
-        //} else {
-        //  this.showReport[id] = !this.showReport[id]
-        //}
-    };
-
-  });
-
-
 
   /***********************
   * NEW PLAYER CONTROLLER.
@@ -320,99 +297,11 @@ App.controller('gamesCtl', function($scope, $http, ngDialog, textAngularManager,
       };
     });
 
-    /***********************
-    * PLAYERS CONTROLLER.
-    ************************/
-App.controller('playersCtl', function($scope, $http, ngDialog) {
-  var self = this;
-  self.playerID = {};
-  self.player;
-  self.showDetails={};
-
-
-  /*$http.get("/getAllStats").then(function (response) {
-      self.stats = response.data;
-    });
-*/
-  $http.get("/getPlayersWithStats").then(function (response) {
-      self.names = response.data;
-    });
-
-    self.addPlayer = function (players) {
-      $http.get("../data/player.json").then(function (response) {
-          self.player = response.data;
-          players.push(self.player);
-          console.log(self.player);
-          ngDialog.open({ template: '../newPlayer.html', className: 'ngdialog-theme-default', data: self.player , showClose: false});
-        });
-    };
-
-    //This needs to be set to ensure that the request is prperly formed.
-    var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-    self.addPlayerDB = function(player) {
-
-
-      $http.defaults.headers.post["Content-Type"] = "application/json";
-        var data = JSON.stringify(data);
-        console.log(player);
-        $http.post("/addPlayer", player).success(function (data, status, headers, config) {
-                  ngDialog.close();
-                })
-                .error(function (data, status, header, config) {
-                  alert(status);
-                });
-    };
-
-    self.addGoalScorer = function (scorers, scorer, goals) {
-        s = JSON.parse(scorer);
-        scorers.push({Player:s.Player, Goals:goals, IDNumber:s.IDNumber});
-    };
-
-    self.removeGoalScorer = function (scorers, index) {
-        console.log(scorers.length);
-        scorers.splice(index,1);
-    };
-
-    self.updateFixture = function(fixture) {
-      delete fixture["_id"];
-      var data= JSON.stringify(fixture);
-      $http.defaults.headers.post["Content-Type"] = "application/json";
-      $http.post("/updateFixture", fixture).success(function (fixture, status, headers, config) {
-            ngDialog.close();
-          })
-          .error(function (data, status, header, config) {
-            alert(status);
-          });
-    };
-
-    //This needs to be set to ensure that the request is prperly formed.
-    var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-    self.addPlayerDBxx = function() {
-        console.log(self.player);
-        $http.defaults.headers.post["Content-Type"] = "application/json";
-        var data = JSON.stringify(self.player);
-        $http.post("/addPlayer", self.player).success(function (data, status, headers, config) {
-                  this.player = data;
-                  ngDialog.close();
-                })
-                .error(function (data, status, header, config) {
-                  alert(status);
-                });
-    };
-
-    self.deletePlayer = function(player) {
-        console.log("delete player " +player.Player);
-        $http.get("removePlayer?id=" +player.IDNumber).then(function (response) {
-            self.player = response.data;
-          });
-    };
-
-  });
 
   /***********************
   * INDPLAYER CONTROLLER.
   ************************/
-App.controller('indPlayerCtl', ['$scope', '$http', '$location', function($scope, $http, $location, ngDialog) {
+App.controller('indPlayerCtl', ['$scope', '$http','$window', function($scope, $http, $window, ngDialog) {
   var self = this;
   self.mode = [];
   self.showDetails = true;
@@ -423,8 +312,8 @@ App.controller('indPlayerCtl', ['$scope', '$http', '$location', function($scope,
   self.showPhysical = true;
   self.showPsycological = true;
 
-  console.log($location.search()['id']);
-  var id = $location.search()['id'];
+  //console.log($window.location.search.substring(4));//$location.search()['id']);
+  var id = window.location.search.substring(4);//$routeParams.id;//$location.search()['id'];
   if(id != null) {
   //  id="607";
   }
@@ -472,86 +361,6 @@ App.controller('indPlayerCtl', ['$scope', '$http', '$location', function($scope,
 
 }]);
 
-
-/***********************
-* NEWS CONTROLLER.
-************************/
-  App.controller('newsCtl', function($scope, $http, ngDialog, chatService, authService, $filter, authSvc) {
-
-    var self = this;
-    $scope.authSvc = authSvc;
-    this.authenticated = authSvc.isAuthenticated();
-    count=0;
-
-    $scope.$on('auth', function (event, data) {
-      if(data =="login") {
-        self.authenticated=true;
-      }else if(data=="logout"){
-        self.authenticated=false;
-      }
-    });
-
-
-    var originatorEv;
-    this.openMenu = function($mdOpenMenu, ev) {
-      console.log("open");
-      originatorEv = ev;
-      $mdOpenMenu(ev);
-    };
-
-    self.reset = function() {
-    console.log(count++);
-    };
-
-    var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-    $http.get("/getNews").then(function (response) {
-        self.news = response.data;
-      });
-
-      //Fetch all of the news
-      $http.get("/getUsers").then(function (response) {
-          self.users = response.data;
-        });
-
-    self.edit = function(news) {
-      ngDialog.open({ template: '../newsEditDialog.html', className: 'ngdialog-theme-default', data: news , showClose: false});
-    };
-
-
-    self.sendChat = function(msg) {
-        user=authService.getUsername();
-        time=$filter('date')(new Date(), "EEE' 'H:m");
-        msg=user+','+time+','+msg;
-        chatService.get(msg);
-    };
-
-    self.updateNews = function(news) {
-      delete news["_id"];
-      var data= JSON.stringify(news);
-      console.log(data);
-      $http.defaults.headers.post["Content-Type"] = "application/json";
-        $http.post("/updateNews", data).success(function (data, status, headers, config) {
-            ngDialog.close();
-          })
-          .error(function (data, status, header, config) {
-            alert(status);
-          });
-    };
-
-    self.getUsername = function() {
-        return authService.getUsername();
-    };
-
-    self.getUserID = function() {
-        return authService.getUserID();
-    };
-
-    self.isAuthenticated = function() {
-      console.log("auth?" +authService.isAuthenticated());
-        return authService.isAuthenticated();
-    };
-
-  });
 
 
   /***********************
@@ -708,130 +517,6 @@ App.controller('indPlayerCtl', ['$scope', '$http', '$location', function($scope,
     });
 
 
-  /***********************
-  * GAME AVAIL CONTROLLER.
-  ************************/
-  App.controller('gameAvailCtl', function($scope, $http) {
-    var self = this;
-    self.playerID = {};
-    self.availstyle;
-
-      //Fetch all of the games
-      var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-      $http.get("/getFixtures").then(function (response) {
-          self.games = response.data;
-          self.monthx = 'NONE';
-        });
-
-      //Fetch all of the players
-      $http.get("/getPlayers").then(function (response) {
-          self.players = response.data;
-        });
-
-      //On clisking toggle the availability of a player
-      self.toggleAvilability = function(player, game) {
-          console.log("clicked " +player +game.HOMETEAM +"====" +game.availability[player].available );
-          if(game.availability[player].available =="C") {
-            game.availability[player].available  = "N";
-            this.availstyle="styleNAvail";
-          } else if (game.availability[player].available =="N") {
-            game.availability[player].available ="A";
-            this.availstyle="styleAvail";
-          } else if (game.availability[player].available =="A") {
-            game.availability[player].available ="S";
-            this.availstyle="styleSelected";
-          } else if (game.availability[player].available =="S") {
-            game.availability[player].available ="P";
-            this.availstyle="stylePlayed";
-          } else if (game.availability[player].available =="P") {
-            game.availability[player].available ="X";
-            this.availstyle="styleNoshow";
-          } else if (game.availability[player].available =="X") {
-            game.availability[player].available ="I";
-            this.availstyle="styleInjured";
-          } else if (game.availability[player].available =="I") {
-            game.availability[player].available ="C";
-            this.availstyle="styleClear";
-          }
-          this.updateFixture(game);
-
-          return  game.availability[player].available;
-      };
-
-
-      /**
-      *  Get the player's availability, if the player avail stat is not in ths fixtures then add a default "C" for the player.
-      */
-      self.getAvailability = function(playerid, game) {
-        // iterate through gameavail
-        found=false;
-        for(i=0; i<game.availability.length;i++) {
-          if(game.availability[i].id == playerid) {
-            found=true;
-              //console.log(playerid + " -- " +JSON.stringify(game.availability[i].available));
-            return game.availability[i].available;
-          }
-        }
-
-        if(!found){ //If not found then add a default for the player.
-          game.availability.push({id : playerid , available : "C"});
-          //console.log(game.HOMETEAM +'{"id" : ' +playerid +',"available" : "C"}' +'====' +game.availability[game.availability.length-1].available);
-          this.updateFixture(game);
-          return game.availability[game.availability.length-1].available;
-
-        }
-      };
-
-      self.updateFixture = function(fixture) {
-        delete fixture["_id"];
-        var data= JSON.stringify(fixture);
-        //console.log(data);
-        //fixture.DATETIME = new Date("2020-09-10T10:30:00.000Z");
-        $http.defaults.headers.post["Content-Type"] = "application/json";
-        $http.post("/updateFixture", fixture).success(function (fixture, status, headers, config) {
-
-            })
-            .error(function (data, status, header, config) {
-              alert(status);
-            });
-      };
-
-
-
-      self.getDate = function(date) {
-
-        month = date.substring(5,7);
-        day = date.substring(8,10);
-
-        if(month=='01') {
-          return day +'-Jan';
-        }else if(month=='02') {
-          return day +'-Feb';
-        }else if(month=='03') {
-          return day +'-Mar';
-        }else if(month=='04') {
-          return day +'-Apr';
-        }else if(month=='05') {
-          return day +'-May';
-        }else if(month=='06') {
-          return day +'-Jun';
-        }else if(month=='07') {
-          return day +'-Jul';
-        }else if(month=='08') {
-          return day +'-Aug';
-        }else if(month=='09') {
-          return day +'-Sep';
-        }else if(month=='10') {
-          return day +'-Oct';
-        }else if(month=='11') {
-          return day +'-Nov' ;
-        }else if(month=='12') {
-          return day +'-Dec';
-        }
-      };
-
-    });
-
 
 
     /***********************
@@ -986,81 +671,6 @@ App.directive('dynamicModel', ['$compile', '$parse', function ($compile, $parse)
 }]);
 
 
-/****************************************************************************
-** Main angular controler
-*****************************************************************************/
-//angular
-//  .module('MyApp',['ngMaterial', 'ngMessages', 'ngMdIcons'])
-  App.controller('AppCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-    $scope.toggleLeft = buildDelayedToggler('left');
-    $scope.toggleRight = buildToggler('right');
-    $scope.isOpenRight = function(){
-      return $mdSidenav('right').isOpen();
-    };
-
-    /**
-     * Supplies a function that will continue to operate until the
-     * time is up.
-     */
-    function debounce(func, wait, context) {
-      var timer;
-
-      return function debounced() {
-        var context = $scope,
-            args = Array.prototype.slice.call(arguments);
-        $timeout.cancel(timer);
-        timer = $timeout(function() {
-          timer = undefined;
-          func.apply(context, args);
-        }, wait || 10);
-      };
-    }
-
-    /**
-     * Build handler to open/close a SideNav; when animation finishes
-     * report completion in console
-     */
-    function buildDelayedToggler(navID) {
-      return debounce(function() {
-        // Component lookup should always be available since we are not using `ng-if`
-        $mdSidenav(navID)
-          .toggle()
-          .then(function () {
-            $log.debug("toggle " + navID + " is done");
-          });
-      }, 200);
-    }
-
-    function buildToggler(navID) {
-      return function() {
-        // Component lookup should always be available since we are not using `ng-if`
-        $mdSidenav(navID)
-          .toggle()
-          .then(function () {
-            $log.debug("toggle " + navID + " is done");
-          });
-      }
-    }
-  })
-  .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-    $scope.close = function () {
-      // Component lookup should always be available since we are not using `ng-if`
-      $mdSidenav('left').close()
-        .then(function () {
-          $log.debug("close LEFT is done");
-        });
-
-    };
-  })
-  .controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-    $scope.close = function () {
-      // Component lookup should always be available since we are not using `ng-if`
-      $mdSidenav('right').close()
-        .then(function () {
-          $log.debug("close RIGHT is done");
-        });
-    };
-  });
 
 
 /*****************************************
@@ -1102,24 +712,6 @@ App.directive('dynamicModel', ['$compile', '$parse', function ($compile, $parse)
       return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
   }
 
-/*
-          Upload.upload({
-              url: '/uploadPhoto',
-              data: {
-                  file: Upload.dataUrltoBlob(dataUrl, name)
-              },
-          }).then(function (response) {
-              $timeout(function () {
-                  $scope.result = response.data;
-              });
-          }, function (response) {
-              if (response.status > 0) $scope.errorMsg = response.status
-                  + ': ' + response.data;
-          }, function (evt) {
-              $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
-          });
-      }
-  }]);*/
 
   //inject ngFileUpload and ngImgCrop directives and services.
 var App2 = angular.module('fileUpload', ['ngFileUpload', 'ngImgCrop']);

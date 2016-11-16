@@ -43,21 +43,22 @@ var wsserver = ws.createServer(function (conn) {
     conn.on('error', function (err) {
         if (err.code !== 'ECONNRESET') {
             // Ignore ECONNRESET and re throw anything else
+            console.log("There's an ERRCONSET " +err);
             throw err
         } else {
-          console.log(err);
+          console.log("ERROR WITH CHAT : "+err);
         }
     })
 
     conn.on("text", function (str) {
-        console.log("Received "+str)
+        console.log("Received "+str +" number of connections = " +connections.length)
         for(var i = 0; i < connections.length; i++) {
             connections[i].sendText(str);
         }
     })
 
     conn.on("close", function (code, reason) {
-        console.log("Connection closed")
+        console.log("Connection closed " +code +" " +reason)
     })
 }).listen(8001)
 
