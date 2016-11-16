@@ -44,7 +44,7 @@ var wsserver = ws.createServer(function (conn) {
         if (err.code !== 'ECONNRESET') {
             // Ignore ECONNRESET and re throw anything else
             console.log("There's an ERRCONSET " +err);
-            throw err
+            //throw err
         } else {
           console.log("ERROR WITH CHAT : "+err);
         }
@@ -285,7 +285,7 @@ app.post('/updateUser', jsonParser, function (req, res) {
 app.post('/login', jsonParser, function (req, res) {
       console.log("Login-" +JSON.stringify(req.body));
      findDocumentsByString(db, 'users', req.body, function(docs) {
-       if(docs != null) {
+       if(docs[0] != undefined) {
          console.log("login:" +docs +" - " +docs[0]);
          docs[0].lastlogin = new Date();
          delete docs[0]["_id"];
