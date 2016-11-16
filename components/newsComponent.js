@@ -26,19 +26,6 @@ function newsController($scope, $http, ngDialog, chatService, authService, $filt
     ngDialog.open({ template: '../newsEditDialog.html', className: 'ngdialog-theme-default', data: news , showClose: false});
   };
 
-
-  self.updateNews = function(news) {
-    delete news["_id"];
-    var data= JSON.stringify(news);
-    console.log(data);
-    $http.defaults.headers.post["Content-Type"] = "application/json";
-      $http.post("/updateNews", data).success(function (data, status, headers, config) {
-          ngDialog.close();
-        })
-        .error(function (data, status, header, config) {
-          alert(status);
-        });
-  };
 }
 
 angular.module('myApp').component('news', {
