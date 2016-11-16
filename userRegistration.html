@@ -39,41 +39,13 @@
   <base href="/">
 </head>
 
-<body  layout="column" style="height:500px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="registerCtl as main">
-  <div layout="row" ng-controller="AppCtrl" ng-app="MyApp">
-    <md-sidenav ng-mouseleave="toggleLeft();" class="md-sidenav-left" md-component-id="left"  md-whiteframe="4">
-      <md-content   md-colors="{background: 'indigo'}" ng-controller="LeftCtrl">
-          <section layout="column" >
-          <div style="text-align:center; padding:20px">
-            <img src="images/general/team.gif" alt="" height="130" width="180">
-          </div>
-          <md-button ng-href="index.html">- Home -</md-button>
-          <md-button ng-href="fixtures.html" >- Fixtures -</md-button>
-          <md-button ng-href="players.html">- Players -</md-button>
-          <md-button ng-href="{{googleUrl}}" target="_blank">- Games -</md-button>
-          <md-button ng-href="{{googleUrl}}" target="_blank">- Availability -</md-button>
-        </section>
-      </md-content>
-    </md-sidenav>
-  </div>
-  <md-toolbar>
-    <div layout="row">
-      <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
-      <ul style="list-style-type:none">
-        <div ng-app="myApp" ng-controller="authCtl as x">
-          <div layout="row" ng-switch="x.isAuthenticated()">
-            <li id="login"  ng-switch-when="false"><md-button ng-click="x.dologin()">Login</md-button></li>
-            <li id="logout" ng-switch-when="true"><md-button ng-click="x.logout()">Logout</md-button></li>
-          </div>
-        </div>
-      </ul>
-      </div>
-  </md-toolbar>
-  <div ng-controller="AppCtrl" ng-cloak="" class="carddemoBasicUsage" ng-app="MyApp">
+<body  layout="column" style="height:500px;" ng-cloak=""  ng-app="myApp" ng-controller="registerCtl as main">
+
+  <topnav></topnav>
+  <div ng-cloak="" >
     <md-content class="md-padding" layout-xs="column" layout="row" >
 
       <sidenav></sidenav>
-
 
       <div flex-xs="" flex-gt-xs="50" layout="column">
 

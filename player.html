@@ -25,6 +25,7 @@
   <script src='node_modules/angular-websocket/dist/angular-websocket.js'></script>
 
   <script src="js/main.js"></script>
+  <script src="components/topnavComponent.js"></script>
   <script src="components/sidenavComponent.js"></script>
   <script src="components/onlineComponent.js"></script>
   <script src="components/chatComponent.js"></script>
@@ -39,125 +40,59 @@
   <base href="/">
 </head>
 
-<body  layout="column" style="height:10000px;" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="myApp" ng-controller="indPlayerCtl as main">
+<body  layout="column" style="height:10000px;" ng-cloak="" ng-app="myApp" ng-controller="indPlayerCtl as main">
 
-  <md-toolbar>
-    <div layout="row">
-      <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
-      <ul style="list-style-type:none">
-        <div ng-app="myApp" ng-controller="authCtl as auth">
-          <div layout="row" ng-switch="auth.isAuthenticated()">
-            <li id="login"  ng-switch-when="false"><md-button ng-click="auth.dologin()">Login</md-button></li>
-              <li id="login"  ng-switch-when="false"><md-button ng-href="userRegistration.html">Register</md-button></li>
-            <li id="logout" ng-switch-when="true"><md-button ng-click="auth.logout()">Logout</md-button></li>
-            <li id="logout" ng-switch-when="true"><md-button ng-href="userRegistration.html">Profile</md-button></li>
-            <li id="settings" ng-switch-when="true"><md-button ng-click="main.edit(main.news[0])">edit news</md-button></li>
-          </div>
-        </div>
-      </ul>
-      </div>
-  </md-toolbar>
-  <div ng-controller="AppCtrl" ng-cloak="" class="carddemoBasicUsage" ng-app="MyApp">
+  <topnav></topnav>
+
+  <div ng-cloak="">
     <md-content class="md-padding" layout-xs="column" layout="row" >
-
-      <!-- add the sidenav -->
-      <sidenav></sidenav>
-
+<sidenav></sidenav>
       <div flex="60" layout="column">
-        <div flex-xs="" flex-gt-xs="50" layout-sm="column" >
-            <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
-                <md-card-header class="md-primary">
-                  <md-card-avatar>
-                    <img class="md-user-avatar" src="images/people/{{main.player.IDNumber}}"/>
-                  </md-card-avatar>
-                  <md-card-header-text>
-                    <span class="md-title"><h2>{{main.player.Player}} Powell</h2></span>
-                  </md-card-header-text>
-                  <md-card-actions layout="column">
-                    <md-button class="md-fab md-primary md-mini" ng-click="main.updatePlayer()">
-                      <md-icon md-icon class="material-icons md-light md-24">check</md-icon>
-                      <md-tooltip md-direction="right">save</md-tooltip>
-                    </md-button>
-                  </md-card-actions>
-                </md-card-header>
 
-              </md-card>
-
-              <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
-                  <md-toolbar>
-                  <div class="md-toolbar-tools">
-                    <span>Player Details</span>
-                    <!-- fill up the space between left and right area -->
-                    <span flex></span>
-                    <md-button class="md-fab md-primary md-mini" ng-click="main.showDetails = !main.showDetails">
-                      <md-icon md-icon class="material-icons md-light md-24"> import_export </md-icon>
-                      <md-tooltip md-direction="right">show/hide</md-tooltip>
-                    </md-button>
-                  </div>
-                </md-toolbar>
-
-                  <md-card-content ng-show="main.showDetails" layout="row" layout-align="space-between">
-                    <div  layout="column">
-                       <div ng-show="true" layout="column" ng-repeat="(key, data) in main.player">
-                         <div layout="row">
-                           <md-input-container style="margin:5px" >
-                               <span ng-if='key != "_id" && key != "Statistics"'>
-                                 <label>{{key}}</label>
-                                 <input size="100" dynamic-model="'main.player.' + key"  type="text"/>
-                               </span>
-                             </md-input-container>
-                           </div>
-                         </div>
+        <md-content>
+          <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Player">
+              <md-content class="md-padding">
+                <h1 class="md-display-2"><img class="md-avatar" style="border-radius: 50%; width:70" src="images/people/{{main.player.IDNumber}}"/>&nbsp;{{main.player.Player}} Powell</h1>
+                <div ng-show="true" layout="column" ng-repeat="(key, data) in main.player">
+                  <div layout="row">
+                    <md-input-container style="margin:5px" >
+                        <span ng-if='key != "_id" && key != "Statistics"'>
+                          <label>{{key}}</label>
+                          <input size="100" dynamic-model="'main.player.' + key"  type="text"/>
+                        </span>
+                      </md-input-container>
                     </div>
-                  </md-card-content>
-                </md-card>
-
-                    <div ng-repeat="stat in main.player.Statistics">
-                      <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
-                        <md-toolbar>
-                        <div class="md-toolbar-tools">
-                          <span>{{stat.Type}}</span>
-                          <!-- fill up the space between left and right area -->
-                          <span flex></span>
-                          <md-button class="md-fab md-primary md-mini" ng-click="main.showSection[$index] = !main.showSection[$index]">
-                            <md-icon md-icon class="material-icons md-light md-24">import_export</md-icon>
-                            <md-tooltip md-direction="right">show/hide</md-tooltip>
-                          </md-button>
-                        </div>
-                      </md-toolbar>
-                          <md-card-content ng-show="main.showSection[$index]" layout="row" layout-align="space-between">
-
-                       <div id="statstable" >
-                         <table border="1" cellpadding="5" cellspacing="0">
-                           <tr ng-repeat="score in stat.Scores" ng-class-odd="'dark'" ng-class-even="'light'">
-
-                             <td width="400px">{{score.skill}}</td>
-                             <td width="25px">{{score.score}}</td>
-                             <td width="150px">
-                               <div  ng-controller="starController">
-                                 <div class="alert alert-info">
-                                     <div star-rating rating="starRating3" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
-                                 </div>
-                               </div>
-                           </tr>
-                         </table>
-                         </div>
-                       </md-card-content>
-                       </md-card>
-
                   </div>
+              </md-content>
+            </md-tab>
 
-        </div>
-      </div>
+            <div ng-repeat="stat in main.player.Statistics">
+              <md-tab label="{{stat.Type}}">
+                <md-content class="md-padding">
+                  <h1 class="md-display-2">{{stat.Type}}</h1>
 
-      <!-- the chat component -->
-      <div flex-xs="" flex-gt-xs="35" layout-sm="column" >
-          <chat></chat>
-      </div>
+               <div id="statstable" >
+                 <table border="1" cellpadding="5" cellspacing="0">
+                   <tr ng-repeat="score in stat.Scores" ng-class-odd="'dark'" ng-class-even="'light'">
 
-      <!-- the Who's online component -->
-      <div flex-xs="" flex-gt-xs="15" layout="column">
-        <online></online>
+                     <td width="400px">{{score.skill}}</td>
+                     <td width="25px">{{score.score}}</td>
+                     <td width="150px">
+                       <div  ng-controller="starController">
+                         <div class="alert alert-info">
+                             <div star-rating rating="starRating3" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
+                         </div>
+                       </div>
+                   </tr>
+                 </table>
+                 </div>
+                </md-tab>
+              </div>
+          </md-tabs>
+        </md-content>
+
+
       </div>
     </md-content>
   </div>
