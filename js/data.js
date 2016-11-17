@@ -7,6 +7,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var jsonParser = bodyParser.json();
 var ws = require("nodejs-websocket");
 var multer = require('multer')
+
 //var url = 'mongodb://localhost:27017/teamapp';
 
 
@@ -35,10 +36,18 @@ app.post('/uploadPhoto', upload.single('avatar'), function (req, res, next) {
 ** Websocket
 ***************************************/
 var connections = [];
+var chatHistory = [];
 var wsserver = ws.createServer(function (conn) {
-    console.log("New connection")
+    console.log("New connection " +chatHistory.length)
     //var connection = request.accept('echo-protocol', request.origin);
     connections.push(conn);
+    for(i=0;i<chatHistory.length;i++) {
+      //console.log("sending " +chatHistory[i] +" to connection ");
+      conn.sendText(chatHistory[i]);
+      if(i>100) {
+        break;
+      }
+    }
 
     conn.on('error', function (err) {
         if (err.code !== 'ECONNRESET') {
@@ -52,6 +61,7 @@ var wsserver = ws.createServer(function (conn) {
 
     conn.on("text", function (str) {
         console.log("Received "+str +" number of connections = " +connections.length)
+        chatHistory.push(str);
         for(var i = 0; i < connections.length; i++) {
             connections[i].sendText(str);
         }
@@ -112,7 +122,7 @@ app.get('/getPlayersWithStats', function (req, res) {
 app.get('/getPlayer', function (req, res) {
       console.log( "/getPlayer : " +req.query.id );
       findDocumentsByID(db, 'players', 'IDNumber', +req.query.id, function(docs) {
-        console.log(JSON.stringify(docs) );
+        //console.log(JSON.stringify(docs) );
         res.end(docs);
       });
 })
@@ -216,7 +226,7 @@ var getAllStats= function(cb) {
 app.get('/removePlayer', function (req, res) {
       console.log( "/removePlayer : " +req );
       removeDocument(db, 'players', 'IDNumber', +req.query.id, function(docs) {
-        console.log(JSON.stringify(docs) );
+        //console.log(JSON.stringify(docs) );
         res.end(docs);
     });
       res.end( "xxxxx" );
@@ -241,7 +251,7 @@ app.post('/addPlayer', jsonParser, function (req, res) {
 app.get('/getUser', function (req, res) {
       console.log( "/getUser : " +req );
       findDocumentsByID(db, 'users', "userid",  req.query.userid, function(docs) {
-        console.log(docs);
+        //console.log(docs);
         res.end( docs );
       });
 
@@ -386,7 +396,7 @@ var findAllDocuments = function(db, collection, sorted, sortfield, ascdesc, call
     collection.find().sort({DATE: 1}).toArray(function(err, docs) {
       assert.equal(err, null);
       var tmp = JSON.stringify(docs);
-      console.log(tmp);
+      //console.log(tmp);
       callback(docs);
     });
   }
