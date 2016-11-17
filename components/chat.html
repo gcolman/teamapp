@@ -1,4 +1,5 @@
-<md-card ng-show="{{authSvc.isAuthenticated()}}" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+<div ng-app="myApp" ng-controller="authCtl as auth" ng-switch="auth.isAuthenticated()">
+<md-card ng-switch-when="true" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
   <md-card-header>
     <md-card-avatar>
       <img class="md-user-avatar" src="images/people/{{authSvc.getUserid()}}"/>
@@ -31,3 +32,4 @@
         </div>
       </div>
     </div>
+</div>
