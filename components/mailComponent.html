@@ -1,0 +1,55 @@
+<div ng-app="myApp as ws" ng-controller="wsCtl" style="max-height:415px">
+  <div ng-repeat="msg in messageService.mailCollection track by $index" >
+    <md-card class="md-accent" style="padding:10px;position:relative;width:95%">
+         <div layout="column">
+           <div layout="row">
+
+             <div style="font-size:13px;font-weight:bold">
+               {{msg.from}}({{$ctrl.formatDate(msg.date)}})
+             </div>
+           </div>
+           <div style="position:absolute;top:0;right:5">
+             <md-button  class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:0px">
+               <md-icon ng-click="$ctrl.removeMessage(msg._id)" class="material-icons md-light md-48"> delete_sweep </md-icon>
+             </md-button>
+           </div>
+         </div>
+           <div>{{msg.body}}</div>
+         </div>
+     </md-card>
+  </div>
+</div>
+<!--
+<div  style="height:485px;padding:10px">
+
+    <div ng-app="myApp as ws" ng-controller="wsCtl" style="max-height:415px">
+      <ul ng-repeat="data in mailService.collection track by $index" >
+        <li>
+          <span><b>{{data.split(',')[0]}}:</b><span style="font-size:12px">({{data.split(',')[1]}})</span></br>{{data.split(',')[2]}}</span>
+        </li>
+      </ul>
+    </div>
+</div>
+-->
+
+<!--  <div ng-repeat="msg in $ctrl.messages" style="max-height:415px">
+   <md-card class="md-accent" style="padding:10px;position:relative;width:95%">
+        <div layout="column">
+          <div layout="row">
+            <div>
+              <md-icon class="material-icons md-light md-48"> mail </md-icon>
+            </div>
+            <div style="font-size:13px;font-weight:bold">
+              {{msg.from}}({{$ctrl.formatDate(msg.date)}})
+            </div>
+          </div>
+          <div style="position:absolute;top:0;right:5">
+            <md-button  class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:0px">
+              <md-icon ng-click="$ctrl.removeMessage(msg._id)" class="material-icons md-light md-48"> delete_sweep </md-icon>
+            </md-button>
+          </div>
+        </div>
+          <div>{{msg.body}}</div>
+        </div>
+    </md-card>
+  </div> -->

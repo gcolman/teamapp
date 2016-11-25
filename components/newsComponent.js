@@ -1,6 +1,6 @@
 
 
-function newsController($scope, $http, ngDialog, chatService, authService, $filter, authSvc) {
+function newsController($scope, $http, ngDialog, authService, $filter, authSvc) {
 
   var self = this;
   $scope.authSvc = authSvc;

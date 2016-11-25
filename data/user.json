@@ -9,5 +9,7 @@
   "usertype": "",
   "authrole": "",
   "userid": 0,
-  "lastlogin":""
+  "lastlogin":"",
+  "team":"",
+  "club":""
 }

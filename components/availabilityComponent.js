@@ -33,6 +33,9 @@ function availabilityController($scope, $http) {
           game.availability[player].available ="P";
           this.availstyle="stylePlayed";
         } else if (game.availability[player].available =="P") {
+          game.availability[player].available ="£";
+          this.availstyle="styleNoshow";
+        } else if (game.availability[player].available =="£") {
           game.availability[player].available ="X";
           this.availstyle="styleNoshow";
         } else if (game.availability[player].available =="X") {

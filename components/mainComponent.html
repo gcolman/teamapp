@@ -1,0 +1,63 @@
+<div ng-cloak="" >
+  <md-content class="md-padding" layout-xs="column" layout="row" >
+    <div flex="60" layout="column">
+      <md-content>
+
+        <md-card  md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch style="min-width:450px">
+          <md-card-content>
+            <md-tabs md-selected="1" md-center-tabs md-swipe-content md-dynamic-height md-border-bottom>
+              <md-tab label="Help">
+                <md-content class="md-padding">
+                  <div layout="row"></div>
+                </md-content>
+              </md-tab>
+              <md-tab  class="md-primary"  label="TeamApp">
+                <md-content class="md-padding">
+                  <div layout="column">
+                    <div layout="column">
+                        <div layout="row" layout-align="center center">
+                          <h1>TEAMAPP</h1>
+                        </div>
+                        <div layout="row" layout-align="center center">
+                            <h3>Welcome to TEAMAPP, the managers and coaches tool for team management.</h3>
+                        </div>
+                    </div>
+                    <div>
+                      <div layout="row" layout-align="end center">
+                        <p>Select your club/team or register a new team</p>&nbsp;
+                        <md-input-container>
+                          <label>Club</label>
+                          <md-select ng-model="clubselect">
+                            <md-option ng-value="club.clubId" ng-repeat="club in $ctrl.clubs">{{ club.clubName }}</md-option>
+                          </md-select>
+                        </md-input-container>
+                        &nbsp;|&nbsp;
+                        <md-input-container>
+                          <label>Team</label>
+                          <md-select ng-model="teamselect">
+                            <md-option ng-value="team.teamId" ng-repeat="team in $ctrl.teams">{{ team.teamName }}</md-option>
+                          </md-select>
+                        </md-input-container>
+                        <md-input-container>
+                          <md-button class=" md-raised md-mini md-primary"  ng-href="index.html?view=news_view&club={{clubselect}}&team={{teamselect}}">Go</md-button>
+                        </md-input-container>
+                        <md-input-container>
+                          <md-button class=" md-raised md-mini md-primary"  ng-href="register.html">Register</md-button>
+                        </md-input-container>
+                      </div>
+                    </div>
+                  </div>
+                </md-content>
+              </md-tab>
+              <md-tab label="About">
+                <md-content class="md-padding">
+                  <div layout="row"></div>
+                </md-content>
+              </md-tab>
+            </md-tabs>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </div>
+  </md-content>
+</div>

@@ -1,0 +1,235 @@
+<div ng-cloak="" >
+  <md-content class="md-padding" layout-xs="column" layout="row" >
+    <div flex="60" layout="column">
+      <md-content>
+
+        <md-card  md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch style="min-width:450px">
+          <md-card-content>
+            <md-tabs md-center-tabs md-swipe-content md-dynamic-height md-border-bottom>
+              <md-tab  class="md-primary"  label="Register a new Team">
+                <md-content class="md-padding">
+                  <div layout="column">
+                    <div layout="column">
+                        <div layout="row" layout-align="center center">
+                          <h1>Team Registration</h1>
+                        </div>
+                        <div layout="row" layout-align="center center">
+                            <p>You can register your new team here. Once you have registered you will receive a validation email with your team administrator username and password. Use these credentials to log into Teamapp and start managing your team!</p>
+                        </div>
+                    </div>
+                    <div>
+                      <div layout="row" layout-align="end center">
+                        <p>Select your club ( or register a new club if you haven't already)</p>&nbsp;
+                        <md-input-container>
+                          <md-select aria-label="club" ng-model="$ctrl.team.clubId">
+                            <md-option ng-value="club.clubId" ng-repeat="club in $ctrl.clubs">{{ club.clubName }}</md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+                    </div>
+                    <div layout="column">
+
+                      <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
+
+
+                        <md-card-header>
+                          <md-card-title-text>
+                            <span ng-if="authSvc.isAuthenticated()" class="md-title">Update team details</span>
+                            <span ng-if="!authSvc.isAuthenticated()" class="md-title">Create team</span>
+                          </md-card-title-text>
+                        </md-card-header>
+                        <md-card-content layout="row" layout-align="space-between">
+                          <div layout="column">
+                            <md-input-container>
+                              <label>Team Name</label>
+                                <md-icon class="material-icons md-light md-48"> face </md-icon>
+                                <input ng-model="$ctrl.team.teamName" required  type="text">
+                            </md-input-container>
+                            <md-input-container>
+                              <label>Affiliate FA</label>
+                              <md-icon class="material-icons md-light md-48"> person </md-icon>
+                              <input ng-model="$ctrl.team.teamFA" required  type="text">
+                            </md-input-container>
+                            <md-input-container>
+                              <label>League</label>
+                              <md-icon class="material-icons md-light md-48"> person </md-icon>
+                              <input ng-model="$ctrl.team.teamLeague"   type="text">
+                            </md-input-container>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Manager Name</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.team.teamManager" required  type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Coach 1 Name</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.team.teamCoach1"   type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Coach 2 Name</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.team.teamCoach2"   type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Coach 3 Name</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.team.teamCoach3"   type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Coach 4 Name</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.team.teamCoach4"   type="text">
+                              </md-input-container>
+                            </div>
+                          </div>
+                          <div layout="row" layout-align="end end">
+                            <md-input-container>
+                              <md-button class=" md-raised md-mini md-primary"  ng-click="$ctrl.registerTeam($ctrl.team)">Register</md-button>
+                            </md-input-container>
+                          </div>
+                          </div>
+                        </md-card-content>
+                      </md-card>
+                  </div>
+                </md-content>
+              </md-tab>
+              <md-tab label="Register a new Club">
+                <md-content class="md-padding">
+                  <div layout="column">
+                    <div layout="column">
+                        <div layout="row" layout-align="center center">
+                          <h1>Club Registration</h1>
+                        </div>
+                        <div layout="row" layout-align="center center">
+                            <p>You can register your club here. Once you have registered you will receive a validation email with your team administrator username and password. Use these credentials to log into Teamapp and start managing your team!</p>
+                        </div>
+                    </div>
+
+                    <div layout="column">
+
+                      <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
+
+
+                        <md-card-header>
+                          <md-card-title-text>
+                            <span ng-if="authSvc.isAuthenticated()" class="md-title">Update club details</span>
+                            <span ng-if="!authSvc.isAuthenticated()" class="md-title">Create Club</span>
+                          </md-card-title-text>
+                        </md-card-header>
+                        <md-card-content layout="row" layout-align="space-between">
+                          <div layout="column">
+                            <md-input-container>
+                              <label>Your email (you will receive registration login details)</label>
+                                <md-icon class="material-icons md-light md-48"> face </md-icon>
+                                <input ng-model="$ctrl.club.clubAdminEmail" required  type="text">
+                            </md-input-container>
+                            <md-input-container>
+                              <label>Club Name</label>
+                                <md-icon class="material-icons md-light md-48"> face </md-icon>
+                                <input ng-model="$ctrl.club.clubName" required  type="text">
+                            </md-input-container>
+                            <md-input-container>
+                              <label>Affiliate FA</label>
+                              <md-icon class="material-icons md-light md-48"> person </md-icon>
+                              <input ng-model="$ctrl.club.clubFA" required  type="text">
+                            </md-input-container>
+                            <md-input-container>
+                              <label>Club Address</label>
+                              <md-icon class="material-icons md-light md-48"> person </md-icon>
+                              <input ng-model="$ctrl.club.address1" required  type="text">
+                            </md-input-container>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Address 2</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.address2" required  type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Address 3</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.address3"   type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Town</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.addressTown"   type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>County</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.addressCounty" required  type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Country</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.addressCountry" required type="text">
+                              </md-input-container>
+                              <md-input-container>
+                                <label>Postcode</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.addressPostcode" required  type="text">
+                              </md-input-container>
+                            </div>
+
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Club Secretary</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.clubSecretary" required  type="text">
+                              </md-input-container>
+                              <md-input-container>
+                                <label>Email</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.clubEmail"   type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Club Website</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.clubWebsite"   type="text">
+                              </md-input-container>
+                            </div>
+                            <div layout="row">
+                              <md-input-container>
+                                <label>Club Colours</label>
+                                <md-icon class="material-icons md-light md-48"> person </md-icon>
+                                <input ng-model="$ctrl.club.clubColours"   type="text">
+                              </md-input-container>
+                            </div>
+                          </div>
+                          <div layout="row" layout-align="end end">
+                            <md-input-container>
+                              <md-button class=" md-raised md-mini md-primary"  ng-click="$ctrl.registerClub($ctrl.club)">Register</md-button>
+                            </md-input-container>
+                          </div>
+                          </div>
+                        </md-card-content>
+                      </md-card>
+                  </div>
+                </md-content>
+              </md-tab>
+            </md-tabs>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </div>
+  </md-content>
+</div>

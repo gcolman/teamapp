@@ -58,9 +58,8 @@
                                   <table style="border-collapse: collapse;" border="0">
                                     <tr ng-repeat="player in main.players">
                                       <td ng-click="main.toggleAvilability($index+1, game)"  style="padding:0; margin:0;" align="left">
-  <!--                                  <img class="md-user-avatar" src="images/people/players/player{{player.SquadNo}}.aspx" style="width:25px"/>-->
-  <!--                                      <img id="followbutton"  ng-src="images/icons/{{main.getAvailability(player.IDNumber, game)}}.png" ng-style="{position:'relative', bottom:'10px'}"/>-->
                                         <div style="space-between:0" ng-switch="main.getAvailability(player.IDNumber, game)">
+                                          <div><md-checkbox md-model="checked">x</md-checkbox></div>
                                           <div ng-switch-when="A">
                                             <md-button aria-label="menu" class="md-fab md-mini"  style="background-color:#FBC02D;height:35px;width:35px;line-height:35px"><b>A</b></md-button>
                                           </div>
@@ -96,9 +95,8 @@
                                   <table style="border-collapse: collapse;" border="0">
                                     <tr ng-repeat="player in main.players" ng-click="main.toggleAvilability($index+1, game)">
                                       <td ng-click="main.toggleAvilability($index+1, game)"  style="padding:0; margin:0;" align="left">
-                                        <!--                                  <img class="md-user-avatar" src="images/people/players/player{{player.SquadNo}}.aspx" style="width:25px"/>-->
-                                        <!--                                      <img id="followbutton"  ng-src="images/icons/{{main.getAvailability(player.IDNumber, game)}}.png" ng-style="{position:'relative', bottom:'10px'}"/>-->
                                         <div style="space-between:0" ng-switch="main.getAvailability(player.IDNumber, game)">
+                                          <div><md-checkbox md-model="checked">x</md-checkbox></div>
                                           <div ng-switch-when="A">
                                             <md-button aria-label="menu" class="md-fab md-mini"  style="background-color:#FBC02D;height:35px;width:35px;line-height:35px"><b>A</b></md-button>
                                           </div>

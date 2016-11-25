@@ -6,13 +6,15 @@
     </md-card-avatar>
     <md-card-header-text>
       <span class="md-title">{{authSvc.getUsername()}}</span>
-      <span class="md-subhead">Say something...</span>
+        <span class="md-subhead">Say something...</span>
     </md-card-header-text>
   </md-card-header>
   <md-card-content layout="row" layout-align="space-between">
     <md-input-container class="md-block">
       <label>Message:</label>
-      <textarea ng-model="chatText" max-rows="2" cols="60" md-select-on-focus></textarea>
+      <form ng-submit="$ctrl.sendChat(chatText)">
+        <input ng-model="chatText" max-rows="2" cols="60" md-select-on-focus></input>
+      </form>
     </md-input-container>
   </md-card-content>
   <md-card-actions layout="row" layout-align="end center">
@@ -23,8 +25,8 @@
     <div  style="height:485px;padding:10px">
       <div md-whiteframe="4" style="height:515px">
         <md-toolbar><h4>&nbsp;Onyx Team Chat...</h4></md-toolbar>
-        <div ng-app="myApp as ws" ng-controller="wsCtl" style="overflow:auto;max-height:415px">
-          <ul ng-repeat="data in chatService.collection track by $index" >
+        <div ng-app="myApp as ws" ng-controller="wsCtl" style="max-height:415px">
+          <ul ng-repeat="data in messageService.chatCollection track by $index" >
             <li>
               <span><b>{{data.split(',')[0]}}:</b><span style="font-size:12px">({{data.split(',')[1]}})</span></br>{{data.split(',')[2]}}</span>
             </li>

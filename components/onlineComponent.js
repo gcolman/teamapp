@@ -5,6 +5,7 @@ function onlineController($scope, $element, $attrs, $http) {
   $http.get("/getUsers").then(function (response) {
       ctrl.users = response.data;
     });
+
 }
 
 angular.module('myApp').component('online', {

@@ -51,51 +51,21 @@
 
         <md-content>
           <md-tabs md-dynamic-height md-border-bottom>
-            <md-tab label="Player">
+            <md-tab label="Team Stats">
               <md-content class="md-padding">
-                <div layout="row">
-                  <div flex="50">
-                    <h1 class="md-display-2"><img class="md-avatar" style="border-radius: 50%; width:70" src="images/people/{{main.player.IDNumber}}"/>&nbsp;{{main.player.Firstname}} {{main.player.Surname}}</h1>
-                  </div>
-                  <div flex=>
-                    <md-button class="md-raised md-primary" ng-click="main.updatePlayer()">Save</md-button>
-                  </div>
-                </div>
-                <div ng-show="true" layout="column" ng-repeat="(key, data) in main.player">
-                  <div layout="row">
-                    <md-input-container style="margin:5px" >
-                        <span ng-if='key != "_id" && key != "Statistics"'>
-                          <label>{{key}}</label>
-                          <input size="100" dynamic-model="'main.player.' + key"  type="text"/>
-                        </span>
-                      </md-input-container>
-                    </div>
-                  </div>
+                <div layout="row"></div>
               </md-content>
             </md-tab>
-
-            <div ng-repeat="stat in main.player.Statistics">
-              <md-tab label="{{stat.Type}}">
-                <md-content class="md-padding">
-                  <h1 class="md-display-2">{{stat.Type}}</h1>
-
-               <div id="statstable" >
-                 <table border="1" cellpadding="5" cellspacing="0">
-                   <tr ng-repeat="score in stat.Scores" ng-class-odd="'dark'" ng-class-even="'light'">
-
-                     <td width="400px">{{score.skill}}</td>
-                     <td width="25px">{{score.score}}</td>
-                     <td width="150px">
-                       <div  ng-controller="starController">
-                         <div class="alert alert-info">
-                             <div star-rating rating="starRating3" click="click3(param)" mouse-hover="mouseHover3(param)" mouse-leave="mouseLeave3(param)"></div>
-                         </div>
-                       </div>
-                   </tr>
-                 </table>
-                 </div>
-                </md-tab>
-              </div>
+            <md-tab label="Player Stats">
+              <md-content class="md-padding">
+                <div layout="row"></div>
+              </md-content>
+            </md-tab>
+            <md-tab label="Financial Stats">
+              <md-content class="md-padding">
+                <div layout="row"></div>
+              </md-content>
+            </md-tab>
           </md-tabs>
         </md-content>
 

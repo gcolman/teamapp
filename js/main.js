@@ -12,45 +12,109 @@ App.config(function($mdThemingProvider) {
   });
 
 
+
   /*****************************************************************
-  * Chat Factory
+  * Message Factory
   *****************************************************************/
-  App.factory('chatService', function($websocket) {
+  App.value('properties',{
+    username: "Rob",
+    teamName:"Opals",
+    teamId:90,
+    clubName:"FC Chippenham Youth",
+    clubId:67,
+    ageGroup: "U12",
+    bg: "Girls"
+  });
+
+  App.service('props', function() {
+    this.username = "Rob";
+    this.teamName ="Opals";
+    this.teamId ="90";
+    this.clubName = "FC Chippenham Youth";
+    this.clubId = "67";
+    this.ageGroup= "U12";
+    this.bg ="Girls";
+
+    this.setClubName = function(clubName) {
+      console.log("Setting club to " +clubName);
+      this.clubName = clubName;
+    };
+
+    this.getClubName = function() {
+      console.log("Getting clubname" +this.clubName);
+      return this.clubName;
+    };
+  });
+
+  /*****************************************************************
+  * Message Factory
+  *****************************************************************/
+  App.factory('messageService', function($websocket, authSvc, $http) {
      // Open a WebSocket connection
-     var chatService = {};
+     var mailService = {};
      //TODO externalise
      var dataStream = $websocket('ws://www.graeme.com:8001/msg');
-     var collection = [];
+     var chatCollection = [];
+     var mailCollection = [];
 
+
+     $http.get("/getMessages?to=" +authSvc.getUsername()).then(function (response) {
+         for(i=0;i<response.data.length;i++) {
+           if(response.data[i].to != undefined && response.data[i].to != "") {
+             //console.log("MAILSVC1 PUSHING = " +JSON.stringify(response.data[i]));
+             mailCollection.push(response.data[i]);
+           }
+         }
+       });
 
      dataStream.onMessage(function(message) {
-       console.log(">>>" +message.data);
-       collection.push(message.data);
+       console.log("msg Received" +message.data);
+       if(message.data != undefined && message.data.substring(0,6) == "REMOVE") {
+         id=message.data.substring(7,message.data.length);
+         for(i=0;i<mailCollection.length;i++) {
+           if(mailCollection[i]._id == id) {
+             mailCollection.splice(i,1);
+           }
+         }
+       } else if(message.data != undefined && message.data[0] == "{") {
+         msgObject = JSON.parse(message.data);
+         //console.log(JSON.stringify(message.data) +" TO" +x.to +" USERNAME=" +authSvc.getUsername() );
+         if(msgObject.to == authSvc.getUsername()) {
+             //console.log("MAILSVC2 PUSHING" +JSON.stringify(msgObject));
+           mailCollection.push(JSON.parse(message.data));
+         }
+       } else {
+         chatCollection.push(message.data);
+       }
      });
 
      dataStream.onClose(function() {
-       console.log(">>>RECONNECT WS");
+       //console.log(">>>RECONNECT WS");
        dataStream = $websocket('ws://www.graeme.com:8001/msg');
      });
 
-     chatService.sendMsg = function(msg) {
-      dataStream.send(msg);
-    };
-
-    chatService.getMsg = function() {
-      return collection;
-    };
 
      var methods = {
-       collection: collection,
+       chatCollection: chatCollection,
+       mailCollection: mailCollection,
        get: function(msg) {
          console.log(dataStream);
          dataStream.send(msg);
+       },
+       sendMsg: function(msg) {
+         dataStream.send(msg);
+       },
+       getChatMsg: function(){
+         return chatCollection;
+       },
+       getMailMsg: function(){
+         return mailCollection;
        }
      };
 
      return methods;
    });
+
 
 
    /*******************************
@@ -70,7 +134,22 @@ App.config(function($mdThemingProvider) {
         } else {
           return false;
         }
+      },
+      getRole : function() {
+        return $cookies.get("role");
+      },
+      isTeamAdmin : function(){
+        return $cookies.get("ita");
+      },
+      isAppAdmin : function() {
+        if($cookies.get("iaa")>100000) {
+            return true;
+        } else {
+          return false;
+        }
+
       }
+
     }
   });
 
@@ -112,8 +191,14 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
               console.log("SUCCESS" +JSON.stringify(data));
               $cookies.put("a199hhy78327772679hhy", hashService.hash(data[0].username, ""));
               $cookies.put("user", data[0].username);
-              $cookies.put("role", data[0].role);
+              $cookies.put("role", data[0].authrole);
               $cookies.put("id", data[0].userid);
+              if(data[0].authrole == "teamadmin") {
+                $cookies.put("ita", 900000 );
+              }
+              if(data[0].authrole == "appadmin") {
+                $cookies.put("iaa", 800000);
+              }
               $rootScope.$broadcast('auth', 'login');
             } else {
               console.log("FAIL");
@@ -151,14 +236,23 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
 /****************************************************************************
 ** Main app controler
 *****************************************************************************/
-  App.controller('appCtrl', function ($scope, $window) {
+  App.controller('appCtrl', function ($scope, $location, $cookies, props) {
   var self = this;
+  this.prop = props;
   self.view = "news_view";
+  var s = $location.search();
+  console.log("PROPERTIES" +props.getClubName());
+  //props.setClubName("lolololo");
+  //if team and club infor has been passed then set this on the browser
+  //properties.clubId = s.clubId
+  //properties.teamId = s.teamId
+  $cookies.put("club", s.club);
+  $cookies.put("team", s.team);
 
   // if a view url param is set then use that
-  var requestedView = window.location.search.substring(6);//$routeParams.view;//$location.search()['view'];
+  var requestedView = s.view;//window.location.search.substring(6);//$routeParams.view;//$location.search()['view'];
   if(requestedView != null) {
-    console.log("using requested view " +requestedView);
+    //console.log("using requested view " +requestedView);
     self.view = requestedView;
   }
 
@@ -175,8 +269,8 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
 /***********************
 * WEB SOCKET CONTROLLER.
 ************************/
-App.controller('wsCtl', function ($scope, chatService) {
-  $scope.chatService = chatService;
+App.controller('wsCtl', function ($scope, messageService) {
+  $scope.messageService = messageService;
 });
 
 

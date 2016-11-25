@@ -1,0 +1,52 @@
+{
+  "clubId" : "fcchippenhamyouth",
+  "clubname": "FC Chippenham Youth",
+  "address1": "Stanley Park",
+  "address2": "Love Lane",
+  "address3": "",
+  "address4": "",
+  "addressTown": "Chippenham",
+  "addressCounty": "Wiltshire",
+  "addressCountry" : "UK",
+  "addressPostcode" : "SN11 9PJ",
+  "clubEmail": "admin@fccychippenham.co.uk",
+  "clubWebsite": "www.chippenham.co.uk",
+  "clubColours": "blue",
+  "clubHistory": "",
+  "clubSecretary": "Martin Bye",
+  "clubAdminEmail": "graeme_colman@yahoo.com"
+}
+
+{
+  "teamId": "001",
+  "age": "U12",
+  "bg" : "girls",
+  "clubId": "100",
+  "teamName": "Onyx",
+  "teamColours": "Blue & White",
+  "teamManager": "Rob",
+  "teamCoach1": "coach",
+  "teamCoach2": "",
+  "teamCoach3": "",
+  "teamCoach4": "",
+  "teamAdministrator": "coach",
+  "teamEmail": "",
+  "teamHistory": ""
+}
+
+{
+  "teamId": "002",
+  "age": "U14",
+  "bg" : "girls",
+  "clubId": "100",
+  "teamName": "Opals",
+  "teamColours": "Blue & White",
+  "teamManager": "Paul Tavener",
+  "teamCoach1": "Luke Butler",
+  "teamCoach2": "",
+  "teamCoach3": "",
+  "teamCoach4": "",
+  "teamAdministrator": "Luke",
+  "teamEmail": "",
+  "teamHistory": ""
+}

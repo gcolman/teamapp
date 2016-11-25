@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var fs = require("fs");
+var mongodb = require('mongodb');
 var MongoClient = require('mongodb').MongoClient , assert = require('assert');
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -61,7 +62,12 @@ var wsserver = ws.createServer(function (conn) {
 
     conn.on("text", function (str) {
         console.log("Received "+str +" number of connections = " +connections.length)
-        chatHistory.push(str);
+        //Don't store messages that are not plain chats.
+        if(str[0] != "{" && str.substring(0,6) != "REMOVE") {
+          chatHistory.push(str);
+        }
+
+        // Resend the message to all other listeners
         for(var i = 0; i < connections.length; i++) {
             connections[i].sendText(str);
         }
@@ -93,6 +99,19 @@ MongoClient.connect("mongodb://localhost:27017/teamapp", function(err, database)
   if(err) throw err;
   db = database;
 });
+
+
+/**
+* generic get all documents from a collection using the quiery param "collection"
+*/
+app.get('/getCollection', function (req, res) {
+      console.log( "/getCollection : " +req.query.collection );
+      findAllDocuments(db, req.query.collection, false,  null, null, function(docs) {
+        console.log(JSON.stringify(docs));
+        res.end( JSON.stringify(docs) );
+      });
+
+})
 
 /**
 * Players
@@ -248,6 +267,61 @@ app.post('/addPlayer', jsonParser, function (req, res) {
     });
 })
 
+app.post('/addClub', jsonParser, function (req, res) {
+  console.log("REGISTER CLUB " +JSON.stringify(req.body));
+  getNextSeq("userid", function(id) {
+    req.body.clubId=id;
+       addDocument(db, 'clubs', req.body, function(docs,err) {
+          if(err) {
+              console.log("ERROR IN addUser");
+          }
+          res.end(JSON.stringify(docs));
+      });
+
+  });
+
+})
+
+app.post('/addTeam', jsonParser, function (req, res) {
+  console.log("REGISTER TEAM " +JSON.stringify(req.body));
+  getNextSeq("userid", function(id) {
+
+    req.body.teamId=id;
+       addDocument(db, 'teams', req.body, function(docs,err) {
+          if(err) {
+              console.log("ERROR IN addUser");
+          }
+          res.end(JSON.stringify(docs));
+      });
+
+  });
+
+})
+
+app.post('/addMessage', jsonParser, function (req, res) {
+     addDocument(db, 'mail', req.body, function(docs) {
+        res.end(JSON.stringify(docs));
+      //res.end(docs);
+    });
+})
+
+app.get('/getMessages', function (req, res) {
+      console.log( "/getMessaes : " +req );
+      var qstr='{"to":"' +req.query.to +'"}';
+      findDocumentsByString(db, 'mail',  JSON.parse(qstr), function(docs) {
+        res.end( JSON.stringify(docs) );
+      });
+})
+
+app.get('/removeMessage', function (req, res) {
+      val="ObjectId('" +req.query.id +"')";
+      removeDocumentById(db, 'mail', '_id', req.query.id , null, function(docs) {
+        res.end(docs);
+    });
+
+})
+
+
 app.get('/getUser', function (req, res) {
       console.log( "/getUser : " +req );
       findDocumentsByID(db, 'users', "userid",  req.query.userid, function(docs) {
@@ -283,7 +357,7 @@ app.post('/addUser', jsonParser, function (req, res) {
 app.post('/updateUser', jsonParser, function (req, res) {
      updateDocument(db, 'users', 'userid', req.body.userid, req.body, function(docs,err) {
         if(err) {
-            console.log("ERROR IN addUser");
+            console.log("ERROR IN addUser" +err);
         }
         res.end(JSON.stringify(docs));
     });
@@ -362,6 +436,18 @@ app.post('/updateFixture', jsonParser, function (req, res) {
 })
 
 /*****************************************
+* create a token - simple hashed token
+*****************************************/
+/*var getToken = function(userid, clubid, teamid, callback){
+    // create a hash from the time +userid.
+    //store in memory
+    //
+
+  });
+}*/
+
+
+/*****************************************
 * Get a sequence
 *****************************************/
 var getNextSeq = function(sequenceName, callback){
@@ -431,16 +517,18 @@ var findDocumentsByID = function(db, coll, key, value, callback) {
 * find Documents by ID, passing a numeric value for the ID
 */
 var findDocumentsByString = function(db, collection, qstr, callback) {
+  console.log(qstr);
   // Get the documents collection
   var collection = db.collection(collection);
   //var query = JSON.parse(qstr);
   collection.find(qstr).toArray(function(err, docs) {
     assert.equal(err, null);
-    console.log("Found the following records "+docs);
     if(docs.length >0) {
-      callback(docs);
+      console.log("Found the following records "+docs);
+      callback(docs);//JSON.stringify(docs));
     } else {
-      callback(docs);
+      console.log("Empty result set for " +qstr);
+      callback("");
     }
   });
 }
@@ -479,7 +567,7 @@ var addDocument = function(db, coll, doc, callback) {
 
   collection.insert( doc, function(error, record){
     if (error) {
-      console.log("ERROR IN addDocument");
+      console.log("ERROR IN addDocument " +error );
       callback(error);
 //      throw error;
     } else {
@@ -493,11 +581,24 @@ var removeDocument = function(db, coll, key, value, doc, callback) {
   // Get the documents collection
   var collection = db.collection(coll);
   var qstr="{ \"" +key  +"\":"  +value  +"}";
+  console.log(qstr);
   var query = JSON.parse(qstr);
   console.log(query);
   collection.remove( query, function(error, record){
     if (error) throw error;
     console.log("data removed");
+  });
+}
 
+
+var removeDocumentById = function(db, coll, key, value, doc, callback) {
+  // Get the documents collection
+  var collection = db.collection(coll);
+  var qstr="{ \"" +key  +"\":"  +value  +"}";
+  console.log("----" +value);
+  //collection.remove( "{ _id:ObjectId('582f333621c039390a06bc59')}", function(error, record){
+  collection.deleteOne( {_id: new mongodb.ObjectID(value)}, function(error, record){
+    if (error) throw error;
+    console.log("data removed");
   });
 }
