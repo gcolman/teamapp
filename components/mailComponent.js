@@ -1,13 +1,9 @@
 
-
-function mailController($scope, authSvc, $http, messageService) {
+function mailController($scope, authSvc, $http, messageService, properties) {
   var ctrl = this;
   $scope.messageService = messageService;
 
-  /*$http.get("/getMessages?to=" +authSvc.getUsername()).then(function (response) {
-      ctrl.messages = response.data;
-    });
-*/
+
   ctrl.formatDate = function(date) {
     d = new Date(date);
     return d.getDate() +"/" +d.getMonth() +" " +d.getHours() +":" +d.getMinutes();
@@ -15,12 +11,11 @@ function mailController($scope, authSvc, $http, messageService) {
 
   ctrl.removeMessage = function(id) {
     messageService.sendMsg("REMOVE="+id);
-    $http.get("/removeMessage?id=" +id).then(function (response) {
+    $http.get("/removeMessage?id=" +id +"&club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
         console.log("removing message " +id);
 
       });
   };
-
 }
 
 angular.module('myApp').component('mail', {

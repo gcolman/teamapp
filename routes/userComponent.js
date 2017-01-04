@@ -1,8 +1,9 @@
 
 
-function userController() {
+App.controller('userController', function($scope, $http, authSvc, properties) {
   var self = this;
   $scope.authSvc = authSvc;
+  authSvc.setView("no_chat");
   //$scope.userSvc = userSvc;
   //var user;
   //var users;
@@ -16,9 +17,17 @@ function userController() {
     //Fetch user
 
     //Fetch all of the users
-    $http.get("/getUsers").then(function (response) {
+    $http.get("/getUsers?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
         self.users = response.data;
         console.log(self.users.length);
+
+        $http.get("/getCollection?collection=teams").then(function (response) {
+            self.teams = response.data;
+          });
+
+          $http.get("/getCollection?collection=clubs").then(function (response) {
+              self.clubs = response.data;
+            });
 
         //if user
         if(authSvc.isAuthenticated) {
@@ -38,8 +47,11 @@ function userController() {
     self.save = function(dataUrl){
         //console.log("User Saved:" +JSON.stringify(self.user));
         $http.defaults.headers.post["Content-Type"] = "application/json";
+        //self.user.club = properties.clubId;
+        //self.user.team = properties.teamId;
         var data = JSON.stringify(self.user);
-        $http.post("/addUser", data).success(function (data, status, headers, config) {
+
+        $http.post("/addUser?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, data).success(function (data, status, headers, config) {
               if(typeof data.username != 'undefined') {
                 var imageData = dataURItoBlob(dataUrl);
                 var fd = new FormData();
@@ -78,7 +90,7 @@ function userController() {
         //remove the ID field as this will fail to update.
         delete self.user["_id"];
         var data = JSON.stringify(self.user);
-        $http.post("/updateUser", data).success(function (data, status, headers, config) {
+        $http.post("/updateUser?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, data).success(function (data, status, headers, config) {
               if(typeof data.nModified != 1)  {
                 if(picFile != undefined) {
                   var imageData = dataURItoBlob(dataUrl);
@@ -148,11 +160,4 @@ function userController() {
           console.log("ERROR");
         });
     };
-
-
-}
-
-angular.module('myApp').component('user', {
-  templateUrl: 'components/topnav.html',
-  controller: topnavController
 });

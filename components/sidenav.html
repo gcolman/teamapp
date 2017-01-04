@@ -5,10 +5,10 @@
   </div> -->
   <md-sidenav style="width:100" md-is-locked-open="$mdMedia('min-width: 1000px')">
 
-      <md-list>
+      <md-list ng-show="$ctrl.auth.isAuthenticated()">
         <md-list-item class="md-2-line">
           <div class="md-list-item-text" layout="column" style="text-align:center">
-            <md-button  ng-href="index.html?view=news_view" class="md-fab md-primary" aria-label="FAB" style="padding-top:15px">
+            <md-button  ng-href="/index" class="md-fab md-primary" aria-label="FAB" style="padding-top:15px">
               <md-tooltip md-direction="right">Team home page</md-tooltip>
               <md-icon class="material-icons md-light md-48"> home </md-icon>
             </md-button>
@@ -17,7 +17,7 @@
         </md-list-item>
         <md-list-item class="md-2-line">
           <div class="md-list-item-text" layout="column" style="text-align:center">
-            <md-button ng-href="index.html?view=fixtures_view" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
+            <md-button ng-href="/fixtures" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
               <md-tooltip md-direction="right">Team fixtures & results</md-tooltip>
               <md-icon class="material-icons md-light md-48"> date_range </md-icon>
             </md-button>
@@ -26,7 +26,7 @@
         </md-list-item>
         <md-list-item class="md-2-line">
           <div class="md-list-item-text" layout="column" style="text-align:center">
-            <md-button ng-href="index.html?view=players_view" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
+            <md-button ng-href="/players" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
               <md-tooltip md-direction="right">Squad details</md-tooltip>
               <md-icon class="material-icons md-light md-48"> group </md-icon>
             </md-button>
@@ -35,7 +35,7 @@
         </md-list-item>
         <md-list-item class="md-2-line">
           <div class="md-list-item-text" layout="column" style="text-align:center">
-            <md-button ng-href="index.html?view=availability_view" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
+            <md-button ng-href="/availability" ng-click="main.view='availability_view'" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
               <md-tooltip md-direction="right">Player match availability</md-tooltip>
               <md-icon class="material-icons md-light md-48"> check_circle </md-icon>
             </md-button>
@@ -44,7 +44,7 @@
         </md-list-item>
         <md-list-item class="md-2-line">
           <div class="md-list-item-text" layout="column" style="text-align:center">
-            <md-button ng-href="stats.html?view=news_view" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
+            <md-button ng-href="/stats" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
               <md-tooltip md-direction="right">Team statistics</md-tooltip>
               <md-icon class="material-icons md-light md-48"> insert_chart </md-icon>
             </md-button>
@@ -53,7 +53,7 @@
         </md-list-item>
         <md-list-item class="md-2-line">
           <div class="md-list-item-text" layout="column" style="text-align:center">
-            <md-button ng-href="teamAdmin.html" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
+            <md-button ng-href="/admin" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
               <md-tooltip md-direction="right">Team Admin</md-tooltip>
               <md-icon class="material-icons md-light md-48"> insert_chart </md-icon>
             </md-button>

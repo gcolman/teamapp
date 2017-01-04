@@ -1,10 +1,10 @@
-function chatController($scope, $element, $attrs, $http, $filter, authSvc, messageService) {
+function chatController($scope, $element, $attrs, $http, $filter, authSvc, messageService, properties) {
   var ctrl = this;
   $scope.authSvc = authSvc;
   $scope.messageService = messageService;
 
   var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-  $http.get("/getUsers").then(function (response) {
+  $http.get("/getUsers?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
       ctrl.users = response.data;
     });
 
@@ -14,7 +14,7 @@ function chatController($scope, $element, $attrs, $http, $filter, authSvc, messa
           to=msg.substr(1,(msg.indexOf(" ") -1));
           msgbody=msg.substr(msg.indexOf(" ")+1);
           fullmsg='{"to":"' +to +'","from":"' +authSvc.getUsername() +'","body":"' +msgbody +'","status": "unread"'  +',"date":"' +new Date() +'"}';
-          $http.post("/addMessage", fullmsg).success(function (data, status, headers, config) {
+          $http.post("/addMessage?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, fullmsg).success(function (data, status, headers, config) {
             //console.log("COMING BACK " +JSON.stringify(data));
               messageService.sendMsg(data);
           })
@@ -24,7 +24,8 @@ function chatController($scope, $element, $attrs, $http, $filter, authSvc, messa
       } else {
         user=authSvc.getUsername();
         time=$filter('date')(new Date(), "EEE' 'H:m");
-        msg=user+','+time+','+msg;
+        msg=properties.alphaClub +properties.alphaTeam +',' +user+','+time+','+msg;
+        //msg=user+','+time+','+msg;
         messageService.sendMsg(msg);
       }
     };

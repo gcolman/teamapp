@@ -1,11 +1,14 @@
 
 
-function newsController($scope, $http, ngDialog, authService, $filter, authSvc) {
-
+//function newsController($scope, $http, ngDialog, authService, $filter, authSvc) {
+App.controller('newsController', function ($scope, $http, ngDialog, authService, $filter, authSvc, properties, hashService) {
   var self = this;
   $scope.authSvc = authSvc;
   this.authenticated = authSvc.isAuthenticated();
   count=0;
+  self.properties = properties;
+  authSvc.setView("news_view");
+
 
   $scope.$on('auth', function (event, data) {
     if(data =="login") {
@@ -15,9 +18,8 @@ function newsController($scope, $http, ngDialog, authService, $filter, authSvc) 
     }
   });
 
-
   var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-  $http.get("/getNews").then(function (response) {
+  $http.get("/getNews?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
       self.news = response.data;
     });
 
@@ -26,9 +28,4 @@ function newsController($scope, $http, ngDialog, authService, $filter, authSvc) 
     ngDialog.open({ template: '../newsEditDialog.html', className: 'ngdialog-theme-default', data: news , showClose: false});
   };
 
-}
-
-angular.module('myApp').component('news', {
-  templateUrl: 'components/news.html',
-  controller: newsController
 });

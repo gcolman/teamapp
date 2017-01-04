@@ -1,6 +1,8 @@
 
 
-function sidenavController() {
+function sidenavController($scope, authSvc) {
+  var ctrl = this;
+  ctrl.auth = authSvc;
 
 }
 

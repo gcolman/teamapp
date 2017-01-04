@@ -1,6 +1,6 @@
-<div ng-cloak="" >
+<div ng-cloak="" ng-app="myApp" ng-controller="mainController as mc" >
   <md-content class="md-padding" layout-xs="column" layout="row" >
-    <div flex="60" layout="column">
+    <div flex layout="column">
       <md-content>
 
         <md-card  md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch style="min-width:450px">
@@ -13,7 +13,7 @@
               </md-tab>
               <md-tab  class="md-primary"  label="TeamApp">
                 <md-content class="md-padding">
-                  <div layout="column">
+                  <div layout="column" ng-switch="mc.auth.isAuthenticated()">
                     <div layout="column">
                         <div layout="row" layout-align="center center">
                           <h1>TEAMAPP</h1>
@@ -22,27 +22,35 @@
                             <h3>Welcome to TEAMAPP, the managers and coaches tool for team management.</h3>
                         </div>
                     </div>
-                    <div>
+                    <div ng-switch-when="false">
+                      <div layout="row" layout-align="end center" ng-app="myApp" ng-controller="authCtl as ac">
+                        <p>Please login first or register for an account to use your teamapp.</p>&nbsp;
+                        <md-button class=" md-raised md-mini md-primary" ng-click="ac.dologin()" >Login</md-button>
+                        <md-button class=" md-raised md-mini md-primary" ng-href="/userRegistration">New User</md-button>
+                      </div>
+                    </div>
+                    <div ng-switch-when="true">
                       <div layout="row" layout-align="end center">
                         <p>Select your club/team or register a new team</p>&nbsp;
                         <md-input-container>
                           <label>Club</label>
                           <md-select ng-model="clubselect">
-                            <md-option ng-value="club.clubId" ng-repeat="club in $ctrl.clubs">{{ club.clubName }}</md-option>
+                            <md-option ng-value="club.clubId" ng-repeat="club in mc.clubs" >{{ club.clubName }}</md-option>
                           </md-select>
                         </md-input-container>
                         &nbsp;|&nbsp;
                         <md-input-container>
                           <label>Team</label>
                           <md-select ng-model="teamselect">
-                            <md-option ng-value="team.teamId" ng-repeat="team in $ctrl.teams">{{ team.teamName }}</md-option>
+                            <md-option ng-value="team.teamId" ng-repeat="team in mc.teams" >{{ team.teamName }}</md-option>
                           </md-select>
                         </md-input-container>
                         <md-input-container>
-                          <md-button class=" md-raised md-mini md-primary"  ng-href="index.html?view=news_view&club={{clubselect}}&team={{teamselect}}">Go</md-button>
+                          <md-button class=" md-raised md-mini md-primary" ng-click="mc.setTeam(clubselect, teamselect)" ng-href="/index">Go</md-button>
+
                         </md-input-container>
                         <md-input-container>
-                          <md-button class=" md-raised md-mini md-primary"  ng-href="register.html">Register</md-button>
+                          <md-button class=" md-raised md-mini md-primary"  ng-href="/register">Register</md-button>
                         </md-input-container>
                       </div>
                     </div>

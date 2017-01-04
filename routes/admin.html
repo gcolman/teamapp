@@ -1,0 +1,194 @@
+<div ng-app="myApp" ng-controller="adminController as ac">
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Team Admin">
+        <md-content class="md-padding">
+          <div layout="column">
+            <div ng-show="true" layout="column" ng-repeat="(key, data) in ac.properties.selectedTeam">
+              <div layout="column">
+                <md-input-container style="margin:5px" >
+                    <span ng-if='key != "_id" && key != "teamId" && key != "clubId"  && key != "administrators"  && key != "members"'>
+                      <label>{{key}}</label>
+                      <input size="100" dynamic-model="'ac.properties.selectedTeam.' + key"  type="text"/>
+                    </span>
+                  </md-input-container>
+                </div>
+              </div>
+          </div>
+          <md-divider></md-divider>
+          <div layout="row">
+            <div>
+              don't forget the checkboxes for joining etc
+            </div>
+          </div>
+        </md-content>
+      </md-tab>
+      <md-tab label="User Admin">
+
+        <md-content>
+          <md-list>
+            <md-list-item class="md-3-line" ng-repeat="user in ac.memberlist">
+              <img ng-src="images/people/{{user.userid}}" class="md-avatar" alt="">
+              <div class="md-list-item-text">
+                <h3>{{user.username}}</h3>
+                <div layout="row">
+                  <div flex="40">
+                    <h4>{{user.firstname}} {{user.surname}}</h4>
+                  </div>
+                  <div flex="60">
+                    <md-checkbox ng-model="cb1" aria-label="valid">
+                      Valid user
+                    </md-checkbox>
+                    <md-checkbox ng-model="cb3" aria-label="valid">
+                      Coach
+                    </md-checkbox>
+                    <md-checkbox ng-model="cb2" aria-label="valid">
+                      Teamapp Admin
+                    </md-checkbox>
+                  </div>
+                </div>
+              </div>
+              <md-divider md-inset ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-content>
+
+      </md-tab>
+      <md-tab label="App Admin">
+        <md-content>
+          <md-list>
+            <md-list-item class="md-3-line" >
+              <div class="md-list-item-text">
+                <h3>App settings for your team</h3>
+              </div>
+              <md-divider md-inset></md-divider>
+            </md-list-item>
+            <md-list-item class="md-3-line" >
+              <div class="md-list-item-text">
+                <md-checkbox ng-model="ta1" aria-label="valid">
+                  Allow non members to view your main pages
+                </md-checkbox>
+              </div>
+              <md-divider md-inset></md-divider>
+            </md-list-item>
+          </md-list-item>
+          <md-list-item class="md-3-line" >
+            <div class="md-list-item-text">
+              <md-checkbox ng-model="ta2" aria-label="valid">
+                Validate new members bfore they can use the chat functions
+              </md-checkbox>
+            </div>
+            <md-divider md-inset></md-divider>
+          </md-list-item>
+        </md-list-item>
+        <md-list-item class="md-3-line" >
+          <div class="md-list-item-text">
+            <md-checkbox ng-model="ta3" aria-label="valid">
+              Allow any member to view player stats
+            </md-checkbox>
+          </div>
+          <md-divider md-inset></md-divider>
+        </md-list-item>
+      </md-list-item>
+      <md-list-item class="md-3-line" >
+        <div class="md-list-item-text">
+          <md-checkbox ng-model="ta4" aria-label="valid">
+            Allow coaches to update player stats
+          </md-checkbox>
+        </div>
+        <md-divider md-inset></md-divider>
+      </md-list-item>
+          </md-list>
+        </md-content>
+      </md-tab>
+      <md-tab label="Financial Stats">
+        <md-content>
+          <div layout="column">
+            <div>
+              <h2>Match Subs / Fees Paid</h2>
+            </div>
+            <div>
+              <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Oppsition</th>
+                    <th>Played</th>
+                    <th>Payed</th>
+                    <th>Subs Amt</th>
+                    <th>Ref Paid</th>
+                    <th>Other</th>
+                    <th>Other Reason</th>
+                    <th>total</th>
+                </tr>
+                <tr ng-if="statGame.HOMESCORE != '-'" ng-repeat="statGame in ac.acgames">
+                    <td>{{ac.convertToDate(statGame.FIXTUREDATE) | date:'short'}}</td>
+                    <td ng-if="statGame.AWAYTEAM.indexOf('Chippenham') >= 0">{{statGame.HOMETEAM}}</td>
+                    <td ng-if="statGame.HOMETEAM.indexOf('Chippenham') >= 0">{{statGame.AWAYTEAM}}</td>
+                    <td align="center">{{statGame.totalPlayed}}</td>
+                    <td align="center">{{statGame.totalPaid}}</td>
+                    <td align="center">
+                        <input aria-label="reffee" ng-model="statGame.matchfee" type="text" size="4" ></input>
+                    </td>
+                    <td align="center">
+                        <input aria-label="reffee" ng-model="statGame.refFee" ng-blur="ac.updateFixture(statGame)" type="text" size="4"/>
+                    </td>
+                    <td align="center">
+                        <input aria-label="otherfee" ng-model="statGame.otherFee" type="text" size="4"/>
+                    </td>
+                    <td align="center">
+                        <input aria-label="otherReason" ng-model="statGame.otherReason" type="text" size="10"/>
+                    </td>
+                    <td align="right"><b>£{{(statGame.matchfee * statGame.totalPaid) -statGame.refFee -statGame.otherFee}}</b></td>
+                </tr>
+                <tr>
+                  <td align="right" colspan="9" >Total cash from games: <b>£{{ac.totalCash}}.00</b></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+                <h2>Banking</h2>
+                <p>Enter the total cash that has been banked.</p>
+            </div>
+            <div>
+              <table>
+                <tr>
+                    <th>Date Banked</th>
+                    <th>Amount Banked</th>
+                </tr>
+                <tr ng-repeat="banked in ac.properties.selectedTeam.banking">
+                    <td >
+                        <p> {{banked.bankedDate}} </p>
+                    </td>
+                    <td >
+                        <p>£ {{banked.bankedAmount}} </p>
+                    </td>
+                    <td >
+                        <a href="#" ng-click="ac.removeBanked($index)">remove</a>
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td >
+                        <input aria-label="bankDate" ng-model="ac.newbankedDate" type="text" size="10" ></input>
+                    </td>
+                    <td align="center">
+                        <input aria-label="bankedAmount" ng-model="ac.newbankedAmount"  type="text" size="6"/>
+                    </td>
+                    <td >
+                      <button ng-click="ac.bank(ac.newbankedDate,ac.newbankedAmount)">Add</button>
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                  <td align="right" colspan="9" >Total cash balance: <b>£{{ac.cashBalance}}.00</b></td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+        </md-content>
+      </md-tab>
+
+    </md-tabs>
+  </md-content>
+</div>

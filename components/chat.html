@@ -28,7 +28,7 @@
         <div ng-app="myApp as ws" ng-controller="wsCtl" style="max-height:415px">
           <ul ng-repeat="data in messageService.chatCollection track by $index" >
             <li>
-              <span><b>{{data.split(',')[0]}}:</b><span style="font-size:12px">({{data.split(',')[1]}})</span></br>{{data.split(',')[2]}}</span>
+              <span><b>{{data.split(',')[1]}}:</b><span style="font-size:12px">({{data.split(',')[2]}})</span></br>{{data.split(',')[3]}}</span>
             </li>
           </ul>
         </div>

@@ -1,0 +1,498 @@
+<div ng-app="lineupApp" ng-controller="lineupController as lc">
+
+  <div layout="column">
+    <div layout="row" style="width:100%" layout="row" layout-align="end end">
+        <div><img class="md-user-avatar" src="images/blank.png" style="height:1px;width:160px"/></div>
+        <div>
+          <h1>Team Selection</h1>
+        </div>
+        <div  >
+            <md-button class=" md-raised md-mini md-primary" ng-click="lc.updateSelection(lc.game)" >Update</md-button></div>
+        </div>
+    </div>
+    <div layout="row" layout="row" layout-align="end end">
+      <div><img class="md-user-avatar" src="images/blank.png" style="height:1px;width:160px"/></div>
+      <div><h4>12/10/2017 {{lc.game.HOMETEAM}} v {{lc.game.AWAYTEAM}}</h4></div>
+    </div>
+    <div layout="column">
+      <div layout="row">
+        <!-- three columns of available players -->
+        <div layout="row">
+          <div layout="column">
+            <div style="font-weight:bold;font-size:16px;align:center">
+              Available Players
+            </div>
+            <div layout="row">
+                <div layout="column">
+                  <div ng-if="!lc.availList.v1" dragula='"selectbag"' id="v1" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v1" dragula='"selectbag"'  id="v1" class="notAvailSelection"><playerdiv id="{{lc.availList.v1.id}}" squadno="{{lc.availList.v1.squadNo}}" player="{{lc.availList.v1.player}}"/></div>
+                  <div ng-if="!lc.availList.v2" dragula='"selectbag"' id="v2" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v2" dragula='"selectbag"'  id="v2" class="notAvailSelection"><playerdiv id="{{lc.availList.v2.id}}" squadno="{{lc.availList.v2.squadNo}}" player="{{lc.availList.v2.player}}"/></div>
+                  <div ng-if="!lc.availList.v3" dragula='"selectbag"' id="v3" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v3" dragula='"selectbag"'  id="v3" class="notAvailSelection"><playerdiv id="{{lc.availList.v3.id}}" squadno="{{lc.availList.v3.squadNo}}" player="{{lc.availList.v3.player}}"/></div>
+                  <div ng-if="!lc.availList.v4" dragula='"selectbag"' id="v4" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v4" dragula='"selectbag"'  id="v4" class="notAvailSelection"><playerdiv id="{{lc.availList.v4.id}}" squadno="{{lc.availList.v4.squadNo}}" player="{{lc.availList.v4.player}}"/></div>
+                  <div ng-if="!lc.availList.v5" dragula='"selectbag"' id="v5" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v5" dragula='"selectbag"'  id="v5" class="notAvailSelection"><playerdiv id="{{lc.availList.v5.id}}" squadno="{{lc.availList.v5.squadNo}}" player="{{lc.availList.v5.player}}"/></div>
+                  <div ng-if="!lc.availList.v6" dragula='"selectbag"' id="v6" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v6" dragula='"selectbag"'  id="v6" class="notAvailSelection"><playerdiv id="{{lc.availList.v6.id}}" squadno="{{lc.availList.v6.squadNo}}" player="{{lc.availList.v6.player}}"/></div>
+                  <div ng-if="!lc.availList.v7" dragula='"selectbag"' id="v7" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v7" dragula='"selectbag"'  id="v7" class="notAvailSelection"><playerdiv id="{{lc.availList.v7.id}}" squadno="{{lc.availList.v7.squadNo}}" player="{{lc.availList.v7.player}}"/></div>
+                  <div ng-if="!lc.availList.v8" dragula='"selectbag"' id="v8" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v8" dragula='"selectbag"'  id="v8" class="notAvailSelection"><playerdiv id="{{lc.availList.v8.id}}" squadno="{{lc.availList.v8.squadNo}}" player="{{lc.availList.v8.player}}"/></div>
+                  <div  style="height:1px">
+                    <div><img class="md-user-avatar" src="images/blank.png" style="height:1px;width:55px"/></div>
+                  </div>
+                </div>
+                <div layout="column">
+                  <div ng-if="!lc.availList.v9" dragula='"selectbag"' id="v9" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v9" dragula='"selectbag"'  id="v9" class="notAvailSelection"><playerdiv id="{{lc.availList.v9.id}}" squadno="{{lc.availList.v9.squadNo}}" player="{{lc.availList.v9.player}}"/></div>
+                  <div ng-if="!lc.availList.v10" dragula='"selectbag"' id="v10" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v10" dragula='"selectbag"'  id="v10" class="notAvailSelection"><playerdiv id="{{lc.availList.v10.id}}" squadno="{{lc.availList.v10.squadNo}}" player="{{lc.availList.v10.player}}"/></div>
+                  <div ng-if="!lc.availList.v11" dragula='"selectbag"' id="v11" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v11" dragula='"selectbag"'  id="v11" class="notAvailSelection"><playerdiv id="{{lc.availList.v11.id}}" squadno="{{lc.availList.v11.squadNo}}" player="{{lc.availList.v11.player}}"/></div>
+                  <div ng-if="!lc.availList.v12" dragula='"selectbag"' id="v12" class="notAvailSelection"></div>
+                   <div ng-if="lc.availList.v12" dragula='"selectbag"'  id="v12" class="notAvailSelection"><playerdiv id="{{lc.availList.v12.id}}" squadno="{{lc.availList.v12.squadNo}}" player="{{lc.availList.v12.player}}"/></div>
+                   <div ng-if="!lc.availList.v13" dragula='"selectbag"' id="v13" class="notAvailSelection"></div>
+                   <div ng-if="lc.availList.v13" dragula='"selectbag"'  id="v13" class="notAvailSelection"><playerdiv id="{{lc.availList.v13.id}}" squadno="{{lc.availList.v13.squadNo}}" player="{{lc.availList.v13.player}}"/></div>
+                   <div ng-if="!lc.availList.v14" dragula='"selectbag"' id="v14" class="notAvailSelection"></div>
+                   <div ng-if="lc.availList.v14" dragula='"selectbag"'  id="v14" class="notAvailSelection"><playerdiv id="{{lc.availList.v14.id}}" squadno="{{lc.availList.v14.squadNo}}" player="{{lc.availList.v14.player}}"/></div>
+                   <div ng-if="!lc.availList.v15" dragula='"selectbag"' id="v15" class="notAvailSelection"></div>
+                   <div ng-if="lc.availList.v15" dragula='"selectbag"'  id="v15" class="notAvailSelection"><playerdiv id="{{lc.availList.v15.id}}" squadno="{{lc.availList.v15.squadNo}}" player="{{lc.availList.v15.player}}"/></div>
+                  <div dragula='"selectbag"' id="v22" style="height:1px">
+                    <div><img class="md-user-avatar" src="images/blank.png" style="height:1px;width:55px"/></div>
+                  </div>
+                </div>
+                <div layout="column">
+                  <div ng-if="!lc.availList.v16" dragula='"selectbag"' id="v16" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v16" dragula='"selectbag"'  id="v16" class="notAvailSelection"><playerdiv id="{{lc.availList.v16.id}}" squadno="{{lc.availList.v16.squadNo}}" player="{{lc.availList.v16.player}}"/></div>
+                  <div ng-if="!lc.availList.v17" dragula='"selectbag"' id="v17" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v17" dragula='"selectbag"'  id="v17" class="notAvailSelection"><playerdiv id="{{lc.availList.v17.id}}" squadno="{{lc.availList.v17.squadNo}}" player="{{lc.availList.v17.player}}"/></div>
+                  <div ng-if="!lc.availList.v18" dragula='"selectbag"' id="v18" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v18" dragula='"selectbag"'  id="v18" class="notAvailSelection"><playerdiv id="{{lc.availList.v18.id}}" squadno="{{lc.availList.v18.squadNo}}" player="{{lc.availList.v18.player}}"/></div>
+                  <div ng-if="!lc.availList.v19" dragula='"selectbag"' id="v19" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v19" dragula='"selectbag"'  id="v19" class="notAvailSelection"><playerdiv id="{{lc.availList.v19.id}}" squadno="{{lc.availList.v19.squadNo}}" player="{{lc.availList.v19.player}}"/></div>
+                  <div ng-if="!lc.availList.v20" dragula='"selectbag"' id="v20" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v20" dragula='"selectbag"'  id="v20" class="notAvailSelection"><playerdiv id="{{lc.availList.v20.id}}" squadno="{{lc.availList.v20.squadNo}}" player="{{lc.availList.v20.player}}"/></div>
+                  <div ng-if="!lc.availList.v21" dragula='"selectbag"' id="v21" class="notAvailSelection"></div>
+                  <div ng-if="lc.availList.v21" dragula='"selectbag"'  id="v21" class="notAvailSelection"><playerdiv id="{{lc.availList.v21.id}}" squadno="{{lc.availList.v21.squadNo}}" player="{{lc.availList.v21.player}}"/></div>
+                  <div ng-if="!lc.availList.v22" dragula='"selectbag"' id="v22" class="notAvailSelection"></div>
+                   <div ng-if="lc.availList.v22" dragula='"selectbag"'  id="v22" class="notAvailSelection"><playerdiv id="{{lc.availList.v22.id}}" squadno="{{lc.availList.v22.squadNo}}" player="{{lc.availList.v22.player}}"/></div>
+                  <div dragula='"selectbag"' id="v22" style="height:1px">
+                    <div><img class="md-user-avatar" src="images/blank.png" style="height:1px;width:55px"/></div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- the pitch column-->
+        <!-- 10 rows 15 columns -->
+        <div layout="column" style="background-image:url('images/pitch.jpg');background-size: 100%; background-repeat: no-repeat;">
+
+          <div layout="row">
+              <div ng-if="!lc.posList.a1" dragula='"selectbag"' id="a1" class="posSelection"></div>
+               <div ng-if="lc.posList.a1" dragula='"selectbag"'  id="a1" class="posSelection"><playerdiv id="{{lc.posList.a1.id}}" squadno="{{lc.posList.a1.squadNo}}" player="{{lc.posList.a1.player}}"/></div>
+               <div ng-if="!lc.posList.a2" dragula='"selectbag"' id="a2" class="posSelection"></div>
+               <div ng-if="lc.posList.a2" dragula='"selectbag"'  id="a2" class="posSelection"><playerdiv id="{{lc.posList.a2.id}}" squadno="{{lc.posList.a2.squadNo}}" player="{{lc.posList.a2.player}}"/></div>
+               <div ng-if="!lc.posList.a3" dragula='"selectbag"' id="a3" class="posSelection"></div>
+               <div ng-if="lc.posList.a3" dragula='"selectbag"'  id="a3" class="posSelection"><playerdiv id="{{lc.posList.a3.id}}" squadno="{{lc.posList.a3.squadNo}}" player="{{lc.posList.a3.player}}"/></div>
+               <div ng-if="!lc.posList.a4" dragula='"selectbag"' id="a4" class="posSelection"></div>
+               <div ng-if="lc.posList.a4" dragula='"selectbag"'  id="a4" class="posSelection"><playerdiv id="{{lc.posList.a4.id}}" squadno="{{lc.posList.a4.squadNo}}" player="{{lc.posList.a4.player}}"/></div>
+               <div ng-if="!lc.posList.a5" dragula='"selectbag"' id="a5" class="posSelection"></div>
+               <div ng-if="lc.posList.a5" dragula='"selectbag"'  id="a5" class="posSelection"><playerdiv id="{{lc.posList.a5.id}}" squadno="{{lc.posList.a5.squadNo}}" player="{{lc.posList.a5.player}}"/></div>
+               <div ng-if="!lc.posList.a6" dragula='"selectbag"' id="a6" class="posSelection"></div>
+               <div ng-if="lc.posList.a6" dragula='"selectbag"'  id="a6" class="posSelection"><playerdiv id="{{lc.posList.a6.id}}" squadno="{{lc.posList.a6.squadNo}}" player="{{lc.posList.a6.player}}"/></div>
+               <div ng-if="!lc.posList.a7" dragula='"selectbag"' id="a7" class="posSelection"></div>
+               <div ng-if="lc.posList.a7" dragula='"selectbag"'  id="a7" class="posSelection"><playerdiv id="{{lc.posList.a7.id}}" squadno="{{lc.posList.a7.squadNo}}" player="{{lc.posList.a7.player}}"/></div>
+               <div ng-if="!lc.posList.a8" dragula='"selectbag"' id="a8" class="posSelection"></div>
+               <div ng-if="lc.posList.a8" dragula='"selectbag"'  id="a8" class="posSelection"><playerdiv id="{{lc.posList.a8.id}}" squadno="{{lc.posList.a8.squadNo}}" player="{{lc.posList.a8.player}}"/></div>
+               <div ng-if="!lc.posList.a9" dragula='"selectbag"' id="a9" class="posSelection"></div>
+               <div ng-if="lc.posList.a9" dragula='"selectbag"'  id="a9" class="posSelection"><playerdiv id="{{lc.posList.a9.id}}" squadno="{{lc.posList.a9.squadNo}}" player="{{lc.posList.a9.player}}"/></div>
+               <div ng-if="!lc.posList.a10" dragula='"selectbag"' id="a10" class="posSelection"></div>
+               <div ng-if="lc.posList.a10" dragula='"selectbag"'  id="a10" class="posSelection"><playerdiv id="{{lc.posList.a10.id}}" squadno="{{lc.posList.a10.squadNo}}" player="{{lc.posList.a10.player}}"/></div>
+               <div ng-if="!lc.posList.a11" dragula='"selectbag"' id="a11" class="posSelection"></div>
+               <div ng-if="lc.posList.a11" dragula='"selectbag"'  id="a11" class="posSelection"><playerdiv id="{{lc.posList.a11.id}}" squadno="{{lc.posList.a11.squadNo}}" player="{{lc.posList.a11.player}}"/></div>
+               <div ng-if="!lc.posList.a12" dragula='"selectbag"' id="a12" class="posSelection"></div>
+               <div ng-if="lc.posList.a12" dragula='"selectbag"'  id="a12" class="posSelection"><playerdiv id="{{lc.posList.a12.id}}" squadno="{{lc.posList.a12.squadNo}}" player="{{lc.posList.a12.player}}"/></div>
+               <div ng-if="!lc.posList.a13" dragula='"selectbag"' id="a13" class="posSelection"></div>
+               <div ng-if="lc.posList.a13" dragula='"selectbag"'  id="a13" class="posSelection"><playerdiv id="{{lc.posList.a13.id}}" squadno="{{lc.posList.a13.squadNo}}" player="{{lc.posList.a13.player}}"/></div>
+               <div ng-if="!lc.posList.a14" dragula='"selectbag"' id="a14" class="posSelection"></div>
+               <div ng-if="lc.posList.a14" dragula='"selectbag"'  id="a14" class="posSelection"><playerdiv id="{{lc.posList.a14.id}}" squadno="{{lc.posList.a14.squadNo}}" player="{{lc.posList.a14.player}}"/></div>
+               <div style="width:45px">
+                  <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+               </div>
+             </div>
+             <div layout="row">
+                <div ng-if="!lc.posList.b1" dragula='"selectbag"' id="b1" class="posSelection"></div>
+                <div ng-if="lc.posList.b1" dragula='"selectbag"'  id="b1" class="posSelection"><playerdiv id="{{lc.posList.b1.id}}" squadno="{{lc.posList.b1.squadNo}}" player="{{lc.posList.b1.player}}"/></div>
+                <div ng-if="!lc.posList.b2" dragula='"selectbag"' id="b2" class="posSelection"></div>
+                <div ng-if="lc.posList.b2" dragula='"selectbag"'  id="b2" class="posSelection"><playerdiv id="{{lc.posList.b2.id}}" squadno="{{lc.posList.b2.squadNo}}" player="{{lc.posList.b2.player}}"/></div>
+                <div ng-if="!lc.posList.b3" dragula='"selectbag"' id="b3" class="posSelection"></div>
+                <div ng-if="lc.posList.b3" dragula='"selectbag"'  id="b3" class="posSelection"><playerdiv id="{{lc.posList.b3.id}}" squadno="{{lc.posList.b3.squadNo}}" player="{{lc.posList.b3.player}}"/></div>
+                <div ng-if="!lc.posList.b4" dragula='"selectbag"' id="b4" class="posSelection"></div>
+                <div ng-if="lc.posList.b4" dragula='"selectbag"'  id="b4" class="posSelection"><playerdiv id="{{lc.posList.b4.id}}" squadno="{{lc.posList.b4.squadNo}}" player="{{lc.posList.b4.player}}"/></div>
+                <div ng-if="!lc.posList.b5" dragula='"selectbag"' id="b5" class="posSelection"></div>
+                <div ng-if="lc.posList.b5" dragula='"selectbag"'  id="b5" class="posSelection"><playerdiv id="{{lc.posList.b5.id}}" squadno="{{lc.posList.b5.squadNo}}" player="{{lc.posList.b5.player}}"/></div>
+                <div ng-if="!lc.posList.b6" dragula='"selectbag"' id="b6" class="posSelection"></div>
+                <div ng-if="lc.posList.b6" dragula='"selectbag"'  id="b6" class="posSelection"><playerdiv id="{{lc.posList.b6.id}}" squadno="{{lc.posList.b6.squadNo}}" player="{{lc.posList.b6.player}}"/></div>
+                <div ng-if="!lc.posList.b7" dragula='"selectbag"' id="b7" class="posSelection"></div>
+                <div ng-if="lc.posList.b7" dragula='"selectbag"'  id="b7" class="posSelection"><playerdiv id="{{lc.posList.b7.id}}" squadno="{{lc.posList.b7.squadNo}}" player="{{lc.posList.b7.player}}"/></div>
+                <div ng-if="!lc.posList.b8" dragula='"selectbag"' id="b8" class="posSelection"></div>
+                <div ng-if="lc.posList.b8" dragula='"selectbag"'  id="b8" class="posSelection"><playerdiv id="{{lc.posList.b8.id}}" squadno="{{lc.posList.b8.squadNo}}" player="{{lc.posList.b8.player}}"/></div>
+                <div ng-if="!lc.posList.b9" dragula='"selectbag"' id="b9" class="posSelection"></div>
+                <div ng-if="lc.posList.b9" dragula='"selectbag"'  id="b9" class="posSelection"><playerdiv id="{{lc.posList.b9.id}}" squadno="{{lc.posList.b9.squadNo}}" player="{{lc.posList.b9.player}}"/></div>
+                <div ng-if="!lc.posList.b10" dragula='"selectbag"' id="b10" class="posSelection"></div>
+                <div ng-if="lc.posList.b10" dragula='"selectbag"'  id="b10" class="posSelection"><playerdiv id="{{lc.posList.b10.id}}" squadno="{{lc.posList.b10.squadNo}}" player="{{lc.posList.b10.player}}"/></div>
+                <div ng-if="!lc.posList.b11" dragula='"selectbag"' id="b11" class="posSelection"></div>
+                <div ng-if="lc.posList.b11" dragula='"selectbag"'  id="b11" class="posSelection"><playerdiv id="{{lc.posList.b11.id}}" squadno="{{lc.posList.b11.squadNo}}" player="{{lc.posList.b11.player}}"/></div>
+                <div ng-if="!lc.posList.b12" dragula='"selectbag"' id="b12" class="posSelection"></div>
+                <div ng-if="lc.posList.b12" dragula='"selectbag"'  id="b12" class="posSelection"><playerdiv id="{{lc.posList.b12.id}}" squadno="{{lc.posList.b12.squadNo}}" player="{{lc.posList.b12.player}}"/></div>
+                <div ng-if="!lc.posList.b13" dragula='"selectbag"' id="b13" class="posSelection"></div>
+                <div ng-if="lc.posList.b13" dragula='"selectbag"'  id="b13" class="posSelection"><playerdiv id="{{lc.posList.b13.id}}" squadno="{{lc.posList.b13.squadNo}}" player="{{lc.posList.b13.player}}"/></div>
+                <div ng-if="!lc.posList.b14" dragula='"selectbag"' id="b14" class="posSelection"></div>
+                <div ng-if="lc.posList.b14" dragula='"selectbag"'  id="b14" class="posSelection"><playerdiv id="{{lc.posList.b14.id}}" squadno="{{lc.posList.b14.squadNo}}" player="{{lc.posList.b14.player}}"/></div>
+                <div style="width:45px">
+                   <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+                </div>
+            </div>
+
+                 <div layout="row">
+                    <div ng-if="!lc.posList.c1" dragula='"selectbag"' id="c1" class="posSelection"></div>
+                    <div ng-if="lc.posList.c1" dragula='"selectbag"'  id="c1" class="posSelection"><playerdiv id="{{lc.posList.c1.id}}" squadno="{{lc.posList.c1.squadNo}}" player="{{lc.posList.c1.player}}"/></div>
+                    <div ng-if="!lc.posList.c2" dragula='"selectbag"' id="c2" class="posSelection"></div>
+                    <div ng-if="lc.posList.c2" dragula='"selectbag"'  id="c2" class="posSelection"><playerdiv id="{{lc.posList.c2.id}}" squadno="{{lc.posList.c2.squadNo}}" player="{{lc.posList.c2.player}}"/></div>
+                    <div ng-if="!lc.posList.c3" dragula='"selectbag"' id="c3" class="posSelection"></div>
+                    <div ng-if="lc.posList.c3" dragula='"selectbag"'  id="c3" class="posSelection"><playerdiv id="{{lc.posList.c3.id}}" squadno="{{lc.posList.c3.squadNo}}" player="{{lc.posList.c3.player}}"/></div>
+                    <div ng-if="!lc.posList.c4" dragula='"selectbag"' id="c4" class="posSelection"></div>
+                    <div ng-if="lc.posList.c4" dragula='"selectbag"'  id="c4" class="posSelection"><playerdiv id="{{lc.posList.c4.id}}" squadno="{{lc.posList.c4.squadNo}}" player="{{lc.posList.c4.player}}"/></div>
+                    <div ng-if="!lc.posList.c5" dragula='"selectbag"' id="c5" class="posSelection"></div>
+                    <div ng-if="lc.posList.c5" dragula='"selectbag"'  id="c5" class="posSelection"><playerdiv id="{{lc.posList.c5.id}}" squadno="{{lc.posList.c5.squadNo}}" player="{{lc.posList.c5.player}}"/></div>
+                    <div ng-if="!lc.posList.c6" dragula='"selectbag"' id="c6" class="posSelection"></div>
+                    <div ng-if="lc.posList.c6" dragula='"selectbag"'  id="c6" class="posSelection"><playerdiv id="{{lc.posList.c6.id}}" squadno="{{lc.posList.c6.squadNo}}" player="{{lc.posList.c6.player}}"/></div>
+                    <div ng-if="!lc.posList.c7" dragula='"selectbag"' id="c7" class="posSelection"></div>
+                    <div ng-if="lc.posList.c7" dragula='"selectbag"'  id="c7" class="posSelection"><playerdiv id="{{lc.posList.c7.id}}" squadno="{{lc.posList.c7.squadNo}}" player="{{lc.posList.c7.player}}"/></div>
+                    <div ng-if="!lc.posList.c8" dragula='"selectbag"' id="c8" class="posSelection"></div>
+                    <div ng-if="lc.posList.c8" dragula='"selectbag"'  id="c8" class="posSelection"><playerdiv id="{{lc.posList.c8.id}}" squadno="{{lc.posList.c8.squadNo}}" player="{{lc.posList.c8.player}}"/></div>
+                    <div ng-if="!lc.posList.c9" dragula='"selectbag"' id="c9" class="posSelection"></div>
+                    <div ng-if="lc.posList.c9" dragula='"selectbag"'  id="c9" class="posSelection"><playerdiv id="{{lc.posList.c9.id}}" squadno="{{lc.posList.c9.squadNo}}" player="{{lc.posList.c9.player}}"/></div>
+                    <div ng-if="!lc.posList.c10" dragula='"selectbag"' id="c10" class="posSelection"></div>
+                    <div ng-if="lc.posList.c10" dragula='"selectbag"'  id="c10" class="posSelection"><playerdiv id="{{lc.posList.c10.id}}" squadno="{{lc.posList.c10.squadNo}}" player="{{lc.posList.c10.player}}"/></div>
+                    <div ng-if="!lc.posList.c11" dragula='"selectbag"' id="c11" class="posSelection"></div>
+                    <div ng-if="lc.posList.c11" dragula='"selectbag"'  id="c11" class="posSelection"><playerdiv id="{{lc.posList.c11.id}}" squadno="{{lc.posList.c11.squadNo}}" player="{{lc.posList.c11.player}}"/></div>
+                    <div ng-if="!lc.posList.c12" dragula='"selectbag"' id="c12" class="posSelection"></div>
+                    <div ng-if="lc.posList.c12" dragula='"selectbag"'  id="c12" class="posSelection"><playerdiv id="{{lc.posList.c12.id}}" squadno="{{lc.posList.c12.squadNo}}" player="{{lc.posList.c12.player}}"/></div>
+                    <div ng-if="!lc.posList.c13" dragula='"selectbag"' id="c13" class="posSelection"></div>
+                    <div ng-if="lc.posList.c13" dragula='"selectbag"'  id="c13" class="posSelection"><playerdiv id="{{lc.posList.c13.id}}" squadno="{{lc.posList.c13.squadNo}}" player="{{lc.posList.c13.player}}"/></div>
+                    <div ng-if="!lc.posList.c14" dragula='"selectbag"' id="c14" class="posSelection"></div>
+                    <div ng-if="lc.posList.c14" dragula='"selectbag"'  id="c14" class="posSelection"><playerdiv id="{{lc.posList.c14.id}}" squadno="{{lc.posList.c14.squadNo}}" player="{{lc.posList.c14.player}}"/></div>
+                    <div style="width:45px">
+                       <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+                    </div>
+                </div>
+
+                 <div layout="row">
+                    <div ng-if="!lc.posList.d1" dragula='"selectbag"' id="d1" class="posSelection"></div>
+                    <div ng-if="lc.posList.d1" dragula='"selectbag"'  id="d1" class="posSelection"><playerdiv id="{{lc.posList.d1.id}}" squadno="{{lc.posList.d1.squadNo}}" player="{{lc.posList.d1.player}}"/></div>
+                    <div ng-if="!lc.posList.d2" dragula='"selectbag"' id="d2" class="posSelection"></div>
+                    <div ng-if="lc.posList.d2" dragula='"selectbag"'  id="d2" class="posSelection"><playerdiv id="{{lc.posList.d2.id}}" squadno="{{lc.posList.d2.squadNo}}" player="{{lc.posList.d2.player}}"/></div>
+                    <div ng-if="!lc.posList.d3" dragula='"selectbag"' id="d3" class="posSelection"></div>
+                    <div ng-if="lc.posList.d3" dragula='"selectbag"'  id="d3" class="posSelection"><playerdiv id="{{lc.posList.d3.id}}" squadno="{{lc.posList.d3.squadNo}}" player="{{lc.posList.d3.player}}"/></div>
+                    <div ng-if="!lc.posList.d4" dragula='"selectbag"' id="d4" class="posSelection"></div>
+                    <div ng-if="lc.posList.d4" dragula='"selectbag"'  id="d4" class="posSelection"><playerdiv id="{{lc.posList.d4.id}}" squadno="{{lc.posList.d4.squadNo}}" player="{{lc.posList.d4.player}}"/></div>
+                    <div ng-if="!lc.posList.d5" dragula='"selectbag"' id="d5" class="posSelection"></div>
+                    <div ng-if="lc.posList.d5" dragula='"selectbag"'  id="d5" class="posSelection"><playerdiv id="{{lc.posList.d5.id}}" squadno="{{lc.posList.d5.squadNo}}" player="{{lc.posList.d5.player}}"/></div>
+                    <div ng-if="!lc.posList.d6" dragula='"selectbag"' id="d6" class="posSelection"></div>
+                    <div ng-if="lc.posList.d6" dragula='"selectbag"'  id="d6" class="posSelection"><playerdiv id="{{lc.posList.d6.id}}" squadno="{{lc.posList.d6.squadNo}}" player="{{lc.posList.d6.player}}"/></div>
+                    <div ng-if="!lc.posList.d7" dragula='"selectbag"' id="d7" class="posSelection"></div>
+                    <div ng-if="lc.posList.d7" dragula='"selectbag"'  id="d7" class="posSelection"><playerdiv id="{{lc.posList.d7.id}}" squadno="{{lc.posList.d7.squadNo}}" player="{{lc.posList.d7.player}}"/></div>
+                    <div ng-if="!lc.posList.d8" dragula='"selectbag"' id="d8" class="posSelection"></div>
+                    <div ng-if="lc.posList.d8" dragula='"selectbag"'  id="d8" class="posSelection"><playerdiv id="{{lc.posList.d8.id}}" squadno="{{lc.posList.d8.squadNo}}" player="{{lc.posList.d8.player}}"/></div>
+                    <div ng-if="!lc.posList.d9" dragula='"selectbag"' id="d9" class="posSelection"></div>
+                    <div ng-if="lc.posList.d9" dragula='"selectbag"'  id="d9" class="posSelection"><playerdiv id="{{lc.posList.d9.id}}" squadno="{{lc.posList.d9.squadNo}}" player="{{lc.posList.d9.player}}"/></div>
+                    <div ng-if="!lc.posList.d10" dragula='"selectbag"' id="d10" class="posSelection"></div>
+                    <div ng-if="lc.posList.d10" dragula='"selectbag"'  id="d10" class="posSelection"><playerdiv id="{{lc.posList.d10.id}}" squadno="{{lc.posList.d10.squadNo}}" player="{{lc.posList.d10.player}}"/></div>
+                    <div ng-if="!lc.posList.d11" dragula='"selectbag"' id="d11" class="posSelection"></div>
+                    <div ng-if="lc.posList.d11" dragula='"selectbag"'  id="d11" class="posSelection"><playerdiv id="{{lc.posList.d11.id}}" squadno="{{lc.posList.d11.squadNo}}" player="{{lc.posList.d11.player}}"/></div>
+                    <div ng-if="!lc.posList.d12" dragula='"selectbag"' id="d12" class="posSelection"></div>
+                    <div ng-if="lc.posList.d12" dragula='"selectbag"'  id="d12" class="posSelection"><playerdiv id="{{lc.posList.d12.id}}" squadno="{{lc.posList.d12.squadNo}}" player="{{lc.posList.d12.player}}"/></div>
+                    <div ng-if="!lc.posList.d13" dragula='"selectbag"' id="d13" class="posSelection"></div>
+                    <div ng-if="lc.posList.d13" dragula='"selectbag"'  id="d13" class="posSelection"><playerdiv id="{{lc.posList.d13.id}}" squadno="{{lc.posList.d13.squadNo}}" player="{{lc.posList.d13.player}}"/></div>
+                    <div ng-if="!lc.posList.d14" dragula='"selectbag"' id="d14" class="posSelection"></div>
+                    <div ng-if="lc.posList.d14" dragula='"selectbag"'  id="d14" class="posSelection"><playerdiv id="{{lc.posList.d14.id}}" squadno="{{lc.posList.d14.squadNo}}" player="{{lc.posList.d14.player}}"/></div>
+                    <div style="width:45px">
+                       <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+                    </div>
+                </div>
+
+                 <div layout="row">
+                    <div ng-if="!lc.posList.e1" dragula='"selectbag"' id="e1" class="posSelection"></div>
+                    <div ng-if="lc.posList.e1" dragula='"selectbag"'  id="e1" class="posSelection"><playerdiv id="{{lc.posList.e1.id}}" squadno="{{lc.posList.e1.squadNo}}" player="{{lc.posList.e1.player}}"/></div>
+                    <div ng-if="!lc.posList.e2" dragula='"selectbag"' id="e2" class="posSelection"></div>
+                    <div ng-if="lc.posList.e2" dragula='"selectbag"'  id="e2" class="posSelection"><playerdiv id="{{lc.posList.e2.id}}" squadno="{{lc.posList.e2.squadNo}}" player="{{lc.posList.e2.player}}"/></div>
+                    <div ng-if="!lc.posList.e3" dragula='"selectbag"' id="e3" class="posSelection"></div>
+                    <div ng-if="lc.posList.e3" dragula='"selectbag"'  id="e3" class="posSelection"><playerdiv id="{{lc.posList.e3.id}}" squadno="{{lc.posList.e3.squadNo}}" player="{{lc.posList.e3.player}}"/></div>
+                    <div ng-if="!lc.posList.e4" dragula='"selectbag"' id="e4" class="posSelection"></div>
+                    <div ng-if="lc.posList.e4" dragula='"selectbag"'  id="e4" class="posSelection"><playerdiv id="{{lc.posList.e4.id}}" squadno="{{lc.posList.e4.squadNo}}" player="{{lc.posList.e4.player}}"/></div>
+                    <div ng-if="!lc.posList.e5" dragula='"selectbag"' id="e5" class="posSelection"></div>
+                    <div ng-if="lc.posList.e5" dragula='"selectbag"'  id="e5" class="posSelection"><playerdiv id="{{lc.posList.e5.id}}" squadno="{{lc.posList.e5.squadNo}}" player="{{lc.posList.e5.player}}"/></div>
+                    <div ng-if="!lc.posList.e6" dragula='"selectbag"' id="e6" class="posSelection"></div>
+                    <div ng-if="lc.posList.e6" dragula='"selectbag"'  id="e6" class="posSelection"><playerdiv id="{{lc.posList.e6.id}}" squadno="{{lc.posList.e6.squadNo}}" player="{{lc.posList.e6.player}}"/></div>
+                    <div ng-if="!lc.posList.e7" dragula='"selectbag"' id="e7" class="posSelection"></div>
+                    <div ng-if="lc.posList.e7" dragula='"selectbag"'  id="e7" class="posSelection"><playerdiv id="{{lc.posList.e7.id}}" squadno="{{lc.posList.e7.squadNo}}" player="{{lc.posList.e7.player}}"/></div>
+                    <div ng-if="!lc.posList.e8" dragula='"selectbag"' id="e8" class="posSelection"></div>
+                    <div ng-if="lc.posList.e8" dragula='"selectbag"'  id="e8" class="posSelection"><playerdiv id="{{lc.posList.e8.id}}" squadno="{{lc.posList.e8.squadNo}}" player="{{lc.posList.e8.player}}"/></div>
+                    <div ng-if="!lc.posList.e9" dragula='"selectbag"' id="e9" class="posSelection"></div>
+                    <div ng-if="lc.posList.e9" dragula='"selectbag"'  id="e9" class="posSelection"><playerdiv id="{{lc.posList.e9.id}}" squadno="{{lc.posList.e9.squadNo}}" player="{{lc.posList.e9.player}}"/></div>
+                    <div ng-if="!lc.posList.e10" dragula='"selectbag"' id="e10" class="posSelection"></div>
+                    <div ng-if="lc.posList.e10" dragula='"selectbag"'  id="e10" class="posSelection"><playerdiv id="{{lc.posList.e10.id}}" squadno="{{lc.posList.e10.squadNo}}" player="{{lc.posList.e10.player}}"/></div>
+                    <div ng-if="!lc.posList.e11" dragula='"selectbag"' id="e11" class="posSelection"></div>
+                    <div ng-if="lc.posList.e11" dragula='"selectbag"'  id="e11" class="posSelection"><playerdiv id="{{lc.posList.e11.id}}" squadno="{{lc.posList.e11.squadNo}}" player="{{lc.posList.e11.player}}"/></div>
+                    <div ng-if="!lc.posList.e12" dragula='"selectbag"' id="e12" class="posSelection"></div>
+                    <div ng-if="lc.posList.e12" dragula='"selectbag"'  id="e12" class="posSelection"><playerdiv id="{{lc.posList.e12.id}}" squadno="{{lc.posList.e12.squadNo}}" player="{{lc.posList.e12.player}}"/></div>
+                    <div ng-if="!lc.posList.e13" dragula='"selectbag"' id="e13" class="posSelection"></div>
+                    <div ng-if="lc.posList.e13" dragula='"selectbag"'  id="e13" class="posSelection"><playerdiv id="{{lc.posList.e13.id}}" squadno="{{lc.posList.e13.squadNo}}" player="{{lc.posList.e13.player}}"/></div>
+                    <div ng-if="!lc.posList.e14" dragula='"selectbag"' id="e14" class="posSelection"></div>
+                    <div ng-if="lc.posList.e14" dragula='"selectbag"'  id="e14" class="posSelection"><playerdiv id="{{lc.posList.e14.id}}" squadno="{{lc.posList.e14.squadNo}}" player="{{lc.posList.e14.player}}"/></div>
+                    <div style="width:45px">
+                       <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+                    </div>
+                </div>
+
+                 <div layout="row">
+                    <div ng-if="!lc.posList.f1" dragula='"selectbag"' id="f1" class="posSelection"></div>
+                    <div ng-if="lc.posList.f1" dragula='"selectbag"'  id="f1" class="posSelection"><playerdiv id="{{lc.posList.f1.id}}" squadno="{{lc.posList.f1.squadNo}}" player="{{lc.posList.f1.player}}"/></div>
+                    <div ng-if="!lc.posList.f2" dragula='"selectbag"' id="f2" class="posSelection"></div>
+                    <div ng-if="lc.posList.f2" dragula='"selectbag"'  id="f2" class="posSelection"><playerdiv id="{{lc.posList.f2.id}}" squadno="{{lc.posList.f2.squadNo}}" player="{{lc.posList.f2.player}}"/></div>
+                    <div ng-if="!lc.posList.f3" dragula='"selectbag"' id="f3" class="posSelection"></div>
+                    <div ng-if="lc.posList.f3" dragula='"selectbag"'  id="f3" class="posSelection"><playerdiv id="{{lc.posList.f3.id}}" squadno="{{lc.posList.f3.squadNo}}" player="{{lc.posList.f3.player}}"/></div>
+                    <div ng-if="!lc.posList.f4" dragula='"selectbag"' id="f4" class="posSelection"></div>
+                    <div ng-if="lc.posList.f4" dragula='"selectbag"'  id="f4" class="posSelection"><playerdiv id="{{lc.posList.f4.id}}" squadno="{{lc.posList.f4.squadNo}}" player="{{lc.posList.f4.player}}"/></div>
+                    <div ng-if="!lc.posList.f5" dragula='"selectbag"' id="f5" class="posSelection"></div>
+                    <div ng-if="lc.posList.f5" dragula='"selectbag"'  id="f5" class="posSelection"><playerdiv id="{{lc.posList.f5.id}}" squadno="{{lc.posList.f5.squadNo}}" player="{{lc.posList.f5.player}}"/></div>
+                    <div ng-if="!lc.posList.f6" dragula='"selectbag"' id="f6" class="posSelection"></div>
+                    <div ng-if="lc.posList.f6" dragula='"selectbag"'  id="f6" class="posSelection"><playerdiv id="{{lc.posList.f6.id}}" squadno="{{lc.posList.f6.squadNo}}" player="{{lc.posList.f6.player}}"/></div>
+                    <div ng-if="!lc.posList.f7" dragula='"selectbag"' id="f7" class="posSelection"></div>
+                    <div ng-if="lc.posList.f7" dragula='"selectbag"'  id="f7" class="posSelection"><playerdiv id="{{lc.posList.f7.id}}" squadno="{{lc.posList.f7.squadNo}}" player="{{lc.posList.f7.player}}"/></div>
+                    <div ng-if="!lc.posList.f8" dragula='"selectbag"' id="f8" class="posSelection"></div>
+                    <div ng-if="lc.posList.f8" dragula='"selectbag"'  id="f8" class="posSelection"><playerdiv id="{{lc.posList.f8.id}}" squadno="{{lc.posList.f8.squadNo}}" player="{{lc.posList.f8.player}}"/></div>
+                    <div ng-if="!lc.posList.f9" dragula='"selectbag"' id="f9" class="posSelection"></div>
+                    <div ng-if="lc.posList.f9" dragula='"selectbag"'  id="f9" class="posSelection"><playerdiv id="{{lc.posList.f9.id}}" squadno="{{lc.posList.f9.squadNo}}" player="{{lc.posList.f9.player}}"/></div>
+                    <div ng-if="!lc.posList.f10" dragula='"selectbag"' id="f10" class="posSelection"></div>
+                    <div ng-if="lc.posList.f10" dragula='"selectbag"'  id="f10" class="posSelection"><playerdiv id="{{lc.posList.f10.id}}" squadno="{{lc.posList.f10.squadNo}}" player="{{lc.posList.f10.player}}"/></div>
+                    <div ng-if="!lc.posList.f11" dragula='"selectbag"' id="f11" class="posSelection"></div>
+                    <div ng-if="lc.posList.f11" dragula='"selectbag"'  id="f11" class="posSelection"><playerdiv id="{{lc.posList.f11.id}}" squadno="{{lc.posList.f11.squadNo}}" player="{{lc.posList.f11.player}}"/></div>
+                    <div ng-if="!lc.posList.f12" dragula='"selectbag"' id="f12" class="posSelection"></div>
+                    <div ng-if="lc.posList.f12" dragula='"selectbag"'  id="f12" class="posSelection"><playerdiv id="{{lc.posList.f12.id}}" squadno="{{lc.posList.f12.squadNo}}" player="{{lc.posList.f12.player}}"/></div>
+                    <div ng-if="!lc.posList.f13" dragula='"selectbag"' id="f13" class="posSelection"></div>
+                    <div ng-if="lc.posList.f13" dragula='"selectbag"'  id="f13" class="posSelection"><playerdiv id="{{lc.posList.f13.id}}" squadno="{{lc.posList.f13.squadNo}}" player="{{lc.posList.f13.player}}"/></div>
+                    <div ng-if="!lc.posList.f14" dragula='"selectbag"' id="f14" class="posSelection"></div>
+                    <div ng-if="lc.posList.f14" dragula='"selectbag"'  id="f14" class="posSelection"><playerdiv id="{{lc.posList.f14.id}}" squadno="{{lc.posList.f14.squadNo}}" player="{{lc.posList.f14.player}}"/></div>
+                    <div style="width:45px">
+                       <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+                    </div>
+                </div>
+
+                 <div layout="row">
+                    <div ng-if="!lc.posList.g1" dragula='"selectbag"' id="g1" class="posSelection"></div>
+                    <div ng-if="lc.posList.g1" dragula='"selectbag"'  id="g1" class="posSelection"><playerdiv id="{{lc.posList.g1.id}}" squadno="{{lc.posList.g1.squadNo}}" player="{{lc.posList.g1.player}}"/></div>
+                    <div ng-if="!lc.posList.g2" dragula='"selectbag"' id="g2" class="posSelection"></div>
+                    <div ng-if="lc.posList.g2" dragula='"selectbag"'  id="g2" class="posSelection"><playerdiv id="{{lc.posList.g2.id}}" squadno="{{lc.posList.g2.squadNo}}" player="{{lc.posList.g2.player}}"/></div>
+                    <div ng-if="!lc.posList.g3" dragula='"selectbag"' id="g3" class="posSelection"></div>
+                    <div ng-if="lc.posList.g3" dragula='"selectbag"'  id="g3" class="posSelection"><playerdiv id="{{lc.posList.g3.id}}" squadno="{{lc.posList.g3.squadNo}}" player="{{lc.posList.g3.player}}"/></div>
+                    <div ng-if="!lc.posList.g4" dragula='"selectbag"' id="g4" class="posSelection"></div>
+                    <div ng-if="lc.posList.g4" dragula='"selectbag"'  id="g4" class="posSelection"><playerdiv id="{{lc.posList.g4.id}}" squadno="{{lc.posList.g4.squadNo}}" player="{{lc.posList.g4.player}}"/></div>
+                    <div ng-if="!lc.posList.g5" dragula='"selectbag"' id="g5" class="posSelection"></div>
+                    <div ng-if="lc.posList.g5" dragula='"selectbag"'  id="g5" class="posSelection"><playerdiv id="{{lc.posList.g5.id}}" squadno="{{lc.posList.g5.squadNo}}" player="{{lc.posList.g5.player}}"/></div>
+                    <div ng-if="!lc.posList.g6" dragula='"selectbag"' id="g6" class="posSelection"></div>
+                    <div ng-if="lc.posList.g6" dragula='"selectbag"'  id="g6" class="posSelection"><playerdiv id="{{lc.posList.g6.id}}" squadno="{{lc.posList.g6.squadNo}}" player="{{lc.posList.g6.player}}"/></div>
+                    <div ng-if="!lc.posList.g7" dragula='"selectbag"' id="g7" class="posSelection"></div>
+                    <div ng-if="lc.posList.g7" dragula='"selectbag"'  id="g7" class="posSelection"><playerdiv id="{{lc.posList.g7.id}}" squadno="{{lc.posList.g7.squadNo}}" player="{{lc.posList.g7.player}}"/></div>
+                    <div ng-if="!lc.posList.g8" dragula='"selectbag"' id="g8" class="posSelection"></div>
+                    <div ng-if="lc.posList.g8" dragula='"selectbag"'  id="g8" class="posSelection"><playerdiv id="{{lc.posList.g8.id}}" squadno="{{lc.posList.g8.squadNo}}" player="{{lc.posList.g8.player}}"/></div>
+                    <div ng-if="!lc.posList.g9" dragula='"selectbag"' id="g9" class="posSelection"></div>
+                    <div ng-if="lc.posList.g9" dragula='"selectbag"'  id="g9" class="posSelection"><playerdiv id="{{lc.posList.g9.id}}" squadno="{{lc.posList.g9.squadNo}}" player="{{lc.posList.g9.player}}"/></div>
+                    <div ng-if="!lc.posList.g10" dragula='"selectbag"' id="g10" class="posSelection"></div>
+                    <div ng-if="lc.posList.g10" dragula='"selectbag"'  id="g10" class="posSelection"><playerdiv id="{{lc.posList.g10.id}}" squadno="{{lc.posList.g10.squadNo}}" player="{{lc.posList.g10.player}}"/></div>
+                    <div ng-if="!lc.posList.g11" dragula='"selectbag"' id="g11" class="posSelection"></div>
+                    <div ng-if="lc.posList.g11" dragula='"selectbag"'  id="g11" class="posSelection"><playerdiv id="{{lc.posList.g11.id}}" squadno="{{lc.posList.g11.squadNo}}" player="{{lc.posList.g11.player}}"/></div>
+                    <div ng-if="!lc.posList.g12" dragula='"selectbag"' id="g12" class="posSelection"></div>
+                    <div ng-if="lc.posList.g12" dragula='"selectbag"'  id="g12" class="posSelection"><playerdiv id="{{lc.posList.g12.id}}" squadno="{{lc.posList.g12.squadNo}}" player="{{lc.posList.g12.player}}"/></div>
+                    <div ng-if="!lc.posList.g13" dragula='"selectbag"' id="g13" class="posSelection"></div>
+                    <div ng-if="lc.posList.g13" dragula='"selectbag"'  id="g13" class="posSelection"><playerdiv id="{{lc.posList.g13.id}}" squadno="{{lc.posList.g13.squadNo}}" player="{{lc.posList.g13.player}}"/></div>
+                    <div ng-if="!lc.posList.g14" dragula='"selectbag"' id="g14" class="posSelection"></div>
+                    <div ng-if="lc.posList.g14" dragula='"selectbag"'  id="g14" class="posSelection"><playerdiv id="{{lc.posList.g14.id}}" squadno="{{lc.posList.g14.squadNo}}" player="{{lc.posList.g14.player}}"/></div>
+                    <div style="width:45px">
+                       <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+                    </div>
+                </div>
+
+                 <div layout="row">
+                    <div ng-if="!lc.posList.h1" dragula='"selectbag"' id="h1" class="posSelection"></div>
+                    <div ng-if="lc.posList.h1" dragula='"selectbag"'  id="h1" class="posSelection"><playerdiv id="{{lc.posList.h1.id}}" squadno="{{lc.posList.h1.squadNo}}" player="{{lc.posList.h1.player}}"/></div>
+                    <div ng-if="!lc.posList.h2" dragula='"selectbag"' id="h2" class="posSelection"></div>
+                    <div ng-if="lc.posList.h2" dragula='"selectbag"'  id="h2" class="posSelection"><playerdiv id="{{lc.posList.h2.id}}" squadno="{{lc.posList.h2.squadNo}}" player="{{lc.posList.h2.player}}"/></div>
+                    <div ng-if="!lc.posList.h3" dragula='"selectbag"' id="h3" class="posSelection"></div>
+                    <div ng-if="lc.posList.h3" dragula='"selectbag"'  id="h3" class="posSelection"><playerdiv id="{{lc.posList.h3.id}}" squadno="{{lc.posList.h3.squadNo}}" player="{{lc.posList.h3.player}}"/></div>
+                    <div ng-if="!lc.posList.h4" dragula='"selectbag"' id="h4" class="posSelection"></div>
+                    <div ng-if="lc.posList.h4" dragula='"selectbag"'  id="h4" class="posSelection"><playerdiv id="{{lc.posList.h4.id}}" squadno="{{lc.posList.h4.squadNo}}" player="{{lc.posList.h4.player}}"/></div>
+                    <div ng-if="!lc.posList.h5" dragula='"selectbag"' id="h5" class="posSelection"></div>
+                    <div ng-if="lc.posList.h5" dragula='"selectbag"'  id="h5" class="posSelection"><playerdiv id="{{lc.posList.h5.id}}" squadno="{{lc.posList.h5.squadNo}}" player="{{lc.posList.h5.player}}"/></div>
+                    <div ng-if="!lc.posList.h6" dragula='"selectbag"' id="h6" class="posSelection"></div>
+                    <div ng-if="lc.posList.h6" dragula='"selectbag"'  id="h6" class="posSelection"><playerdiv id="{{lc.posList.h6.id}}" squadno="{{lc.posList.h6.squadNo}}" player="{{lc.posList.h6.player}}"/></div>
+                    <div ng-if="!lc.posList.h7" dragula='"selectbag"' id="h7" class="posSelection"></div>
+                    <div ng-if="lc.posList.h7" dragula='"selectbag"'  id="h7" class="posSelection"><playerdiv id="{{lc.posList.h7.id}}" squadno="{{lc.posList.h7.squadNo}}" player="{{lc.posList.h7.player}}"/></div>
+                    <div ng-if="!lc.posList.h8" dragula='"selectbag"' id="h8" class="posSelection"></div>
+                    <div ng-if="lc.posList.h8" dragula='"selectbag"'  id="h8" class="posSelection"><playerdiv id="{{lc.posList.h8.id}}" squadno="{{lc.posList.h8.squadNo}}" player="{{lc.posList.h8.player}}"/></div>
+                    <div ng-if="!lc.posList.h9" dragula='"selectbag"' id="h9" class="posSelection"></div>
+                    <div ng-if="lc.posList.h9" dragula='"selectbag"'  id="h9" class="posSelection"><playerdiv id="{{lc.posList.h9.id}}" squadno="{{lc.posList.h9.squadNo}}" player="{{lc.posList.h9.player}}"/></div>
+                    <div ng-if="!lc.posList.h10" dragula='"selectbag"' id="h10" class="posSelection"></div>
+                    <div ng-if="lc.posList.h10" dragula='"selectbag"'  id="h10" class="posSelection"><playerdiv id="{{lc.posList.h10.id}}" squadno="{{lc.posList.h10.squadNo}}" player="{{lc.posList.h10.player}}"/></div>
+                    <div ng-if="!lc.posList.h11" dragula='"selectbag"' id="h11" class="posSelection"></div>
+                    <div ng-if="lc.posList.h11" dragula='"selectbag"'  id="h11" class="posSelection"><playerdiv id="{{lc.posList.h11.id}}" squadno="{{lc.posList.h11.squadNo}}" player="{{lc.posList.h11.player}}"/></div>
+                    <div ng-if="!lc.posList.h12" dragula='"selectbag"' id="h12" class="posSelection"></div>
+                    <div ng-if="lc.posList.h12" dragula='"selectbag"'  id="h12" class="posSelection"><playerdiv id="{{lc.posList.h12.id}}" squadno="{{lc.posList.h12.squadNo}}" player="{{lc.posList.h12.player}}"/></div>
+                    <div ng-if="!lc.posList.h13" dragula='"selectbag"' id="h13" class="posSelection"></div>
+                    <div ng-if="lc.posList.h13" dragula='"selectbag"'  id="h13" class="posSelection"><playerdiv id="{{lc.posList.h13.id}}" squadno="{{lc.posList.h13.squadNo}}" player="{{lc.posList.h13.player}}"/></div>
+                    <div ng-if="!lc.posList.h14" dragula='"selectbag"' id="h14" class="posSelection"></div>
+                    <div ng-if="lc.posList.h14" dragula='"selectbag"'  id="h14" class="posSelection"><playerdiv id="{{lc.posList.h14.id}}" squadno="{{lc.posList.h14.squadNo}}" player="{{lc.posList.h14.player}}"/></div>
+                    <div style="width:45px">
+                       <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+                    </div>
+                </div>
+        </div>
+        <!-- end of pitch -->
+        <div layout="column" >
+          <div layout="column">
+            <div style="height:35px">
+              <div><img class="md-user-avatar" src="images/blank.png" style="height:35px;width:25px"/></div>
+            </div>
+          </div>
+        </div>
+        <div layout="column" >
+          <div layout="column">
+            <div layout="row" layout-align="end center" id="x1" style="height:35px;border-bottom:0px solid darkblue;font-weight:bold;font-size:16px">Not&nbsp;</div>
+            <div ng-if="!lc.naList.x1" dragula='"selectbag"' id="x1" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x1" dragula='"selectbag"'  id="x1" class="notAvailSelection"><playerdiv id="{{lc.naList.x1.id}}" squadno="{{lc.naList.x1.squadNo}}" player="{{lc.naList.x1.player}}"/></div>
+            <div ng-if="!lc.naList.x2" dragula='"selectbag"' id="x2" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x2" dragula='"selectbag"'  id="x2" class="notAvailSelection"><playerdiv id="{{lc.naList.x2.id}}" squadno="{{lc.naList.x2.squadNo}}" player="{{lc.naList.x2.player}}"/></div>
+            <div ng-if="!lc.naList.x3" dragula='"selectbag"' id="x3" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x3" dragula='"selectbag"'  id="x3" class="notAvailSelection"><playerdiv id="{{lc.naList.x3.id}}" squadno="{{lc.naList.x3.squadNo}}" player="{{lc.naList.x3.player}}"/></div>
+            <div ng-if="!lc.naList.x4" dragula='"selectbag"' id="x4" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x4" dragula='"selectbag"'  id="x4" class="notAvailSelection"><playerdiv id="{{lc.naList.x4.id}}" squadno="{{lc.naList.x4.squadNo}}" player="{{lc.naList.x4.player}}"/></div>
+            <div ng-if="!lc.naList.x5" dragula='"selectbag"' id="x5" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x5" dragula='"selectbag"'  id="x5" class="notAvailSelection"><playerdiv id="{{lc.naList.x5.id}}" squadno="{{lc.naList.x5.squadNo}}" player="{{lc.naList.x5.player}}"/></div>
+            <div ng-if="!lc.naList.x6" dragula='"selectbag"' id="x6" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x6" dragula='"selectbag"'  id="x6" class="notAvailSelection"><playerdiv id="{{lc.naList.x6.id}}" squadno="{{lc.naList.x6.squadNo}}" player="{{lc.naList.x6.player}}"/></div>
+            <div ng-if="!lc.naList.x7" dragula='"selectbag"' id="x7" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x7" dragula='"selectbag"'  id="x7" class="notAvailSelection"><playerdiv id="{{lc.naList.x7.id}}" squadno="{{lc.naList.x7.squadNo}}" player="{{lc.naList.x7.player}}"/></div>
+            <div ng-if="!lc.naList.x8" dragula='"selectbag"' id="x8" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x8" dragula='"selectbag"'  id="x8" class="notAvailSelection"><playerdiv id="{{lc.naList.x8.id}}" squadno="{{lc.naList.x8.squadNo}}" player="{{lc.naList.x8.player}}"/></div>
+            <div  style="height:1px">
+              <div><img class="md-user-avatar" src="images/blank.png" style="height:1px;width:55px"/></div>
+            </div>
+          </div>
+        </div>
+        <div layout="column" >
+          <div layout="column">
+            <div layout="row" layout-align="end center" style="height:35px;border-bottom:0px solid darkblue;font-weight:bold;font-size:16px"> Available</div>
+            <div ng-if="!lc.naList.x9" dragula='"selectbag"' id="x9" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x9" dragula='"selectbag"'  id="x9" class="notAvailSelection"><playerdiv id="{{lc.naList.x9.id}}" squadno="{{lc.naList.x9.squadNo}}" player="{{lc.naList.x9.player}}"/></div>
+            <div ng-if="!lc.naList.x10" dragula='"selectbag"' id="x10" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x10" dragula='"selectbag"'  id="x10" class="notAvailSelection"><playerdiv id="{{lc.naList.x10.id}}" squadno="{{lc.naList.x10.squadNo}}" player="{{lc.naList.x10.player}}"/></div>
+            <div ng-if="!lc.naList.x11" dragula='"selectbag"' id="x11" class="notAvailSelection"></div>
+            <div ng-if="lc.naList.x11" dragula='"selectbag"'  id="x11" class="notAvailSelection"><playerdiv id="{{lc.naList.x11.id}}" squadno="{{lc.naList.x11.squadNo}}" player="{{lc.naList.x11.player}}"/></div>
+            <div ng-if="!lc.naList.x12" dragula='"selectbag"' id="x12" class="notAvailSelection"></div>
+             <div ng-if="lc.naList.x12" dragula='"selectbag"'  id="x12" class="notAvailSelection"><playerdiv id="{{lc.naList.x12.id}}" squadno="{{lc.naList.x12.squadNo}}" player="{{lc.naList.x12.player}}"/></div>
+             <div ng-if="!lc.naList.x13" dragula='"selectbag"' id="x13" class="notAvailSelection"></div>
+             <div ng-if="lc.naList.x13" dragula='"selectbag"'  id="x13" class="notAvailSelection"><playerdiv id="{{lc.naList.x13.id}}" squadno="{{lc.naList.x13.squadNo}}" player="{{lc.naList.x13.player}}"/></div>
+             <div ng-if="!lc.naList.x14" dragula='"selectbag"' id="x14" class="notAvailSelection"></div>
+             <div ng-if="lc.naList.x14" dragula='"selectbag"'  id="x14" class="notAvailSelection"><playerdiv id="{{lc.naList.x14.id}}" squadno="{{lc.naList.x14.squadNo}}" player="{{lc.naList.x14.player}}"/></div>
+             <div ng-if="!lc.naList.x15" dragula='"selectbag"' id="x15" class="notAvailSelection"></div>
+             <div ng-if="lc.naList.x15" dragula='"selectbag"'  id="x15" class="notAvailSelection"><playerdiv id="{{lc.naList.x15.id}}" squadno="{{lc.naList.x15.squadNo}}" player="{{lc.naList.x15.player}}"/></div>
+            <div dragula='"selectbag"' id="x22" style="height:1px">
+              <div><img class="md-user-avatar" src="images/blank.png" style="height:1px;width:55px"/></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- *************************************************** -->
+        <!-- ******************* Substitutes ******************* -->
+        <!-- *************************************************** -->
+        <div layout="column">
+        <div layout="row">
+          <div style="width:150px;font-weight:bold;font-size:22px" layout="row"  layout-align="end end">Substitutes</div>
+          <div ng-if="!lc.subList.i1" dragula='"selectbag"' id="i1" class="subsSelection"></div>
+          <div ng-if="lc.subList.i1" dragula='"selectbag"'  id="i1" class="subsSelection"><playerdiv id="{{lc.subList.i1.id}}" squadno="{{lc.subList.i1.squadNo}}" player="{{lc.subList.i1.player}}"/></div>
+          <div ng-if="!lc.subList.i2" dragula='"selectbag"' id="i2" class="subsSelection"></div>
+          <div ng-if="lc.subList.i2" dragula='"selectbag"'  id="i2" class="subsSelection"><playerdiv id="{{lc.subList.i2.id}}" squadno="{{lc.subList.i2.squadNo}}" player="{{lc.subList.i2.player}}"/></div>
+          <div ng-if="!lc.subList.i3" dragula='"selectbag"' id="i3" class="subsSelection"></div>
+          <div ng-if="lc.subList.i3" dragula='"selectbag"'  id="i3" class="subsSelection"><playerdiv id="{{lc.subList.i3.id}}" squadno="{{lc.subList.i3.squadNo}}" player="{{lc.subList.i3.player}}"/></div>
+          <div ng-if="!lc.subList.i4" dragula='"selectbag"' id="i4" class="subsSelection"></div>
+          <div ng-if="lc.subList.i4" dragula='"selectbag"'  id="i4" class="subsSelection"><playerdiv id="{{lc.subList.i4.id}}" squadno="{{lc.subList.i4.squadNo}}" player="{{lc.subList.i4.player}}"/></div>
+          <div ng-if="!lc.subList.i5" dragula='"selectbag"' id="i5" class="subsSelection"></div>
+          <div ng-if="lc.subList.i5" dragula='"selectbag"'  id="i5" class="subsSelection"><playerdiv id="{{lc.subList.i5.id}}" squadno="{{lc.subList.i5.squadNo}}" player="{{lc.subList.i5.player}}"/></div>
+          <div ng-if="!lc.subList.i6" dragula='"selectbag"' id="i6" class="subsSelection"></div>
+          <div ng-if="lc.subList.i6" dragula='"selectbag"'  id="i6" class="subsSelection"><playerdiv id="{{lc.subList.i6.id}}" squadno="{{lc.subList.i6.squadNo}}" player="{{lc.subList.i6.player}}"/></div>
+          <div ng-if="!lc.subList.i7" dragula='"selectbag"' id="i7" class="subsSelection"></div>
+          <div ng-if="lc.subList.i7" dragula='"selectbag"'  id="i7" class="subsSelection"><playerdiv id="{{lc.subList.i7.id}}" squadno="{{lc.subList.i7.squadNo}}" player="{{lc.subList.i7.player}}"/></div>
+          <div ng-if="!lc.subList.i8" dragula='"selectbag"' id="i8" class="subsSelection"></div>
+          <div ng-if="lc.subList.i8" dragula='"selectbag"'  id="i8" class="subsSelection"><playerdiv id="{{lc.subList.i8.id}}" squadno="{{lc.subList.i8.squadNo}}" player="{{lc.subList.i8.player}}"/></div>
+          <div ng-if="!lc.subList.i9" dragula='"selectbag"' id="i9" class="subsSelection"></div>
+          <div ng-if="lc.subList.i9" dragula='"selectbag"'  id="i9" class="subsSelection"><playerdiv id="{{lc.subList.i9.id}}" squadno="{{lc.subList.i9.squadNo}}" player="{{lc.subList.i9.player}}"/></div>
+          <div ng-if="!lc.subList.i10" dragula='"selectbag"' id="i10" class="subsSelection"></div>
+          <div ng-if="lc.subList.i10" dragula='"selectbag"'  id="i10" class="subsSelection"><playerdiv id="{{lc.subList.i10.id}}" squadno="{{lc.subList.i10.squadNo}}" player="{{lc.subList.i10.player}}"/></div>
+          <div ng-if="!lc.subList.i11" dragula='"selectbag"' id="i11" class="subsSelection"></div>
+          <div ng-if="lc.subList.i11" dragula='"selectbag"'  id="i11" class="subsSelection"><playerdiv id="{{lc.subList.i11.id}}" squadno="{{lc.subList.i11.squadNo}}" player="{{lc.subList.i11.player}}"/></div>
+          <div ng-if="!lc.subList.i12" dragula='"selectbag"' id="i12" class="subsSelection"></div>
+          <div ng-if="lc.subList.i12" dragula='"selectbag"'  id="i12" class="subsSelection"><playerdiv id="{{lc.subList.i12.id}}" squadno="{{lc.subList.i12.squadNo}}" player="{{lc.subList.i12.player}}"/></div>
+          <div ng-if="!lc.subList.i13" dragula='"selectbag"' id="i13" class="subsSelection"></div>
+          <div ng-if="lc.subList.i13" dragula='"selectbag"'  id="i13" class="subsSelection"><playerdiv id="{{lc.subList.i13.id}}" squadno="{{lc.subList.i13.squadNo}}" player="{{lc.subList.i13.player}}"/></div>
+          <div ng-if="!lc.subList.i14" dragula='"selectbag"' id="i14" class="subsSelection"></div>
+          <div ng-if="lc.subList.i14" dragula='"selectbag"'  id="i14" class="subsSelection"><playerdiv id="{{lc.subList.i14.id}}" squadno="{{lc.subList.i14.squadNo}}" player="{{lc.subList.i14.player}}"/></div>
+          <div dragula='"selectbag"' id="i15" style="width:45px">
+            <div><img class="md-user-avatar" src="images/blank.png" style="width:1px;height:55px"/></div>
+          </div>
+        </div>
+
+        <div layout="row">
+          <div style="width:150px;font-weight:bold;font-size:22px" layout="row"  layout-align="end end"></div>
+          <div ng-if="!lc.subList.j1" dragula='"selectbag"' id="j1" class="subsSelection"></div>
+          <div ng-if="lc.subList.j1" dragula='"selectbag"'  id="j1" class="subsSelection"><playerdiv id="{{lc.subList.j1.id}}" squadno="{{lc.subList.j1.squadNo}}" player="{{lc.subList.j1.player}}"/></div>
+          <div ng-if="!lc.subList.j2" dragula='"selectbag"' id="j2" class="subsSelection"></div>
+          <div ng-if="lc.subList.j2" dragula='"selectbag"'  id="j2" class="subsSelection"><playerdiv id="{{lc.subList.j2.id}}" squadno="{{lc.subList.j2.squadNo}}" player="{{lc.subList.j2.player}}"/></div>
+          <div ng-if="!lc.subList.j3" dragula='"selectbag"' id="j3" class="subsSelection"></div>
+          <div ng-if="lc.subList.j3" dragula='"selectbag"'  id="j3" class="subsSelection"><playerdiv id="{{lc.subList.j3.id}}" squadno="{{lc.subList.j3.squadNo}}" player="{{lc.subList.j3.player}}"/></div>
+          <div ng-if="!lc.subList.j4" dragula='"selectbag"' id="j4" class="subsSelection"></div>
+          <div ng-if="lc.subList.j4" dragula='"selectbag"'  id="j4" class="subsSelection"><playerdiv id="{{lc.subList.j4.id}}" squadno="{{lc.subList.j4.squadNo}}" player="{{lc.subList.j4.player}}"/></div>
+          <div ng-if="!lc.subList.j5" dragula='"selectbag"' id="j5" class="subsSelection"></div>
+          <div ng-if="lc.subList.j5" dragula='"selectbag"'  id="j5" class="subsSelection"><playerdiv id="{{lc.subList.j5.id}}" squadno="{{lc.subList.j5.squadNo}}" player="{{lc.subList.j5.player}}"/></div>
+          <div ng-if="!lc.subList.j6" dragula='"selectbag"' id="j6" class="subsSelection"></div>
+          <div ng-if="lc.subList.j6" dragula='"selectbag"'  id="j6" class="subsSelection"><playerdiv id="{{lc.subList.j6.id}}" squadno="{{lc.subList.j6.squadNo}}" player="{{lc.subList.j6.player}}"/></div>
+          <div ng-if="!lc.subList.j7" dragula='"selectbag"' id="j7" class="subsSelection"></div>
+          <div ng-if="lc.subList.j7" dragula='"selectbag"'  id="j7" class="subsSelection"><playerdiv id="{{lc.subList.j7.id}}" squadno="{{lc.subList.j7.squadNo}}" player="{{lc.subList.j7.player}}"/></div>
+          <div ng-if="!lc.subList.j8" dragula='"selectbag"' id="j8" class="subsSelection"></div>
+          <div ng-if="lc.subList.j8" dragula='"selectbag"'  id="j8" class="subsSelection"><playerdiv id="{{lc.subList.j8.id}}" squadno="{{lc.subList.j8.squadNo}}" player="{{lc.subList.j8.player}}"/></div>
+          <div ng-if="!lc.subList.j9" dragula='"selectbag"' id="j9" class="subsSelection"></div>
+          <div ng-if="lc.subList.j9" dragula='"selectbag"'  id="j9" class="subsSelection"><playerdiv id="{{lc.subList.j9.id}}" squadno="{{lc.subList.j9.squadNo}}" player="{{lc.subList.j9.player}}"/></div>
+          <div ng-if="!lc.subList.j10" dragula='"selectbag"' id="j10" class="subsSelection"></div>
+          <div ng-if="lc.subList.j10" dragula='"selectbag"'  id="j10" class="subsSelection"><playerdiv id="{{lc.subList.j10.id}}" squadno="{{lc.subList.j10.squadNo}}" player="{{lc.subList.j10.player}}"/></div>
+          <div ng-if="!lc.subList.j11" dragula='"selectbag"' id="j11" class="subsSelection"></div>
+          <div ng-if="lc.subList.j11" dragula='"selectbag"'  id="j11" class="subsSelection"><playerdiv id="{{lc.subList.j11.id}}" squadno="{{lc.subList.j11.squadNo}}" player="{{lc.subList.j11.player}}"/></div>
+          <div ng-if="!lc.subList.j12" dragula='"selectbag"' id="j12" class="subsSelection"></div>
+          <div ng-if="lc.subList.j12" dragula='"selectbag"'  id="j12" class="subsSelection"><playerdiv id="{{lc.subList.j12.id}}" squadno="{{lc.subList.j12.squadNo}}" player="{{lc.subList.j12.player}}"/></div>
+          <div ng-if="!lc.subList.j13" dragula='"selectbag"' id="j13" class="subsSelection"></div>
+          <div ng-if="lc.subList.j13" dragula='"selectbag"'  id="j13" class="subsSelection"><playerdiv id="{{lc.subList.j13.id}}" squadno="{{lc.subList.j13.squadNo}}" player="{{lc.subList.j13.player}}"/></div>
+          <div ng-if="!lc.subList.j14" dragula='"selectbag"' id="j14" class="subsSelection"></div>
+          <div ng-if="lc.subList.j14" dragula='"selectbag"'  id="j14" class="subsSelection"><playerdiv id="{{lc.subList.j14.id}}" squadno="{{lc.subList.j14.squadNo}}" player="{{lc.subList.j14.player}}"/></div>
+          <div dragula='"selectbag"' id="j15" style="width:45px">
+            <div><img class="md-user-avatar" src="jmages/blank.png" style="width:1px;height:55px"/></div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

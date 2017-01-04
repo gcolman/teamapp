@@ -1,6 +1,23 @@
 <html lang="en" >
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
+  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+  <link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
+  <link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="node_modules/angular-percent-circle-directive/dist/percent-circle.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/angular-dragula/dist/dragula.min.css">
+  <link rel="stylesheet" href="css/main.css"/>
+  <base href="/">
+</head>
+
+<body  layout="column" style="height:6000px" ng-cloak="" ng-app="myApp" ng-controller="appCtrl as main">
   <script src="node_modules/angular/angular.min.js"></script>
   <script src="node_modules/ng-dialog/js/ngDialog.js"></script>
   <script src="node_modules/angular-animate/angular-animate.min.js"></script>
@@ -19,206 +36,58 @@
   <script src='node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
   <script src='node_modules/textangular/dist/textAngular.min.js'></script>
   <script src='node_modules/angular-websocket/dist/angular-websocket.js'></script>
+  <script src='node_modules/angular-google-chart/ng-google-chart.js'></script>
+  <script src="node_modules/angular-percent-circle-directive/dist/percent-circle-directive.js"></script>
+  <script src="node_modules/angular-dragula/dist/angular-dragula.js"></script>
 
   <script src="js/main.js"></script>
+  <script src="js/diget.js"></script>
 
+  <script src="routes/newsComponent.js"></script>
+  <script src="routes/fixturesComponent.js"></script>
+  <script src="routes/playersComponent.js"></script>
+  <script src="routes/availabilityComponent.js"></script>
+  <script src="routes/statsComponent.js"></script>
+  <script src="routes/adminComponent.js"></script>
+  <script src="routes/registerComponent.js"></script>
+  <script src="routes/userComponent.js"></script>
+  <script src="routes/playerComponent.js"></script>
+  <script src="routes/lineupComponent.js"></script>
+  <script src="routes/mainComponent.js"></script>
+
+
+  <script src="components/topnavComponent.js"></script>
+  <script src="components/sidenavComponent.js"></script>
   <script src="components/mailComponent.js"></script>
   <script src="components/onlineComponent.js"></script>
-  <script src="components/newsComponent.js"></script>
-  <script src="components/playersComponent.js"></script>
-  <script src="components/availabilityComponent.js"></script>
-  <script src="components/fixtureComponent.js"></script>
   <script src="components/chatComponent.js"></script>
 
-
-  <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
-  <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
-  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog.css";</style>
-  <style type="text/css" media="all">@import "node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
-  <link rel='stylesheet' href='node_modules/textangular/dist/textAngular.css'>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css"/>
-  <base href="/">
-</head>
-
-<body  layout="column" style="height:6000px" ng-cloak="" ng-app="myApp" ng-controller="appCtrl as main">
-
-  <md-toolbar style="position:relative">
-    <div layout="row">
-                <div layout="row" ng-app="myApp" ng-controller="authCtl as auth" ng-switch="auth.isAuthenticated()">
-                  <md-menu>
-                        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="main.openMenu($mdOpenMenu, $event)">
-                          <md-icon class="material-icons md-light md-48"> dehaze </md-icon>
-                        </md-button>
-                        <md-menu-content width="4">
-                          <md-menu-item>
-                            <md-button>
-                              <md-icon class=" md-primary "></md-icon>
-                              <b>Context Menu</b>
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-item ng-switch-when="false">
-                            <md-button ng-click="auth.dologin()">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                              Login
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-item ng-switch-when="false">
-                            <md-button  ng-href="userRegistration.html">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                              New User Register
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-divider></md-menu-divider>
-                          <md-menu-item ng-switch-when="true">
-                            <md-button ng-click="auth.logout()">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                               Logout
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-item ng-switch-when="true">
-                            <md-button ng-href="userRegistration.html">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                               Update Profile
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-divider></md-menu-divider>
-                          <md-menu-item ng-switch-when="true">
-                            <md-button ng-click="main.view = 'news_view'">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                               Home
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-item>
-                            <md-button ng-click="main.view = 'fixtures_view'">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                               Fixtures
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-item>
-                            <md-button ng-click="main.view = 'players_view'">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                               Squad
-                            </md-button>
-                          </md-menu-item>
-                          <md-menu-item ng-switch-when="true">
-                            <md-button ng-click="main.view = 'availability_view'">
-                              <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
-                               Availability
-                            </md-button>
-                          </md-menu-item>
-                        </md-menu-content>
-                      </md-menu>
-                </div>
-      <span class="md-toolbar-tools">{{ main.prop.clubName }} - Onyx U12 Girls</span>
-      </div>
-  </md-toolbar>
-
+  <topnav></topnav>
 
   <div ng-cloak="" >
     <md-content class="md-padding" layout-xs="column" layout="row" layout-wrap="">
       <!-- add the sidenav -->
-
-      <div  layout="column" layout-align="top center" >
-      <!--  <div style="text-align:center; padding:0px">
-          <img src="images/general/team.gif" alt="" height="100" width="150">
-        </div> -->
-        <md-sidenav style="width:100" md-is-locked-open="$mdMedia('min-width: 1000px')">
-
-            <md-list>
-              <md-list-item class="md-2-line">
-                <div class="md-list-item-text" layout="column" style="text-align:center">
-                  <md-button  ng-click="main.view = 'news_view'" class="md-fab md-primary" aria-label="FAB" style="padding-top:0px">
-                    <md-tooltip md-direction="right">Team home page</md-tooltip>
-                    <md-icon class="material-icons md-light md-48"> home </md-icon>
-                  </md-button>
-                  <p>Home</p>
-                </div>
-              </md-list-item>
-              <md-list-item class="md-2-line">
-                <div class="md-list-item-text" layout="column" style="text-align:center">
-                  <md-button ng-click="main.view = 'fixtures_view'"  class="md-fab md-primary" aria-label="FAB"  style="padding-top:0px">
-                    <md-tooltip md-direction="right">Team fixtures & results</md-tooltip>
-                    <md-icon class="material-icons md-light md-48"> date_range </md-icon>
-                  </md-button>
-                  <p>Fixtures</p>
-                </div>
-              </md-list-item>
-              <md-list-item class="md-2-line">
-                <div class="md-list-item-text" layout="column" style="text-align:center">
-                  <md-button ng-click="main.view = 'players_view'" class="md-fab md-primary" aria-label="FAB"  style="padding-top:0px">
-                    <md-tooltip md-direction="right">Squad details</md-tooltip>
-                    <md-icon class="material-icons md-light md-48"> group </md-icon>
-                  </md-button>
-                  <p>Squad</p>
-                </div>
-              </md-list-item>
-              <md-list-item class="md-2-line">
-                <div class="md-list-item-text" layout="column" style="text-align:center">
-                  <md-button ng-click="main.view = 'availability_view'" class="md-fab md-primary" aria-label="FAB"  style="padding-top:0px">
-                    <md-tooltip md-direction="right">Player match availability</md-tooltip>
-                    <md-icon class="material-icons md-light md-48"> check_circle </md-icon>
-                  </md-button>
-                  <p>Availability</p>
-                </div>
-              </md-list-item>
-              <md-list-item class="md-2-line">
-                <div class="md-list-item-text" layout="column" style="text-align:center">
-                  <md-button ng-href="stats.html" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
-                    <md-tooltip md-direction="right">Team statistics</md-tooltip>
-                    <md-icon class="material-icons md-light md-48"> insert_chart </md-icon>
-                  </md-button>
-                  <p>Stats</p>
-                </div>
-              </md-list-item>
-              <md-list-item class="md-2-line">
-                <div class="md-list-item-text" layout="column" style="text-align:center">
-                  <md-button ng-href="teamAdmin.html" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
-                    <md-tooltip md-direction="right">Team Admin</md-tooltip>
-                    <md-icon class="material-icons md-light md-48"> insert_chart </md-icon>
-                  </md-button>
-                  <p>Admin</p>
-                </div>
-              </md-list-item>
-
-            </md-list>
-          </md-sidenav>
-        </div>
-
+      <sidenav></sidenav>
 
       <div ng-show="true" flex-xs="column" flex-gt-xs="45" layout="column">
-        <span ng-show="main.view == 'news_view'">
-          <news></news>
-        </span>
-        <span ng-show="main.view == 'fixtures_view'">
-          <fixtures></fixtures>
-        </span>
-        <span ng-show="main.view == 'players_view'">
-          <players></players>
-        </span>
-        <span ng-show="main.view == 'availability_view'">
-          <availability></availability>
-        </span>
+        <div ng-view></div>
       </div>
 
+      <!-- the chat component -->
+      <div ng-hide="!main.authSvc.isInTeam(properties.teamId) || main.authSvc.getView() == 'no_chat'" flex-xs="auto" flex-gt-xs="25" layout-sm="column" >
+          <chat></chat>
+      </div>
 
-
-        <!-- the chat component -->
-        <div ng-hide="main.view == 'availability_view'" flex-xs="auto" flex-gt-xs="25" layout-sm="column" >
-            <chat></chat>
-        </div>
-
-        <!-- the Who's online component -->
-        <div ng-hide="main.view == 'availability_view'" flex-xs="" flex-gt-xs="20" layout-sm="column">
-          <div style="padding:10px">
-            <md-toolbar style=""><h4>&nbsp;Inbox</h4></md-toolbar>
-            <div md-whiteframe="4" style="height:400px;overflow:auto">
-              <mail></mail>
-            </div>
+      <!-- the Who's online component -->
+      <div ng-hide="!main.authSvc.isInTeam() || main.authSvc.getView() == 'no_chat'" flex-xs="" flex-gt-xs="20" layout-sm="column">
+        <div >
+          <!--<md-toolbar style=""><h4>&nbsp;Inbox</h4></md-toolbar>
+          <div md-whiteframe="4" style="height:400px;overflow:auto">
+            <mail></mail>
+          </div> -->
           <online></online>
-          </div>
         </div>
-      </span>
+      </div>
     </md-content>
   </div>
 </body>

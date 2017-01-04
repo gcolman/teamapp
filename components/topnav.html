@@ -1,6 +1,6 @@
 <md-toolbar style="position:relative">
   <div layout="row">
-              <div layout="row" ng-app="myApp" ng-controller="authCtl as auth" ng-switch="auth.isAuthenticated()">
+              <div layout="row" flex ng-app="myApp" ng-controller="authCtl as auth" ng-switch="auth.isAuthenticated()">
                 <md-menu>
                       <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
                         <md-icon class="material-icons md-light md-48"> dehaze </md-icon>
@@ -19,7 +19,7 @@
                           </md-button>
                         </md-menu-item>
                         <md-menu-item ng-switch-when="false">
-                          <md-button  ng-href="userRegistration.html">
+                          <md-button  ng-href="/userRegistration">
                             <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
                             New User Register
                           </md-button>
@@ -64,7 +64,66 @@
                         </md-menu-item>
                       </md-menu-content>
                     </md-menu>
+                    <div flex="100" layout="row">
+                      <div flex="70">
+                        <span class="md-toolbar-tools">{{$ctrl.properties.clubName}} - {{$ctrl.properties.teamName}} {{$ctrl.properties.ageGroup}} {{$ctrl.properties.bg}} &nbsp;&nbsp;&nbsp;  
+                          <md-button ng-href="/main" class="md-fab md-mini md-primary" style="padding-top:8px">
+                            <md-icon  class="material-icons md-light md-48" > keyboard_return </md-icon>
+                            <md-tooltip md-direction="right">change team</md-tooltip>
+                          </md-button>
+                        </span>
+                      </div>
+                    </div>
+                        <span class="md-toolbar-tools">
+                          <div ng-switch-when="true">
+                            logged in as: <b> {{$ctrl.properties.username}} </b> |
+                            <md-menu>
+                                  <md-button  ng-href="/main" class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:8px" ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
+                                      <md-icon  class="material-icons md-light md-48" > mail </md-icon>
+                                      <md-tooltip md-direction="right">messages</md-tooltip>
+                                    </md-button>
+                                  <md-menu-content >
+                                    <md-menu-item>
+
+                                      <md-toolbar style="min-height:25px"><b>Messages</b></md-toolbar>
+
+                                    </md-menu-item>
+                                      <div ng-repeat="msg in $ctrl.messageService.mailCollection track by $index" >
+                                        <md-card class="md-accent" >
+
+                                            <md-card-header  layout="row" md-colors="::{backgroundColor: 'default-primary-400'}">
+                                               <div flex="90">
+                                                 <b>{{msg.from}}</b>({{$ctrl.formatDate(msg.date)}})
+                                               </div>
+                                               <div flex>
+                                                    <md-icon ng-click="$ctrl.removeMessage(msg._id)" class="material-icons md-light md-48" > delete </md-icon>
+                                               </div>
+                                            </md-card-header>
+                                               <div style="position:relative;width:400px;padding:10px;">{{msg.body}}</div>
+                                             </div>
+                                         </md-card>
+
+                                      </md-menu-content>
+                                      </md-menu>
+                                        <span style="position:absolute;margin-left:-15px;margin-top:-10px;font-size:small">
+                                          {{$ctrl.messageService.mailCollection.length}}
+                                        </span>
+                                           <md-button  ng-href="/main" class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:8px">
+                                              <md-icon  class="material-icons md-light md-48" > settings </md-icon>
+                                              <md-tooltip md-direction="right">settings</md-tooltip>
+                                            </md-button>
+                                           <md-button  ng-href="/main" ng-click="$ctrl.logout()" class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:8px">
+                                              <md-icon  class="material-icons md-light md-48" > power_settings_new </md-icon>
+                                              <md-tooltip md-direction="right">logout</md-tooltip>
+                                            </md-button>
+                                      </div>
+
+
+                          </div>
+                        </span>
+                      <div>
+                    </div
               </div>
-    <span class="md-toolbar-tools">FC Chippenham Youth - Onyx U12 Girls</span>
+
     </div>
 </md-toolbar>

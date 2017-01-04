@@ -42,13 +42,13 @@ var wsserver = ws.createServer(function (conn) {
     console.log("New connection " +chatHistory.length)
     //var connection = request.accept('echo-protocol', request.origin);
     connections.push(conn);
-    for(i=0;i<chatHistory.length;i++) {
+    /*for(i=0;i<chatHistory.length;i++) {
       //console.log("sending " +chatHistory[i] +" to connection ");
       conn.sendText(chatHistory[i]);
       if(i>100) {
         break;
       }
-    }
+    }*/
 
     conn.on('error', function (err) {
         if (err.code !== 'ECONNRESET') {
@@ -61,15 +61,33 @@ var wsserver = ws.createServer(function (conn) {
     })
 
     conn.on("text", function (str) {
-        console.log("Received "+str +" number of connections = " +connections.length)
-        //Don't store messages that are not plain chats.
-        if(str[0] != "{" && str.substring(0,6) != "REMOVE") {
-          chatHistory.push(str);
-        }
+        // If a new connection then get all of that channel's message history and send through to the channel,
+        //checking the clubteam id of the message with the cliubteam sent through in the NEW_CONNECT string
+        if(str.split(',')[0] == "NEW_CONNECT") {
+          id=str.split(',')[1];
+          x=0;
+          for(i=0;i<chatHistory.length;i++) {
+            msgid=chatHistory[i].split(',')[0];
+            //console.log(id +"==" +msgid);
+            if(msgid == id) {
+              conn.sendText(chatHistory[i]);
+              x++;
+              if(x>100) {
+                break;
+              }
+            }
+          }
+        } else {
+          console.log("Received "+str +" number of connections = " +connections.length)
+          //Don't store messages that are not plain chats.
+          if(str[0] != "{" && str.substring(0,6) != "REMOVE") {
+            chatHistory.push(str);
+          }
 
-        // Resend the message to all other listeners
-        for(var i = 0; i < connections.length; i++) {
-            connections[i].sendText(str);
+          // Resend the message to all other listeners
+          for(var i = 0; i < connections.length; i++) {
+              connections[i].sendText(str);
+          }
         }
     })
 
@@ -114,11 +132,28 @@ app.get('/getCollection', function (req, res) {
 })
 
 /**
+* generic get all documents from a collection using the quiery param "collection"
+*/
+app.get('/getInCollection', function (req, res) {
+      console.log( "/getInCollection : " +req.query.collection +" IN " +req.query.instring);
+      findDocumentsByString(db, req.query.collection,  JSON.parse(req.query.instring), function(docs) {
+        res.end( JSON.stringify(docs) );
+      });
+})
+
+app.post('/updateCollection', jsonParser, function (req, res) {
+    console.log("/updateColection: " +req.query.collection +" " +req.query.key +" = " +req.query.id);
+      updateDocument(db, req.query.collection, req.query.key, +req.query.id, req.body, function(docs) {
+        res.end(JSON.stringify(docs));
+    });
+})
+
+/**
 * Players
 */
 app.get('/getPlayers', function (req, res) {
       console.log( "/getPalyers : " +req );
-      findAllDocuments(db, 'players', false,  null, null, function(docs) {
+      findAllDocuments(db, req.query.club +"_" +req.query.team +'_players', true,  "SquadNo", "asc", function(docs) {
         res.end( JSON.stringify(docs) );
       });
 
@@ -126,36 +161,61 @@ app.get('/getPlayers', function (req, res) {
 
 app.get('/getPlayersWithStats', function (req, res) {
       console.log( "/getPalyers : " +req );
-      findAllDocuments(db, 'players', false,  null, null, function(docs) {
+      findAllDocuments(db, req.query.club +"_" +req.query.team +'_players', true,  "SquadNo", "1", function(docs) {
         var stats = getAllStats(function(stats){
           docs.forEach(function(player) {
               //add the stat to the player.
               player["gameStats"] = stats[player.IDNumber];
           });
             res.end( JSON.stringify(docs) );
-        });
+        }, req, res);
       });
 
 })
 
 app.get('/getPlayer', function (req, res) {
       console.log( "/getPlayer : " +req.query.id );
-      findDocumentsByID(db, 'players', 'IDNumber', +req.query.id, function(docs) {
+      findDocumentsByID(db, req.query.club +"_" +req.query.team +'_players', 'IDNumber', +req.query.id, function(docs) {
         //console.log(JSON.stringify(docs) );
         res.end(docs);
       });
 })
 
-app.get('/addPlayer', function (req, res) {
-      console.log( "/addPlayer : " +req );
+app.get('/removePlayer', function (req, res) {
+      console.log( "/removePlayer : " +req );
+      removeDocument(db, req.query.club +"_" +req.query.team +'_players', 'IDNumber', +req.query.id, function(docs) {
+        //console.log(JSON.stringify(docs) );
+        res.end(docs);
+    });
       res.end( "xxxxx" );
 })
+
+app.post('/updatePlayer', jsonParser, function (req, res) {
+      console.log("Updaterere" +JSON.stringify(req.body));
+      updateDocument(db, req.query.club +"_" +req.query.team +'_players', 'IDNumber', +req.body.IDNumber, req.body, function(docs) {
+        res.end(JSON.stringify(docs));
+      //res.end(docs);
+    });
+})
+
+app.post('/addPlayer', jsonParser, function (req, res) {
+  getNextSeq("userid", function(id) {
+    req.body.userid=id;
+       addDocument(db, req.query.club +"_" +req.query.team +'_players', req.body, function(docs,err) {
+          if(err) {
+              console.log("ERROR IN addPlayer");
+          }
+          res.end(JSON.stringify(docs));
+      });
+  });
+})
+
+
 
 app.get('/getStats', function (req, res) {
       console.log( "/getStats : " +req.query.id );
       findAllDocuments(db, 'stats', false, null, null, function(docs) {
-        //console.log(JSON.stringify(docs) );
-        res.end(docs);
+        //console.log(JSON.stringify        res.end(docs);
       });
 })
 
@@ -177,14 +237,39 @@ app.get('/updataStat', function (req, res) {
 
 app.get('/getAllStats', function (req, res) {
       console.log( "/getAllStats : " +req );
-      res.end( JSON.stringify(getAllStats()) );
+      res.end( JSON.stringify(getAllStats(req, res)) );
 })
 
-var getAllStats= function(cb) {
+
+/*var getTeamStats= function(cb, req, res) {
+    console.log("/getTeamStats");
+    var teamstats={};
+    teamstats.totalgames=0;
+    teamstats.totalwon=0;
+    teamstats.totaldrawn=0;
+    teamstats.totallost=0;
+    teamstats.gameseq="";
+
+
+    //get all fixtures
+    findAllDocuments(db, req.query.club +"_" +req.query.team +'_fixtures', true,  DATE, 1, function(fixtures) {
+        fixtures.forEach(function(fix){
+          if(fix.HOMESCORE != '-') {
+            if(fix.HOMETEAM == properties.myTeam)
+          }
+
+        });
+        //console.log(stats);
+        cb(teamstats);
+        return stats;
+    });
+}*/
+
+var getAllStats= function(cb, req, res) {
     console.log("/getAllStats");
     var stats={};
     //get all fixtures
-    findAllDocuments(db, 'fixtures', false,  null, null, function(fixtures) {
+    findAllDocuments(db, req.query.club +"_" +req.query.team +'_fixtures', false,  null, null, function(fixtures) {
         fixtures.forEach(function(fix){
           //console.log(fix.SCORERS);
             for(i=0; i<fix.availability.length; i++) {
@@ -200,6 +285,7 @@ var getAllStats= function(cb) {
                   stat.NoPlay = 0;
                   stat.NoAnswer = 0;
                   stat.Goals = 0;
+                  stat.Paid = 0;
                   stats[fix.availability[i].id] = stat;
                 } else {
                   stat = stats[stats[fix.availability[i].id]]
@@ -218,6 +304,8 @@ var getAllStats= function(cb) {
                   stats[fix.availability[i].id].NoPlay = ++stats[fix.availability[i].id].NoPlay ;
                 } else if(fix.availability[i].available == "C") {
                   stats[fix.availability[i].id].NoAnswer = ++stats[fix.availability[i].id].NoAnswer ;
+                } else if(fix.availability[i].available == "£") {
+                  stats[fix.availability[i].id].Paid = ++stats[fix.availability[i].id].Paid ;
                 }
               }
             }
@@ -236,39 +324,15 @@ var getAllStats= function(cb) {
         //console.log(stats);
         cb(stats);
         return stats;
-
     });
-
 }
 
 
-app.get('/removePlayer', function (req, res) {
-      console.log( "/removePlayer : " +req );
-      removeDocument(db, 'players', 'IDNumber', +req.query.id, function(docs) {
-        //console.log(JSON.stringify(docs) );
-        res.end(docs);
-    });
-      res.end( "xxxxx" );
-})
-
-app.post('/updatePlayer', jsonParser, function (req, res) {
-      console.log("Updaterere" +JSON.stringify(req.body));
-      updateDocument(db, 'players', 'IDNumber', +req.body.IDNumber, req.body, function(docs) {
-        res.end(JSON.stringify(docs));
-      //res.end(docs);
-    });
-})
-
-app.post('/addPlayer', jsonParser, function (req, res) {
-     addDocument(db, 'players', req.body, function(docs) {
-       if(err) throw err;
-        res.end(JSON.stringify(docs));
-      //res.end(docs);
-    });
-})
-
 app.post('/addClub', jsonParser, function (req, res) {
-  console.log("REGISTER CLUB " +JSON.stringify(req.body));
+  req.body.administrators = [];
+  user = req.query.userid;
+  req.body.administrators[0] = user;
+  //console.log("REGISTER CLUB " +JSON.stringify(req.body));
   getNextSeq("userid", function(id) {
     req.body.clubId=id;
        addDocument(db, 'clubs', req.body, function(docs,err) {
@@ -283,6 +347,9 @@ app.post('/addClub', jsonParser, function (req, res) {
 })
 
 app.post('/addTeam', jsonParser, function (req, res) {
+  req.body.administrators = [];
+  user = req.query.userid;
+  req.body.administrators[0] = user;
   console.log("REGISTER TEAM " +JSON.stringify(req.body));
   getNextSeq("userid", function(id) {
 
@@ -295,11 +362,19 @@ app.post('/addTeam', jsonParser, function (req, res) {
       });
 
   });
-
 })
 
+app.post('/updateTeam', jsonParser, function (req, res) {
+      console.log( "/updateTeam : " +JSON.stringify(req.body) );
+      updateDocument(db, "teams" , 'teamId', req.body.teamId, req.body, function(docs) {
+      res.end(JSON.stringify(docs));
+    });
+})
+
+
 app.post('/addMessage', jsonParser, function (req, res) {
-     addDocument(db, 'mail', req.body, function(docs) {
+     //addDocument(db, req.query.club +"_" +req.query.team +'_mail', req.body, function(docs) {
+       addDocument(db, 'mail', req.body, function(docs) {
         res.end(JSON.stringify(docs));
       //res.end(docs);
     });
@@ -308,6 +383,7 @@ app.post('/addMessage', jsonParser, function (req, res) {
 app.get('/getMessages', function (req, res) {
       console.log( "/getMessaes : " +req );
       var qstr='{"to":"' +req.query.to +'"}';
+      //findDocumentsByString(db, req.query.club +"_" +req.query.team +'_mail',  JSON.parse(qstr), function(docs) {
       findDocumentsByString(db, 'mail',  JSON.parse(qstr), function(docs) {
         res.end( JSON.stringify(docs) );
       });
@@ -315,6 +391,7 @@ app.get('/getMessages', function (req, res) {
 
 app.get('/removeMessage', function (req, res) {
       val="ObjectId('" +req.query.id +"')";
+      //removeDocumentById(db, req.query.club +"_" +req.query.team +'_mail', '_id', req.query.id , null, function(docs) {
       removeDocumentById(db, 'mail', '_id', req.query.id , null, function(docs) {
         res.end(docs);
     });
@@ -333,7 +410,7 @@ app.get('/getUser', function (req, res) {
 
 app.get('/getUsers', function (req, res) {
       console.log( "/getUsers : " +req );
-      findAllDocuments(db, 'users', false,  "lastlogin", null, function(docs) {
+      findAllDocuments(db, 'users', true,  "lastlogin", 1, function(docs) {
         //console.log(docs);
         res.end( JSON.stringify(docs) );
       });
@@ -349,9 +426,7 @@ app.post('/addUser', jsonParser, function (req, res) {
           }
           res.end(JSON.stringify(docs));
       });
-
   });
-
 })
 
 app.post('/updateUser', jsonParser, function (req, res) {
@@ -387,17 +462,26 @@ app.post('/login', jsonParser, function (req, res) {
 ** News
 */
 app.get('/getNews', function (req, res) {
-      console.log( "/getNews : " +req );
-      findAllDocuments(db, 'news', false,  null, null, function(docs) {
+      console.log( "/getNews : " +req.query.club +" " +req.query.team );
+      findAllDocuments(db, req.query.club +'_' +req.query.team +'_news', false,  null, null, function(docs) {
         res.end( JSON.stringify(docs) );
       });
 })
 
 app.post('/updateNews', jsonParser, function (req, res) {
-      updateDocument(db, 'news', 'IDNumber', +req.body.IDNumber, req.body, function(docs) {
-        res.end(JSON.stringify(docs));
-      //res.end(docs);
-    });
+     id = req.body.IDNumber;
+      if(id == undefined) {
+        getNextSeq("newsid", function(id) {
+          req.body.IDNumber=id;
+          addDocument(db, req.query.club +"_" +req.query.team +'_news', req.body, function(docs) {
+             res.end(JSON.stringify(docs));
+         });
+       });
+      } else {
+        updateDocument(db, req.query.club +"_" +req.query.team +'_news', 'IDNumber', id, req.body, function(docs) {
+          res.end(JSON.stringify(docs));
+        });
+      }
 })
 
 /**
@@ -405,7 +489,7 @@ app.post('/updateNews', jsonParser, function (req, res) {
 */
 app.get('/getFixtures', function (req, res) {
       console.log( "/getFixtures : " +req );
-      findAllDocuments(db, 'fixtures', true, 'DATE', '1', function(docs) {
+      findAllDocuments(db, req.query.club +"_" +req.query.team +'_fixtures', true, 'FIXTUREDATE', '1', function(docs) {
         res.end( JSON.stringify(docs) );
       });
 })
@@ -415,21 +499,34 @@ app.get('/getFixture', function (req, res) {
       res.end( "xxxxx" );
 })
 
-app.get('/addFixture', function (req, res) {
+app.post('/addFixture', jsonParser, function (req, res) {
       console.log( "/addFixture : " +req );
-      res.end( "xxxxx" );
+      getNextSeq("userid", function(id) {
+        req.body.id=id;
+         addDocument(db, req.query.club +"_" +req.query.team +'_fixtures', req.body, function(docs,err) {
+            if(err) {
+                console.log("ERROR IN addUser");
+            }
+            res.end(JSON.stringify(docs));
+        });
+      });
 })
 
 app.get('/removeFixture', function (req, res) {
       console.log( "/removeFixture : " +req );
-      res.end( "xxxxx" );
+      removeDocument(db,  req.query.club +"_" +req.query.team +'_fixtures', 'id', req.query.id , function(docs,err) {
+        if(err) {
+            console.log("ERROR IN removeFixture " +err);
+        }
+        console.log("about to return from fix");
+        res.end(JSON.stringify(docs));
+    });
 })
 
 app.post('/updateFixture', jsonParser, function (req, res) {
       console.log( "/updateFixture : " +JSON.stringify(req.body) );
-
-      updateDocument(db, 'fixtures', 'id', req.body.id, req.body, function(docs) {
-
+      req.body.FIXTUREDATE = new Date(req.body.FIXTUREDATE);
+      updateDocument(db, req.query.club +"_" +req.query.team +'_fixtures' , 'id', req.body.id, req.body, function(docs) {
       res.end(JSON.stringify(docs));
       //res.end( "xxxxx" );
     });
@@ -468,21 +565,18 @@ var getNextSeq = function(sequenceName, callback){
 */
 var findAllDocuments = function(db, collection, sorted, sortfield, ascdesc, callback) {
   // Get the documents collection
+  console.log("findAllDocuments:" +collection);
   var collection = db.collection(collection);
   if (!sorted) {
-    console.log("not sort");
     collection.find().toArray(function(err, docs) {
       assert.equal(err, null);
       var tmp = JSON.stringify(docs);
       callback(docs);
     });
   } else {
-    //collection.find().sort(sortfield +":" +ascdesc).toArray(function(err, docs) {
-    console.log(sortfield +":" +ascdesc );
-    collection.find().sort({DATE: 1}).toArray(function(err, docs) {
+      collection.find({}, {"sort" : [[sortfield, ascdesc]]} ).toArray(function(err,docs) {
       assert.equal(err, null);
       var tmp = JSON.stringify(docs);
-      //console.log(tmp);
       callback(docs);
     });
   }
@@ -517,7 +611,27 @@ var findDocumentsByID = function(db, coll, key, value, callback) {
 * find Documents by ID, passing a numeric value for the ID
 */
 var findDocumentsByString = function(db, collection, qstr, callback) {
-  console.log(qstr);
+  console.log("findAllDocumentsByString " +collection +" " +qstr);
+  // Get the documents collection
+  var collection = db.collection(collection);
+  //var query = JSON.parse(qstr);
+  collection.find(qstr).toArray(function(err, docs) {
+    assert.equal(err, null);
+    if(docs.length >0) {
+      console.log("Found the following records "+docs);
+      callback(docs);//JSON.stringify(docs));
+    } else {
+      console.log("Empty result set for " +qstr);
+      callback("");
+    }
+  });
+}
+
+/**
+* find Documents with a key in a group, passing the in string already formatted
+*/
+var findDocumentsIn = function(db, collection, qstr, callback) {
+  console.log("findAllDocumentsIn " +collection +" " +qstr);
   // Get the documents collection
   var collection = db.collection(collection);
   //var query = JSON.parse(qstr);
@@ -536,9 +650,10 @@ var findDocumentsByString = function(db, collection, qstr, callback) {
 var updateDocument = function(db, coll, key, value, doc, callback) {
   // Get the documents collection
   var collection = db.collection(coll);
+  console.log(coll +">>" +key +" >> " +value);
   var qstr="{ \"" +key  +"\": " +value +" }";
   var query = JSON.parse(qstr);
-  console.log("replacing" +JSON.stringify(query) +" with " +JSON.stringify(doc));
+  console.log("replacing data in " +coll +" ID Query " +JSON.stringify(query) +" with " +JSON.stringify(doc));
   //console.log(JSON.stringify(doc));
 
   collection.update( query, doc, function(error, doc){
@@ -577,7 +692,7 @@ var addDocument = function(db, coll, doc, callback) {
   });
 }
 
-var removeDocument = function(db, coll, key, value, doc, callback) {
+var removeDocument = function(db, coll, key, value, callback) {
   // Get the documents collection
   var collection = db.collection(coll);
   var qstr="{ \"" +key  +"\":"  +value  +"}";
@@ -587,6 +702,7 @@ var removeDocument = function(db, coll, key, value, doc, callback) {
   collection.remove( query, function(error, record){
     if (error) throw error;
     console.log("data removed");
+    callback();
   });
 }
 
@@ -600,5 +716,6 @@ var removeDocumentById = function(db, coll, key, value, doc, callback) {
   collection.deleteOne( {_id: new mongodb.ObjectID(value)}, function(error, record){
     if (error) throw error;
     console.log("data removed");
+    callback(doc);
   });
 }

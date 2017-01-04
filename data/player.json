@@ -1,15 +1,15 @@
 {
 	"Player": "",
-	"IDNumber": 1,
-	"MembershipForm": "",
-	"WiltsFAForm": "",
-	"PassportPhoto": "",
-	"Cheque": "",
-	"Email": "",
-	"PhoneNo": "",
-	"Position": "",
-	"SquadNo": 1,
-	"DOB": "",
+	"IDNumber": 998,
+	"MembershipForm": "y",
+	"WiltsFAForm": "y",
+	"PassportPhoto": "y",
+	"Cheque": "y",
+	"Email": "g@f.com",
+	"PhoneNo": "34343434",
+	"Position": "GK",
+	"SquadNo": 77,
+	"DOB": "01/01/89",
 	"PersonalNotes": "",
 	"CoachingNotes": "",
 	"Address": "",
@@ -23,7 +23,7 @@
 			"skill": "Short range passing",
 			"score": "0"
 		}, {
-			"skill": "Long range Â passing",
+			"skill": "Long range passing",
 			"score": "0"
 		}, {
 			"skill": "Use both feet",
@@ -74,7 +74,7 @@
 			"skill": "Anticipation",
 			"score": "0"
 		}, {
-			"skill": "Vision Â [with / without the Ball]",
+			"skill": "Vision [with / without the Ball]",
 			"score": "0"
 		}, {
 			"skill": "Support Play",

@@ -1,4 +1,4 @@
-<div ng-cloak="" >
+<div ng-app="myApp" ng-controller="registerController as rc" ng-cloak="" >
   <md-content class="md-padding" layout-xs="column" layout="row" >
     <div flex="60" layout="column">
       <md-content>
@@ -21,8 +21,8 @@
                       <div layout="row" layout-align="end center">
                         <p>Select your club ( or register a new club if you haven't already)</p>&nbsp;
                         <md-input-container>
-                          <md-select aria-label="club" ng-model="$ctrl.team.clubId">
-                            <md-option ng-value="club.clubId" ng-repeat="club in $ctrl.clubs">{{ club.clubName }}</md-option>
+                          <md-select aria-label="club" ng-model="rc.team.clubId">
+                            <md-option ng-value="club.clubId" ng-repeat="club in rc.clubs">{{ club.clubName }}</md-option>
                           </md-select>
                         </md-input-container>
                       </div>
@@ -43,57 +43,57 @@
                             <md-input-container>
                               <label>Team Name</label>
                                 <md-icon class="material-icons md-light md-48"> face </md-icon>
-                                <input ng-model="$ctrl.team.teamName" required  type="text">
+                                <input ng-model="rc.team.teamName" required  type="text">
                             </md-input-container>
                             <md-input-container>
                               <label>Affiliate FA</label>
                               <md-icon class="material-icons md-light md-48"> person </md-icon>
-                              <input ng-model="$ctrl.team.teamFA" required  type="text">
+                              <input ng-model="rc.team.teamFA" required  type="text">
                             </md-input-container>
                             <md-input-container>
                               <label>League</label>
                               <md-icon class="material-icons md-light md-48"> person </md-icon>
-                              <input ng-model="$ctrl.team.teamLeague"   type="text">
+                              <input ng-model="rc.team.teamLeague"   type="text">
                             </md-input-container>
                             <div layout="row">
                               <md-input-container>
                                 <label>Manager Name</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.team.teamManager" required  type="text">
+                                <input ng-model="rc.team.teamManager" required  type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Coach 1 Name</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.team.teamCoach1"   type="text">
+                                <input ng-model="rc.team.teamCoach1"   type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Coach 2 Name</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.team.teamCoach2"   type="text">
+                                <input ng-model="rc.team.teamCoach2"   type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Coach 3 Name</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.team.teamCoach3"   type="text">
+                                <input ng-model="rc.team.teamCoach3"   type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Coach 4 Name</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.team.teamCoach4"   type="text">
+                                <input ng-model="rc.team.teamCoach4"   type="text">
                               </md-input-container>
                             </div>
                           </div>
                           <div layout="row" layout-align="end end">
                             <md-input-container>
-                              <md-button class=" md-raised md-mini md-primary"  ng-click="$ctrl.registerTeam($ctrl.team)">Register</md-button>
+                              <md-button class=" md-raised md-mini md-primary"  ng-click="rc.registerTeam(rc.team)">Register</md-button>
                             </md-input-container>
                           </div>
                           </div>
@@ -130,61 +130,61 @@
                             <md-input-container>
                               <label>Your email (you will receive registration login details)</label>
                                 <md-icon class="material-icons md-light md-48"> face </md-icon>
-                                <input ng-model="$ctrl.club.clubAdminEmail" required  type="text">
+                                <input ng-model="rc.club.clubAdminEmail" required  type="text">
                             </md-input-container>
                             <md-input-container>
                               <label>Club Name</label>
                                 <md-icon class="material-icons md-light md-48"> face </md-icon>
-                                <input ng-model="$ctrl.club.clubName" required  type="text">
+                                <input ng-model="rc.club.clubName" required  type="text">
                             </md-input-container>
                             <md-input-container>
                               <label>Affiliate FA</label>
                               <md-icon class="material-icons md-light md-48"> person </md-icon>
-                              <input ng-model="$ctrl.club.clubFA" required  type="text">
+                              <input ng-model="rc.club.clubFA" required  type="text">
                             </md-input-container>
                             <md-input-container>
                               <label>Club Address</label>
                               <md-icon class="material-icons md-light md-48"> person </md-icon>
-                              <input ng-model="$ctrl.club.address1" required  type="text">
+                              <input ng-model="rc.club.address1" required  type="text">
                             </md-input-container>
                             <div layout="row">
                               <md-input-container>
                                 <label>Address 2</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.address2" required  type="text">
+                                <input ng-model="rc.club.address2" required  type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Address 3</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.address3"   type="text">
+                                <input ng-model="rc.club.address3"   type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Town</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.addressTown"   type="text">
+                                <input ng-model="rc.club.addressTown"   type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>County</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.addressCounty" required  type="text">
+                                <input ng-model="rc.club.addressCounty" required  type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Country</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.addressCountry" required type="text">
+                                <input ng-model="rc.club.addressCountry" required type="text">
                               </md-input-container>
                               <md-input-container>
                                 <label>Postcode</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.addressPostcode" required  type="text">
+                                <input ng-model="rc.club.addressPostcode" required  type="text">
                               </md-input-container>
                             </div>
 
@@ -192,32 +192,32 @@
                               <md-input-container>
                                 <label>Club Secretary</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.clubSecretary" required  type="text">
+                                <input ng-model="rc.club.clubSecretary" required  type="text">
                               </md-input-container>
                               <md-input-container>
                                 <label>Email</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.clubEmail"   type="text">
+                                <input ng-model="rc.club.clubEmail"   type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Club Website</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.clubWebsite"   type="text">
+                                <input ng-model="rc.club.clubWebsite"   type="text">
                               </md-input-container>
                             </div>
                             <div layout="row">
                               <md-input-container>
                                 <label>Club Colours</label>
                                 <md-icon class="material-icons md-light md-48"> person </md-icon>
-                                <input ng-model="$ctrl.club.clubColours"   type="text">
+                                <input ng-model="rc.club.clubColours"   type="text">
                               </md-input-container>
                             </div>
                           </div>
                           <div layout="row" layout-align="end end">
                             <md-input-container>
-                              <md-button class=" md-raised md-mini md-primary"  ng-click="$ctrl.registerClub($ctrl.club)">Register</md-button>
+                              <md-button class=" md-raised md-mini md-primary"  ng-click="rc.registerClub(rc.club)">Register</md-button>
                             </md-input-container>
                           </div>
                           </div>

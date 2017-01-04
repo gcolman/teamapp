@@ -1,8 +1,21 @@
-var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDialog','ngCookies','textAngular', 'ngWebSocket','ngFileUpload', 'ngImgCrop']);
+
+var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDialog','ngCookies','textAngular', 'ngWebSocket','ngFileUpload', 'ngImgCrop', 'ngRoute', 'googlechart', 'percentCircle-directive', angularDragula(angular), 'digestHud']);
 'use strict';
+
+
+
+App.config( [ 'digestHudProvider', function( digestHudProvider ) {
+    digestHudProvider.enable();
+  // Optional configuration settings:
+  digestHudProvider.setHudPosition('top right'); // setup hud position on the page: top right, bottom left, etc. corner
+  digestHudProvider.numTopWatches = 20;  // number of items to display in detailed table
+  digestHudProvider.numDigestStats = 25;  // number of most recent digests to use for min/med/max stats
+}]);
+
 App.config( [ '$locationProvider', function( $locationProvider ) {
    $locationProvider.html5Mode( true );
 }]);
+
 
 App.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
@@ -11,45 +24,87 @@ App.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
   });
 
+  App.config(function($routeProvider) {
+      $routeProvider
+      .when("/", {
+          templateUrl : "routes/main.html",
+          controller : "mainController"
+      })
+      .when("/main", {
+          templateUrl : "routes/main.html",
+          controller : "mainController"
+      })
+      .when("/index", {
+          templateUrl : "routes/news.html",
+          controller : "newsController"
+      })
+      .when("/fixtures", {
+          templateUrl : "routes/fixtures.html",
+          controller : "fixtureController"
+      })
+      .when("/players", {
+          templateUrl : "routes/players.html",
+          controller : "playersController"
+      })
+      .when("/stats", {
+          templateUrl : "routes/stats.html",
+          controller : "statsController"
+      })
+      .when("/admin", {
+          templateUrl : "routes/admin.html",
+          controller : "adminController"
+      })
+      .when("/register", {
+          templateUrl : "routes/register.html"
+      })
+      .when("/userRegistration", {
+          templateUrl : "routes/user.html",
+          controller : "userController"
+      })
+      .when("/player", {
+          templateUrl : "routes/player.html",
+          controller : "playerController",
+      })
+      .when("/availability", {
+          templateUrl : "routes/availability.html",
+          controller : "availabilityController"
+      })
+      .when("/lineup", {
+          templateUrl : "routes/lineup.html",
+
+    });
+  });
 
 
   /*****************************************************************
   * Message Factory
   *****************************************************************/
   App.value('properties',{
-    username: "Rob",
-    teamName:"Opals",
-    teamId:90,
-    clubName:"FC Chippenham Youth",
-    clubId:67,
-    ageGroup: "U12",
-    bg: "Girls"
+    username: "",
+    userid: 00,
+    myClub: 00,
+    myTeam: 00,
+    selectedClub: {},
+    selectedTeam: {},
+    teamName:"",
+    teamId:00,
+    clubName:"",
+    clubId: 00,
+    authRole: "",
+    ageGroup: "",
+    bg: "",
+    alphaClub: "",
+    alphaTeam: "",
+    fixtures: {},
+    players: {}
   });
 
-  App.service('props', function() {
-    this.username = "Rob";
-    this.teamName ="Opals";
-    this.teamId ="90";
-    this.clubName = "FC Chippenham Youth";
-    this.clubId = "67";
-    this.ageGroup= "U12";
-    this.bg ="Girls";
 
-    this.setClubName = function(clubName) {
-      console.log("Setting club to " +clubName);
-      this.clubName = clubName;
-    };
-
-    this.getClubName = function() {
-      console.log("Getting clubname" +this.clubName);
-      return this.clubName;
-    };
-  });
 
   /*****************************************************************
   * Message Factory
   *****************************************************************/
-  App.factory('messageService', function($websocket, authSvc, $http) {
+  App.factory('messageService', function($websocket, authSvc, $http, properties) {
      // Open a WebSocket connection
      var mailService = {};
      //TODO externalise
@@ -57,8 +112,9 @@ App.config(function($mdThemingProvider) {
      var chatCollection = [];
      var mailCollection = [];
 
+     console.log("Getting Messages for " +authSvc.getUsername());
 
-     $http.get("/getMessages?to=" +authSvc.getUsername()).then(function (response) {
+  /*   $http.get("/getMessages?to=" +authSvc.getUsername()+"&club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
          for(i=0;i<response.data.length;i++) {
            if(response.data[i].to != undefined && response.data[i].to != "") {
              //console.log("MAILSVC1 PUSHING = " +JSON.stringify(response.data[i]));
@@ -66,26 +122,27 @@ App.config(function($mdThemingProvider) {
            }
          }
        });
-
+*/
      dataStream.onMessage(function(message) {
        console.log("msg Received" +message.data);
-       if(message.data != undefined && message.data.substring(0,6) == "REMOVE") {
-         id=message.data.substring(7,message.data.length);
-         for(i=0;i<mailCollection.length;i++) {
-           if(mailCollection[i]._id == id) {
-             mailCollection.splice(i,1);
+         if(message.data != undefined && message.data.substring(0,6) == "REMOVE") {
+           id=message.data.substring(7,message.data.length);
+           for(i=0;i<mailCollection.length;i++) {
+             if(mailCollection[i]._id == id) {
+               mailCollection.splice(i,1);
+             }
            }
+         } else if(message.data != undefined && message.data[0] == "{") {
+           msgObject = JSON.parse(message.data);
+           //console.log(JSON.stringify(message.data) +" TO" +x.to +" USERNAME=" +authSvc.getUsername() );
+           if(msgObject.to == authSvc.getUsername()) {
+               //console.log("MAILSVC2 PUSHING" +JSON.stringify(msgObject));
+             mailCollection.push(JSON.parse(message.data));
+           }
+         } else if( message.data.split(',')[0] == properties.alphaClub + properties.alphaTeam ){
+           chatCollection.push(message.data);
          }
-       } else if(message.data != undefined && message.data[0] == "{") {
-         msgObject = JSON.parse(message.data);
-         //console.log(JSON.stringify(message.data) +" TO" +x.to +" USERNAME=" +authSvc.getUsername() );
-         if(msgObject.to == authSvc.getUsername()) {
-             //console.log("MAILSVC2 PUSHING" +JSON.stringify(msgObject));
-           mailCollection.push(JSON.parse(message.data));
-         }
-       } else {
-         chatCollection.push(message.data);
-       }
+
      });
 
      dataStream.onClose(function() {
@@ -109,7 +166,26 @@ App.config(function($mdThemingProvider) {
        },
        getMailMsg: function(){
          return mailCollection;
-       }
+       },
+       logoutMail: function(){
+         mailCollection.length = 0;
+         //chatCollection.length=0;
+       },
+       loginMail: function(){
+         dataStream.send("NEW_CONNECT," +properties.alphaClub +properties.alphaTeam);
+       },
+       getMessages: function(to, club, team){
+         //console.log("Getting messages");
+        $http.get("/getMessages?to=" +to +"&club=" +properties.alphaClub  +"&team=" +properties.alphaTeam ).then(function (response) {
+           for(i=0;i<response.data.length;i++) {
+             if(response.data[i].to != undefined && response.data[i].to != "") {
+               //console.log("MAILSVC1 PUSHING = " +JSON.stringify(response.data[i]));
+               mailCollection.push(response.data[i]);
+             }
+           }
+         });
+
+      }
      };
 
      return methods;
@@ -120,7 +196,9 @@ App.config(function($mdThemingProvider) {
    /*******************************
    * Auth Factory Service
    ********************************/
-   App.factory('authSvc', function($cookies, hashService) {
+   App.factory('authSvc', function($rootScope, $cookies, hashService, properties) {
+     var view = "news_view";
+     var currentPlayer = "0";
     return {
       getUsername : function() {
         return $cookies.get("user");
@@ -138,6 +216,14 @@ App.config(function($mdThemingProvider) {
       getRole : function() {
         return $cookies.get("role");
       },
+      isInTeam : function(team){
+        //console.log("IS IN TEAM " + properties.myTeam +properties.teamId);
+        if(properties.myTeam == properties.teamId) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       isTeamAdmin : function(){
         return $cookies.get("ita");
       },
@@ -147,7 +233,25 @@ App.config(function($mdThemingProvider) {
         } else {
           return false;
         }
-
+      },
+      getView : function(){
+        return self.view;
+      },
+      setView : function(view){
+        self.view = view;
+      },
+      getCurrentPlayer : function(){
+        return self.currentPlayer;
+      },
+      setCurrentPlayer : function(playerId){
+        self.currentPlayer = playerId;
+      },
+      logout : function(){
+        $cookies.remove("a199hhy78327772679hhy");
+        $cookies.remove("user");
+        $cookies.remove("role");
+        $cookies.remove("id");
+        $rootScope.$broadcast('auth', 'logout');
       }
 
     }
@@ -173,26 +277,55 @@ App.service('hashService', function () {
           return hash*day;
         }
     };
+
+    this.alpha = function(num) {
+      str = num.toString();
+      res = "";
+      for(alphacount=0;alphacount<str.length;alphacount++) {
+        res = res + String.fromCharCode(97 + parseInt(str[alphacount]));
+      }
+        return res;
+    };
+
 });
+
 
 /**
 * Auth Service
 *
 */
-App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashService) {
+App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashService, messageService, properties) {
 
   this.login = function(credential) {
-      delete credential["_id"];
-      var data= JSON.stringify(credential);
-      console.log(data);
+      if(credential != undefined) {
+        delete credential["_id"];
+      } else {
+        credential = {};
+        credential.username = "coach";
+        credential.password = "pw";
+      }
+      var data = JSON.stringify(credential);
+      console.log(">>>" +data);
+
+      if(credential == undefined) {
+        data.userid = "coach";
+        data.password = "pw";
+      }
+
       $http.defaults.headers.post["Content-Type"] = "application/json";
       $http.post("/login", data).success(function (data, status, headers, config) {
             if(data[0] != null) {
+              //Check if the user is valid for the club and
               console.log("SUCCESS" +JSON.stringify(data));
               $cookies.put("a199hhy78327772679hhy", hashService.hash(data[0].username, ""));
               $cookies.put("user", data[0].username);
               $cookies.put("role", data[0].authrole);
               $cookies.put("id", data[0].userid);
+              properties.username=data[0].username;
+              properties.myClub = data[0].club;
+              properties.myTeam = data[0].team;
+              properties.authRole = data[0].authrole;
+              properties.userid = data[0].userid;
               if(data[0].authrole == "teamadmin") {
                 $cookies.put("ita", 900000 );
               }
@@ -205,6 +338,7 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
               alert("invalid username or password");
             }
             ngDialog.close();
+            messageService.getMessages( data[0].username, properties.alphaClub, properties.alphaTeam);
           })
           .error(function (data, status, header, config) {
             alert(status);
@@ -236,18 +370,14 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
 /****************************************************************************
 ** Main app controler
 *****************************************************************************/
-  App.controller('appCtrl', function ($scope, $location, $cookies, props) {
+  App.controller('appCtrl', function ($scope, $location, $cookies, properties, authSvc, hashService) {
   var self = this;
-  this.prop = props;
-  self.view = "news_view";
+  self.properties = properties;
+  self.authSvc = authSvc;
+  authSvc.setView("news_view");
   var s = $location.search();
-  console.log("PROPERTIES" +props.getClubName());
-  //props.setClubName("lolololo");
-  //if team and club infor has been passed then set this on the browser
-  //properties.clubId = s.clubId
-  //properties.teamId = s.teamId
-  $cookies.put("club", s.club);
-  $cookies.put("team", s.team);
+
+  console.log("IN APPCTRL");
 
   // if a view url param is set then use that
   var requestedView = s.view;//window.location.search.substring(6);//$routeParams.view;//$location.search()['view'];
@@ -313,14 +443,15 @@ $http.get("/getPlayersWithStats").then(function (response) {
 
 });
 
-App.controller('newsCtl', function ($scope, $http, ngDialog) {
+App.controller('newsCtl', function ($scope, $http, ngDialog, properties) {
   var self = this;
   self.updateNews = function(news) {
     delete news["_id"];
+
     var data= JSON.stringify(news);
     console.log(data);
     $http.defaults.headers.post["Content-Type"] = "application/json";
-      $http.post("/updateNews", data).success(function (data, status, headers, config) {
+      $http.post("/updateNews?club=" +properties.alphaClub +"&team=" +properties.alphaTeam , data).success(function (data, status, headers, config) {
           ngDialog.close();
         })
         .error(function (data, status, header, config) {
@@ -332,7 +463,7 @@ App.controller('newsCtl', function ($scope, $http, ngDialog) {
 /***********************
 * AUTH CONTROLLER.
 ************************/
-App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ngDialog, hashService) {
+App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ngDialog, hashService, messageService) {
   var self = this;
 
   self.dologin = function(credential) {
@@ -341,6 +472,7 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
 
  self.login = function(credential) {
     authService.login(credential);
+    messageService.loginMail();
   };
 
   self.logout = function() {
@@ -349,19 +481,22 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
     $cookies.remove("role");
     $cookies.remove("id");
     $rootScope.$broadcast('auth', 'logout');
+    messageService.logoutMail();
   };
 
   self.isAuthenticated = function() {
       return authService.isAuthenticated();
   };
-    self.isAdmin = function() {
-      if(($cookies.get("a199hhy78327772679hhy") == hashService.hash($cookies.get("user"))) && ($cookies.get("role") == "admin")) {
-        console.log("admin");
-        return true;
-      } else {
-        console.log("notadmin");
-        return false;
-      }
+
+
+  self.isAdmin = function() {
+    if(($cookies.get("a199hhy78327772679hhy") == hashService.hash($cookies.get("user"))) && ($cookies.get("role") == "admin")) {
+      console.log("admin");
+      return true;
+    } else {
+      console.log("notadmin");
+      return false;
+    }
 
   };
 });
@@ -395,7 +530,7 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
   /***********************
   * INDPLAYER CONTROLLER.
   ************************/
-App.controller('indPlayerCtl', ['$scope', '$http','$window', function($scope, $http, $window, ngDialog) {
+/*App.controller('indPlayerCtl', ['$scope', '$http','$window', function($scope, $http, $window, ngDialog) {
   var self = this;
   self.mode = [];
   self.showDetails = true;
@@ -453,7 +588,7 @@ App.controller('indPlayerCtl', ['$scope', '$http','$window', function($scope, $h
   //Hack to receive a star clicked event... update player
   $scope.$on('statClicked', function(event, args) {self.updatePlayer();});
 
-}]);
+}]);*/
 
 
 
@@ -650,7 +785,7 @@ App.controller('starController', ['$scope', '$http', function ($scope, $http) {
     };
 
     $scope.click3 = function (param) {
-        //console.log('Click');
+        console.log('Click ' +param);
         $scope.score.score = param;
          $scope.$emit('statClicked', '');
     };
@@ -690,6 +825,40 @@ App.filter("trust", ['$sce', function($sce) {
     return $sce.trustAsHtml(htmlCode);
   }
 }]);
+
+/***********************
+* SELECTOR DIRECTIVE DIRECTIVE.
+************************/
+App.directive('selectDiv', function () {
+    return {
+        scope: { col: '@', row: '@', border: "@" , squadno: "@", player: "@", bag: "@", hasplayer: "@"},
+        restrict: 'EA',
+        template:
+          "<div ng-if=\"!hasplayer\" dragula=\'\"selectbag\"\' id=\"{{row+col}}\" style=\"width:45px;border-bottom:{{border}}px solid darkblue\"></div> \
+          <div ng-if=\"hasplayer\" dragula=\'\"selectbag\"\'  id=\"{{row+col}}\" style=\"width:45px;border-bottom:{{border}}px solid darkblue\"> \
+            <div align=\"center\"><img class=\"md-user-avatar\" src=\"images/people/players/player{{squadno}}.aspx\" style=\"width:35px\"/> \
+              <div style=\"text-align:center\"> \
+              {{player}} \
+            </div> \
+            </div> \
+          </div>"
+    };
+});
+
+App.directive('playerdiv', function () {
+    return {
+        scope: { squadno: "@", player: "@", playerid: "@"},
+        restrict: 'EA',
+        template:
+          "<div id=\"{{playerid}}\" align=\"center\"><img class=\"md-user-avatar\" src=\"images/people/players/player{{squadno}}.aspx\" style=\"width:35px\"/> \
+            <div style=\"text-align:center\"> \
+            {{player}} \
+          </div> \
+          </div>"
+    };
+});
+
+
 
 
 /***********************

@@ -2,6 +2,25 @@ div {
   border:0px solid darkblue;
 }
 
+.subsSelection {
+  width:45px;
+  border-bottom:1px solid darkblue;
+}
+
+.notAvailSelection {
+  height:55px;
+  border-bottom:0px solid darkblue;
+}
+
+.posSelection {
+  width:45px;
+  border-bottom:0px solid darkblue;
+}
+
+.ct-series-b .ct-bar,
+.ct-series-b .ct-point {
+  stroke: green;
+}
 
 .C {
   color:#9E9E9E;
@@ -31,7 +50,13 @@ div {
   color:#9E9E9E;
 }
 
-
+.rotate {
+-webkit-transform: rotate(-90deg);
+-moz-transform: rotate(-90deg);
+-ms-transform: rotate(-90deg);
+-o-transform: rotate(-90deg);
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
 
 .cropArea {
     background: #E4E4E4;
@@ -110,7 +135,6 @@ form .progress {
 
   .virtualRepeatdemoHorizontalUsage md-virtual-repeat-container {
     border: solid 1px grey; }
-
 
 
 

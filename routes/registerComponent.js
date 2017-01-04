@@ -1,6 +1,5 @@
-
-
-function registerController($scope,$http) {
+App.controller('registerController', function ($scope, $http, ngDialog, authSvc, properties) {
+  authSvc.setView("no_chat");
   var ctrl = this;
   var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
   $http.get("/getCollection?collection=clubs").then(function (response) {
@@ -20,10 +19,11 @@ function registerController($scope,$http) {
       });
 
     ctrl.registerClub = function (club) {
-      console.log("REGISTER " +JSON.stringify(club));
+      //console.log("REGISTER " +JSON.stringify(club));
       $http.defaults.headers.post["Content-Type"] = "application/json";
+      //console.log("USER = " +properties.userid);
       var data = JSON.stringify(club);
-      $http.post("/addClub", data).success(function (data, status, headers, config) {
+      $http.post("/addClub?userid=" +properties.userid, data).success(function (data, status, headers, config) {
 
         }).error(function (data, status, header, config) {
               alert(status);
@@ -31,19 +31,12 @@ function registerController($scope,$http) {
     };
 
     ctrl.registerTeam = function (team) {
-      console.log("REGISTER " +JSON.stringify(team));
+      //console.log("REGISTER " +JSON.stringify(team));
       $http.defaults.headers.post["Content-Type"] = "application/json";
       var data = JSON.stringify(team);
-      $http.post("/addTeam", data).success(function (data, status, headers, config) {
+      $http.post("/addTeam?userid=" +properties.userid, data).success(function (data, status, headers, config) {
         }).error(function (data, status, header, config) {
               alert(status);
         });
     };
-
-}
-
-
-angular.module('myApp').component('register', {
-  templateUrl: 'components/registerComponent.html',
-  controller: registerController
-});
+  });

@@ -1,25 +1,63 @@
 
 
-function availabilityController($scope, $http) {
+App.controller('availabilityController', function ($scope, $http, authSvc, properties) {
   var self = this;
   self.playerID = {};
   self.availstyle;
+  authSvc.setView("no_chat");
 
     //Fetch all of the games
     var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-    $http.get("/getFixtures").then(function (response) {
+    $http.get("/getFixtures?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
         self.games = response.data;
         self.monthx = 'NONE';
       });
 
     //Fetch all of the players
-    $http.get("/getPlayers").then(function (response) {
+    $http.get("/getPlayers?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
         self.players = response.data;
       });
 
-    //On clisking toggle the availability of a player
+    //On clisking, update the availability entry for that player.
     self.toggleAvilability = function(player, game) {
-        console.log("clicked " +player +game.HOMETEAM +"====" +game.availability[player].available );
+      var avail;
+        //get the availability entry
+        for(gav=0;gav<game.availability.length;gav++) {
+          if(game.availability[gav] != undefined && game.availability[gav].id == player) {
+            avail = game.availability[gav];
+            break;
+          }
+        }
+
+        console.log("clicked " +player +" " +avail.id);
+        if(avail.available =="C") {
+          avail.available  = "N";
+          this.availstyle="styleNAvail";
+        } else if (avail.available =="N") {
+          avail.available ="A";
+          this.availstyle="styleAvail";
+        } else if (avail.available =="A") {
+          avail.available ="S";
+          this.availstyle="styleSelected";
+        } else if (avail.available =="S") {
+          avail.available ="P";
+          this.availstyle="stylePlayed";
+        } else if (avail.available =="P") {
+          avail.available ="£";
+          this.availstyle="styleNoshow";
+        } else if (avail.available =="£") {
+          avail.available ="X";
+          this.availstyle="styleNoshow";
+        } else if (avail.available =="X") {
+          avail.available ="I";
+          this.availstyle="styleInjured";
+        } else if (avail.available =="I") {
+          avail.available ="C";
+          this.availstyle="styleClear";
+        }
+        this.updateFixture(game);
+
+  /*      console.log("clicked " +player +" " +game.availability[player].id);
         if(game.availability[player].available =="C") {
           game.availability[player].available  = "N";
           this.availstyle="styleNAvail";
@@ -46,8 +84,8 @@ function availabilityController($scope, $http) {
           this.availstyle="styleClear";
         }
         this.updateFixture(game);
-
-        return  game.availability[player].available;
+*/
+        return  avail.available;
     };
 
 
@@ -80,7 +118,7 @@ function availabilityController($scope, $http) {
       //console.log(data);
       //fixture.DATETIME = new Date("2020-09-10T10:30:00.000Z");
       $http.defaults.headers.post["Content-Type"] = "application/json";
-      $http.post("/updateFixture", fixture).success(function (fixture, status, headers, config) {
+      $http.post("/updateFixture?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, fixture).success(function (fixture, status, headers, config) {
 
           })
           .error(function (data, status, header, config) {
@@ -121,12 +159,4 @@ function availabilityController($scope, $http) {
         return day +'-Dec';
       }
     };
-
-
-
-}
-
-angular.module('myApp').component('availability', {
-  templateUrl: 'components/availabilityComponent.html',
-  controller: availabilityController
 });
