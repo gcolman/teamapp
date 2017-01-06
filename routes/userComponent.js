@@ -1,6 +1,6 @@
 
 
-App.controller('userController', function($scope, $http, authSvc, properties) {
+App.controller('userController', function($scope, $http, $mdToast, authSvc, properties) {
   var self = this;
   $scope.authSvc = authSvc;
   authSvc.setView("no_chat");
@@ -44,11 +44,18 @@ App.controller('userController', function($scope, $http, authSvc, properties) {
       });
 
 
-    self.save = function(dataUrl){
+    self.save = function(dataUrl, picfile){
         //console.log("User Saved:" +JSON.stringify(self.user));
         $http.defaults.headers.post["Content-Type"] = "application/json";
         //self.user.club = properties.clubId;
         //self.user.team = properties.teamId;
+
+        if(picfile == undefined) {
+          self.user.avatarUploaded=false;
+        } else {
+          self.user.avatarUploaded=true;
+        }
+
         var data = JSON.stringify(self.user);
 
         $http.post("/addUser?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, data).success(function (data, status, headers, config) {
@@ -89,6 +96,9 @@ App.controller('userController', function($scope, $http, authSvc, properties) {
         $http.defaults.headers.post["Content-Type"] = "application/json";
         //remove the ID field as this will fail to update.
         delete self.user["_id"];
+        if(picFile != undefined) {
+          self.user.avatarUploaded = true;
+        }
         var data = JSON.stringify(self.user);
         $http.post("/updateUser?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, data).success(function (data, status, headers, config) {
               if(typeof data.nModified != 1)  {

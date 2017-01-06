@@ -112,7 +112,7 @@ App.config(function($mdThemingProvider) {
      var chatCollection = [];
      var mailCollection = [];
 
-     console.log("Getting Messages for " +authSvc.getUsername());
+     console.log("Getting the Messages for " +authSvc.getUsername());
 
   /*   $http.get("/getMessages?to=" +authSvc.getUsername()+"&club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
          for(i=0;i<response.data.length;i++) {
@@ -168,6 +168,7 @@ App.config(function($mdThemingProvider) {
          return mailCollection;
        },
        logoutMail: function(){
+         console.log("LOGOUT MAIL");
          mailCollection.length = 0;
          //chatCollection.length=0;
        },
@@ -177,6 +178,7 @@ App.config(function($mdThemingProvider) {
        getMessages: function(to, club, team){
          //console.log("Getting messages");
         $http.get("/getMessages?to=" +to +"&club=" +properties.alphaClub  +"&team=" +properties.alphaTeam ).then(function (response) {
+          mailCollection.length=0;
            for(i=0;i<response.data.length;i++) {
              if(response.data[i].to != undefined && response.data[i].to != "") {
                //console.log("MAILSVC1 PUSHING = " +JSON.stringify(response.data[i]));
@@ -251,6 +253,9 @@ App.config(function($mdThemingProvider) {
         $cookies.remove("user");
         $cookies.remove("role");
         $cookies.remove("id");
+        $cookies.remove("username");
+        $cookies.remove("myClub");
+        $cookies.remove("myTeam");
         $rootScope.$broadcast('auth', 'logout');
       }
 
@@ -291,6 +296,17 @@ App.service('hashService', function () {
 
 
 /**
+*  Help service - to display help messages throughout the app
+*/
+App.service('helpService', function ($mdDialog, properties) {
+    this.showHelp = function(view) {
+      // popup the help dialog
+
+    };
+});
+
+
+/**
 * Auth Service
 *
 */
@@ -321,6 +337,9 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
               $cookies.put("user", data[0].username);
               $cookies.put("role", data[0].authrole);
               $cookies.put("id", data[0].userid);
+              $cookies.put("username", data[0].username);
+              $cookies.put("myClub", data[0].club);
+              $cookies.put("myTeam", data[0].team);
               properties.username=data[0].username;
               properties.myClub = data[0].club;
               properties.myTeam = data[0].team;
@@ -377,7 +396,7 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
   authSvc.setView("news_view");
   var s = $location.search();
 
-  console.log("IN APPCTRL");
+  //console.log("IN APPCTRL");
 
   // if a view url param is set then use that
   var requestedView = s.view;//window.location.search.substring(6);//$routeParams.view;//$location.search()['view'];
@@ -525,70 +544,6 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
                   });
       };
     });
-
-
-  /***********************
-  * INDPLAYER CONTROLLER.
-  ************************/
-/*App.controller('indPlayerCtl', ['$scope', '$http','$window', function($scope, $http, $window, ngDialog) {
-  var self = this;
-  self.mode = [];
-  self.showDetails = true;
-  self.showSection=[true, true, true, true, true, true, true];
-  self.showTechnical = true;
-  self.showTactical = true;
-  self.showSocial = true;
-  self.showPhysical = true;
-  self.showPsycological = true;
-
-  //console.log($window.location.search.substring(4));//$location.search()['id']);
-  var id = window.location.search.substring(4);//$routeParams.id;//$location.search()['id'];
-  if(id != null) {
-  //  id="607";
-  }
-
-    $http.get("getPlayer?id=" +id).then(function (response) {
-        self.player =   response.data;
-      });
-
-
-    $scope.rateFunction = function( rating ) {
-       var data = {
-         rating: rating
-       };
-    };
-
-    $scope.getLimits = function (stuff) {
-    return [
-        Math.floor(stuff.length / 2) + 1,
-        -Math.floor(stuff.length / 2)
-    ];
-  };
-
-  self.editCell = function(index) {
-    self.mode.length=0;
-    self.mode[index] = "edit";
-  };
-
-
-  //This needs to be set to ensure that the request is prperly formed.
-  var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-  self.updatePlayer = function() {
-      $http.defaults.headers.post["Content-Type"] = "application/json";
-      var data = JSON.stringify(self.player);
-      $http.post("/updatePlayer", self.player).success(function (data, status, headers, config) {
-                this.player = data;
-                self.mode.length=0;
-              })
-              .error(function (data, status, header, config) {
-                alert(status);
-              });
-  };
-
-  //Hack to receive a star clicked event... update player
-  $scope.$on('statClicked', function(event, args) {self.updatePlayer();});
-
-}]);*/
 
 
 
@@ -746,77 +701,6 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
     });
 
 
-
-
-    /***********************
-    * STAR CONTROLLER.
-    ************************/
-App.controller('starController', ['$scope', '$http', function ($scope, $http) {
-    $scope.starRating1 = $scope.score.score;
-    $scope.starRating2 = $scope.score.score;
-    $scope.starRating3 = $scope.score.score;
-    $scope.hoverRating1 = $scope.hoverRating2 = $scope.hoverRating3 = 0;
-
-    $scope.click1 = function (param) {
-    };
-
-    $scope.mouseHover1 = function (param) {
-        //console.log('mouseHover(' + param + ')');
-        $scope.hoverRating1 = param;
-    };
-
-    $scope.mouseLeave1 = function (param) {
-        //console.log('mouseLeave(' + param + ')');
-        $scope.hoverRating1 = param + '*';
-    };
-
-    $scope.click2 = function (param) {
-        console.log('Click');
-    };
-
-    $scope.mouseHover2 = function (param) {
-        //console.log('mouseHover(' + param + ')');
-        $scope.hoverRating1 = param;
-    };
-
-    $scope.mouseLeave2 = function (param) {
-        //console.log('mouseLeave(' + param + ')');
-        $scope.hoverRating2 = param + '*';
-    };
-
-    $scope.click3 = function (param) {
-        console.log('Click ' +param);
-        $scope.score.score = param;
-         $scope.$emit('statClicked', '');
-    };
-
-    $scope.mouseHover3 = function (param) {
-        //console.log('mouseHover(' + param + ')');
-        $scope.hoverRating3 = param;
-    };
-
-    $scope.mouseLeave3 = function (param) {
-        //console.log('mouseLeave(' + param + ')');
-        $scope.hoverRating3 = param + '*';
-    };
-
-    var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-    self.updatePlayer = function() {
-      alert("x");
-
-    $http.defaults.headers.post["Content-Type"] = "application/json";
-    var data = JSON.stringify(self.player);
-    $http.post("/updatePlayer", self.player).success(function (data, status, headers, config) {
-              this.player = data;
-              self.mode.length=0;
-            })
-            .error(function (data, status, header, config) {
-              alert(status);
-            });
-    };
-
-}]);
-
 /***********************
 * TRUST.
 ************************/
@@ -829,22 +713,6 @@ App.filter("trust", ['$sce', function($sce) {
 /***********************
 * SELECTOR DIRECTIVE DIRECTIVE.
 ************************/
-App.directive('selectDiv', function () {
-    return {
-        scope: { col: '@', row: '@', border: "@" , squadno: "@", player: "@", bag: "@", hasplayer: "@"},
-        restrict: 'EA',
-        template:
-          "<div ng-if=\"!hasplayer\" dragula=\'\"selectbag\"\' id=\"{{row+col}}\" style=\"width:45px;border-bottom:{{border}}px solid darkblue\"></div> \
-          <div ng-if=\"hasplayer\" dragula=\'\"selectbag\"\'  id=\"{{row+col}}\" style=\"width:45px;border-bottom:{{border}}px solid darkblue\"> \
-            <div align=\"center\"><img class=\"md-user-avatar\" src=\"images/people/players/player{{squadno}}.aspx\" style=\"width:35px\"/> \
-              <div style=\"text-align:center\"> \
-              {{player}} \
-            </div> \
-            </div> \
-          </div>"
-    };
-});
-
 App.directive('playerdiv', function () {
     return {
         scope: { squadno: "@", player: "@", playerid: "@"},
@@ -862,62 +730,7 @@ App.directive('playerdiv', function () {
 
 
 /***********************
-* STAR DIRECTIVE.
-************************/
-App.directive('starRating', function () {
-    return {
-        scope: { rating: '=', maxRating: '@', readOnly: '@',  click: "&", mouseHover: "&", mouseLeave: "&" },
-        restrict: 'EA',
-        template:
-            "<div style='display: inline-block; margin: 0px; padding: 0px; cursor:pointer;' ng-repeat='idx in maxRatings track by $index'> \
-                    <img ng-src='{{((hoverValue + _rating) <= $index) && \"images/icons/star-empty-lg.png\" || \"images/icons/star-fill-lg.png\"}}' \
-                    ng-Click='isolatedClick($index + 1)' \
-                    ng-mouseenter='isolatedMouseHover($index + 1)' \
-                    ng-mouseleave='isolatedMouseLeave($index + 1)'></img> \
-            </div>",
-        compile: function (element, attrs) {
-            if (!attrs.maxRating || (Number(attrs.maxRating) <= 0)) {
-                attrs.maxRating = '5';
-            };
-        },
-        controller: function ($scope, $element, $attrs) {
-            $scope.maxRatings = [];
-
-            for (var i = 1; i <= $scope.maxRating; i++) {
-                $scope.maxRatings.push({});
-            };
-
-            $scope._rating = $scope.rating;
-
-      			$scope.isolatedClick = function (param) {
-      				if ($scope.readOnly == 'true') return;
-
-      				$scope.rating = $scope._rating = param;
-      				$scope.hoverValue = 0;
-      				$scope.click({param: param});
-      			};
-
-      			$scope.isolatedMouseHover = function (param) {
-      				if ($scope.readOnly == 'true') return;
-
-      				$scope._rating = 0;
-      				$scope.hoverValue = param;
-      				$scope.mouseHover({param: param});
-      			};
-
-      			$scope.isolatedMouseLeave = function (param) {
-      				if ($scope.readOnly == 'true') return;
-
-      				$scope._rating = $scope.rating;
-      				$scope.hoverValue = 0;
-      				$scope.mouseLeave({param: param});
-			      };
-        }
-    };
-});
-
-/***********************
-* STAR DIRECTIVE. Directive to enable dynamic ng-model elements to be created from JSON input
+* Directive to enable dynamic ng-model elements to be created from JSON input
 ************************/
 App.directive('dynamicModel', ['$compile', '$parse', function ($compile, $parse) {
     return {

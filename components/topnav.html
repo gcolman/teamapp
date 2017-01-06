@@ -66,7 +66,7 @@
                     </md-menu>
                     <div flex="100" layout="row">
                       <div flex="70">
-                        <span class="md-toolbar-tools">{{$ctrl.properties.clubName}} - {{$ctrl.properties.teamName}} {{$ctrl.properties.ageGroup}} {{$ctrl.properties.bg}} &nbsp;&nbsp;&nbsp;  
+                        <span class="md-toolbar-tools">{{$ctrl.properties.clubName}} - {{$ctrl.properties.teamName}} {{$ctrl.properties.ageGroup}} {{$ctrl.properties.bg}} &nbsp;&nbsp;&nbsp;
                           <md-button ng-href="/main" class="md-fab md-mini md-primary" style="padding-top:8px">
                             <md-icon  class="material-icons md-light md-48" > keyboard_return </md-icon>
                             <md-tooltip md-direction="right">change team</md-tooltip>
@@ -80,12 +80,12 @@
                             <md-menu>
                                   <md-button  ng-href="/main" class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:8px" ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
                                       <md-icon  class="material-icons md-light md-48" > mail </md-icon>
-                                      <md-tooltip md-direction="right">messages</md-tooltip>
+                                      <md-tooltip md-direction="right">{{$ctrl.properties.username}} Inbox</md-tooltip>
                                     </md-button>
                                   <md-menu-content >
                                     <md-menu-item>
 
-                                      <md-toolbar style="min-height:25px"><b>Messages</b></md-toolbar>
+                                      <span style="min-height:25px;font-size:22px"><md-icon  class="material-icons md-light md-48" > mail </md-icon><b>{{$ctrl.properties.username}} - Inbox ({{$ctrl.messageService.mailCollection.length}} messages)</b></span>
 
                                     </md-menu-item>
                                       <div ng-repeat="msg in $ctrl.messageService.mailCollection track by $index" >
@@ -108,10 +108,14 @@
                                         <span style="position:absolute;margin-left:-15px;margin-top:-10px;font-size:small">
                                           {{$ctrl.messageService.mailCollection.length}}
                                         </span>
-                                           <md-button  ng-href="/main" class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:8px">
+                                           <md-button  ng-href="/userRegistration" class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:8px">
                                               <md-icon  class="material-icons md-light md-48" > settings </md-icon>
                                               <md-tooltip md-direction="right">settings</md-tooltip>
                                             </md-button>
+                                            <md-button  ng-click="$ctrl.showHelp()" class="md-fab md-mini md-primary" aria-label="FAB" >
+                                               <md-icon  class="material-icons md-light md-48" > help </md-icon>
+                                               <md-tooltip md-direction="right">Help</md-tooltip>
+                                             </md-button>
                                            <md-button  ng-href="/main" ng-click="$ctrl.logout()" class="md-fab md-mini md-primary" aria-label="FAB" style="padding-top:8px">
                                               <md-icon  class="material-icons md-light md-48" > power_settings_new </md-icon>
                                               <md-tooltip md-direction="right">logout</md-tooltip>

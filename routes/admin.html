@@ -1,6 +1,94 @@
 <div ng-app="myApp" ng-controller="adminController as ac">
   <md-content>
     <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Financial Stats">
+        <md-content>
+          <div layout="column">
+            <div>
+              <h2>Match Subs / Fees Paid</h2>
+            </div>
+            <div>
+              <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Oppsition</th>
+                    <th>Played</th>
+                    <th>Payed</th>
+                    <th>Subs Amt</th>
+                    <th>Ref Paid</th>
+                    <th>Other Amt </th>
+                    <th>Other Reason</th>
+                    <th>total</th>
+                </tr>
+                <tr ng-if="statGame.HOMESCORE != '-'" ng-repeat="statGame in ac.acgames">
+                    <td>{{ac.convertToDate(statGame.FIXTUREDATE) | date:'dd MMM yyyy'}} &nbsp;&nbsp;</td>
+                    <td ng-if="statGame.AWAYTEAM.indexOf('Chippenham') >= 0">{{statGame.HOMETEAM}}</td>
+                    <td ng-if="statGame.HOMETEAM.indexOf('Chippenham') >= 0">{{statGame.AWAYTEAM}}</td>
+                    <td align="center">{{statGame.totalPlayed}}</td>
+                    <td align="center">{{statGame.totalPaid}}</td>
+                    <td align="center">
+                        <input aria-label="reffee" ng-model="statGame.matchfee" type="text" size="4" ></input>
+                    </td>
+                    <td align="center">
+                        <input aria-label="reffee" ng-model="statGame.refFee" ng-blur="ac.updateFixture(statGame)" type="text" size="4"/>
+                    </td>
+                    <td align="center">
+                        <input aria-label="otherfee" ng-model="statGame.otherFee" type="text" size="4"/>
+                    </td>
+                    <td align="center">
+                        <input aria-label="otherReason" ng-model="statGame.otherReason" type="text" size="10"/>
+                    </td>
+                    <td align="right"><b>£{{(statGame.matchfee * statGame.totalPaid) -statGame.refFee -statGame.otherFee}}</b></td>
+                </tr>
+                <tr>
+                  <td align="right" colspan="9" >Total cash from games: <b>£{{ac.totalCash}}.00</b></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+                <h2>Banking</h2>
+                <p>Enter the total cash that has been banked.</p>
+            </div>
+            <div>
+              <table>
+                <tr>
+                    <th>Date Banked</th>
+                    <th>Amount Banked</th>
+                </tr>
+                <tr ng-repeat="banked in ac.properties.selectedTeam.banking">
+                    <td >
+                        <p> {{banked.bankedDate}} </p>
+                    </td>
+                    <td >
+                        <p>£ {{banked.bankedAmount}} </p>
+                    </td>
+                    <td >
+                        <a href="#" ng-click="ac.removeBanked($index)">remove</a>
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td >
+                        <input aria-label="bankDate" ng-model="ac.newbankedDate" type="text" size="10" ></input>
+                    </td>
+                    <td align="center">
+                        <input aria-label="bankedAmount" ng-model="ac.newbankedAmount"  type="text" size="6"/>
+                    </td>
+                    <td >
+                      <button ng-click="ac.bank(ac.newbankedDate,ac.newbankedAmount)">Add</button>
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                  <td align="right" colspan="9" >Total cash balance: <b>£{{ac.cashBalance}}.00</b></td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+        </md-content>
+      </md-tab>
+
       <md-tab label="Team Admin">
         <md-content class="md-padding">
           <div layout="column">
@@ -101,94 +189,6 @@
           </md-list>
         </md-content>
       </md-tab>
-      <md-tab label="Financial Stats">
-        <md-content>
-          <div layout="column">
-            <div>
-              <h2>Match Subs / Fees Paid</h2>
-            </div>
-            <div>
-              <table>
-                <tr>
-                    <th>Date</th>
-                    <th>Oppsition</th>
-                    <th>Played</th>
-                    <th>Payed</th>
-                    <th>Subs Amt</th>
-                    <th>Ref Paid</th>
-                    <th>Other</th>
-                    <th>Other Reason</th>
-                    <th>total</th>
-                </tr>
-                <tr ng-if="statGame.HOMESCORE != '-'" ng-repeat="statGame in ac.acgames">
-                    <td>{{ac.convertToDate(statGame.FIXTUREDATE) | date:'short'}}</td>
-                    <td ng-if="statGame.AWAYTEAM.indexOf('Chippenham') >= 0">{{statGame.HOMETEAM}}</td>
-                    <td ng-if="statGame.HOMETEAM.indexOf('Chippenham') >= 0">{{statGame.AWAYTEAM}}</td>
-                    <td align="center">{{statGame.totalPlayed}}</td>
-                    <td align="center">{{statGame.totalPaid}}</td>
-                    <td align="center">
-                        <input aria-label="reffee" ng-model="statGame.matchfee" type="text" size="4" ></input>
-                    </td>
-                    <td align="center">
-                        <input aria-label="reffee" ng-model="statGame.refFee" ng-blur="ac.updateFixture(statGame)" type="text" size="4"/>
-                    </td>
-                    <td align="center">
-                        <input aria-label="otherfee" ng-model="statGame.otherFee" type="text" size="4"/>
-                    </td>
-                    <td align="center">
-                        <input aria-label="otherReason" ng-model="statGame.otherReason" type="text" size="10"/>
-                    </td>
-                    <td align="right"><b>£{{(statGame.matchfee * statGame.totalPaid) -statGame.refFee -statGame.otherFee}}</b></td>
-                </tr>
-                <tr>
-                  <td align="right" colspan="9" >Total cash from games: <b>£{{ac.totalCash}}.00</b></td>
-                </tr>
-              </table>
-            </div>
-            <div>
-                <h2>Banking</h2>
-                <p>Enter the total cash that has been banked.</p>
-            </div>
-            <div>
-              <table>
-                <tr>
-                    <th>Date Banked</th>
-                    <th>Amount Banked</th>
-                </tr>
-                <tr ng-repeat="banked in ac.properties.selectedTeam.banking">
-                    <td >
-                        <p> {{banked.bankedDate}} </p>
-                    </td>
-                    <td >
-                        <p>£ {{banked.bankedAmount}} </p>
-                    </td>
-                    <td >
-                        <a href="#" ng-click="ac.removeBanked($index)">remove</a>
-                    </td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-                <tr>
-                    <td >
-                        <input aria-label="bankDate" ng-model="ac.newbankedDate" type="text" size="10" ></input>
-                    </td>
-                    <td align="center">
-                        <input aria-label="bankedAmount" ng-model="ac.newbankedAmount"  type="text" size="6"/>
-                    </td>
-                    <td >
-                      <button ng-click="ac.bank(ac.newbankedDate,ac.newbankedAmount)">Add</button>
-                    </td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-                <tr>
-                  <td align="right" colspan="9" >Total cash balance: <b>£{{ac.cashBalance}}.00</b></td>
-                </tr>
-              </table>
-
-            </div>
-          </div>
-        </md-content>
-      </md-tab>
-
     </md-tabs>
   </md-content>
 </div>

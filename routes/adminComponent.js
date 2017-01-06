@@ -71,7 +71,7 @@ App.controller('adminController', function ($scope, $http, authSvc, properties) 
       // now iterate through banking to get the total cashBalance
       if(properties.selectedTeam.banking != undefined) {
         for(x=0;x<properties.selectedTeam.banking.length;x++) {
-          console.log(self.cashBalance +" -  " +self.totalCash +" xx "    +  properties.selectedTeam.banking[x].bankedAmount);
+          //console.log(self.cashBalance +" -  " +self.totalCash +" xx "    +  properties.selectedTeam.banking[x].bankedAmount);
           self.cashBalance  -= properties.selectedTeam.banking[x].bankedAmount;
         }
       }

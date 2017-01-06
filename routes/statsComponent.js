@@ -13,6 +13,8 @@ App.controller('statsController', function ($scope, $http, authSvc, properties) 
   self.scgames;
   self.appsData=[];
   self.goalsData=[];
+  self.availData=[];
+  self.availPlayedData=[];
   self.assistsData=[];
   self.goalDenyData=[];
   self.totalWinsData=[];
@@ -104,15 +106,19 @@ App.controller('statsController', function ($scope, $http, authSvc, properties) 
       self.scplayers = response.data;
       self.appsData.length=0;
       self.goalsData.length=0;
+      self.availData.length=0;
+      self.availPlayedData.length=0;
 
       playersArray = [];
       goalsArray = [];
       appearancesArray = [];
+      availableArray = [];
 
       for(scplayersCount=0;scplayersCount<self.scplayers.length;scplayersCount++ ) {
         playersArray[scplayersCount] = self.scplayers[scplayersCount].Player;
         goalsArray[scplayersCount] = self.scplayers[scplayersCount].gameStats.Goals;
         appearancesArray[scplayersCount] = self.scplayers[scplayersCount].gameStats.Played;
+        availableArray[scplayersCount] = self.scplayers[scplayersCount].gameStats.available;
 
         //Add graph row for appearances
         var apps = {};
@@ -123,42 +129,33 @@ App.controller('statsController', function ($scope, $http, authSvc, properties) 
         var goals = {};
         goals.c = [{v:self.scplayers[scplayersCount].Player},{v:self.scplayers[scplayersCount].gameStats.Goals}];
         self.goalsData.push(goals);
+
+        //Add graph row for total number of times a player has been available for selection
+        var avail = {};
+        avail.c = [{v:self.scplayers[scplayersCount].Player},{v:self.scplayers[scplayersCount].gameStats.Available}];
+        self.availData.push(avail);
+
+        //Add graph for the percentage of
+        var availPlayed = {};
+        availPlayed.c = [{v:self.scplayers[scplayersCount].Player},{v:((100/self.scplayers[scplayersCount].gameStats.Available)*self.scplayers[scplayersCount].gameStats.Played)}];
+        self.availPlayedData.push(availPlayed);
+
+
       }
 
       $scope.appsChartObject = createChart("BarChart", "Game Appearances", "Player", "Appearances", self.appsData);
       $scope.goalsChartObject = createChart("BarChart", "Goalscorers", "Player", "Goals", self.goalsData);
+      $scope.availChartObject = createChart("BarChart", "Games Available for Selection", "Player", "Games Available", self.availData);
+      $scope.availPlayedChartObject = createChart("BarChart", "Percentage of games played when player available", "Player", "% played when available", self.availPlayedData);
 
-      //The chart object for appearances graph
-      /*$scope.appsChartObject = {};
-      $scope.appsChartObject.type = "BarChart";
-      $scope.appsChartObject.data = {"cols": [
-          {id: "t", label: "Player", type: "string"},
-          {id: "s", label: "Appearances", type: "number"},
-      ], "rows": self.appsData
-      };
-      $scope.appsChartObject.options = {
-          'title': 'Game Appearances'
-      };
 
-      //The chart object for goals graph
-      $scope.goalsChartObject = {};
-      $scope.goalsChartObject.type = "BarChart";
-      $scope.goalsChartObject.data = {"cols": [
-          {id: "t", label: "Player", type: "string"},
-          {id: "g", label: "Goals", type: "number"}
-      ], "rows": self.goalsData
-      };
-      $scope.goalsChartObject.options = {
-          'title': 'Goalscorers'
-      };
-      */
 
     });
 
     self.updateFixture = function(fixture) {
       delete fixture["_id"];
       var data= JSON.stringify(fixture);
-      console.log(data);
+      //console.log(data);
       $http.defaults.headers.post["Content-Type"] = "application/json";
       $http.post("/updateFixture?club=" +properties.alphaClub  +"&team=" +properties.alphaTeam, fixture).success(function (fixture, status, headers, config) {
           })

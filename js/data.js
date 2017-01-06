@@ -286,6 +286,7 @@ var getAllStats= function(cb, req, res) {
                   stat.NoAnswer = 0;
                   stat.Goals = 0;
                   stat.Paid = 0;
+                  stat.Selected = 0;
                   stats[fix.availability[i].id] = stat;
                 } else {
                   stat = stats[stats[fix.availability[i].id]]
@@ -296,6 +297,7 @@ var getAllStats= function(cb, req, res) {
                   stats[fix.availability[i].id].Available = ++stats[fix.availability[i].id].Available ;
                 } else if(fix.availability[i].available == "P") {
                   stats[fix.availability[i].id].Played = ++stats[fix.availability[i].id].Played;
+                  stats[fix.availability[i].id].Available = ++stats[fix.availability[i].id].Available ;
                 } else if(fix.availability[i].available == "N") {
                   stats[fix.availability[i].id].NotAvailable = ++stats[fix.availability[i].id].NotAvailable ;
                 } else if(fix.availability[i].available == "I") {
@@ -306,6 +308,11 @@ var getAllStats= function(cb, req, res) {
                   stats[fix.availability[i].id].NoAnswer = ++stats[fix.availability[i].id].NoAnswer ;
                 } else if(fix.availability[i].available == "£") {
                   stats[fix.availability[i].id].Paid = ++stats[fix.availability[i].id].Paid ;
+                  stats[fix.availability[i].id].Available = ++stats[fix.availability[i].id].Available ;
+                  stats[fix.availability[i].id].Played = ++stats[fix.availability[i].id].Played;
+                } else if(fix.availability[i].available == "S") {
+                  stats[fix.availability[i].id].Selected = ++stats[fix.availability[i].id].Selected ;
+                  stats[fix.availability[i].id].Available = ++stats[fix.availability[i].id].Available ;
                 }
               }
             }
@@ -410,7 +417,7 @@ app.get('/getUser', function (req, res) {
 
 app.get('/getUsers', function (req, res) {
       console.log( "/getUsers : " +req );
-      findAllDocuments(db, 'users', true,  "lastlogin", 1, function(docs) {
+      findAllDocuments(db, 'users', true,  "lastlogin", "-1", function(docs) {
         //console.log(docs);
         res.end( JSON.stringify(docs) );
       });

@@ -67,3 +67,7 @@ Created new window in existing browser session.
 "No such interface 'org.freedesktop.DBus.Properties' on object at path /org/freedesktop/NetworkManager/ActiveConnection/27"
 "No such interface 'org.freedesktop.DBus.Properties' on object at path /org/freedesktop/NetworkManager/ActiveConnection/28"
 "No such interface 'org.freedesktop.DBus.Properties' on object at path /org/freedesktop/NetworkManager/ActiveConnection/29"
+ICE default IO error handler doing an exit(), pid = 13369, errno = 32
+AL lib: (EE) ALCpulsePlayback_contextStateCallback: Received context failure!
+AL lib: (EE) ALCpulsePlayback_streamStateCallback: Received stream failure!
+AL lib: (EE) alc_cleanup: 1 device not closed

@@ -20,72 +20,46 @@ App.controller('availabilityController', function ($scope, $http, authSvc, prope
 
     //On clisking, update the availability entry for that player.
     self.toggleAvilability = function(player, game) {
-      var avail;
-        //get the availability entry
-        for(gav=0;gav<game.availability.length;gav++) {
-          if(game.availability[gav] != undefined && game.availability[gav].id == player) {
-            avail = game.availability[gav];
-            break;
+
+      if(game.locked == undefined || !game.locked ) {
+        var avail;
+          //get the availability entry
+          for(gav=0;gav<game.availability.length;gav++) {
+            if(game.availability[gav] != undefined && game.availability[gav].id == player) {
+              avail = game.availability[gav];
+              break;
+            }
           }
-        }
 
-        console.log("clicked " +player +" " +avail.id);
-        if(avail.available =="C") {
-          avail.available  = "N";
-          this.availstyle="styleNAvail";
-        } else if (avail.available =="N") {
-          avail.available ="A";
-          this.availstyle="styleAvail";
-        } else if (avail.available =="A") {
-          avail.available ="S";
-          this.availstyle="styleSelected";
-        } else if (avail.available =="S") {
-          avail.available ="P";
-          this.availstyle="stylePlayed";
-        } else if (avail.available =="P") {
-          avail.available ="£";
-          this.availstyle="styleNoshow";
-        } else if (avail.available =="£") {
-          avail.available ="X";
-          this.availstyle="styleNoshow";
-        } else if (avail.available =="X") {
-          avail.available ="I";
-          this.availstyle="styleInjured";
-        } else if (avail.available =="I") {
-          avail.available ="C";
-          this.availstyle="styleClear";
+          console.log("clicked " +player +" " +avail.id);
+          if(avail.available =="C") {
+            avail.available  = "N";
+            this.availstyle="styleNAvail";
+          } else if (avail.available =="N") {
+            avail.available ="A";
+            this.availstyle="styleAvail";
+          } else if (avail.available =="A") {
+            avail.available ="S";
+            this.availstyle="styleSelected";
+          } else if (avail.available =="S") {
+            avail.available ="P";
+            this.availstyle="stylePlayed";
+          } else if (avail.available =="P") {
+            avail.available ="£";
+            this.availstyle="styleNoshow";
+          } else if (avail.available =="£") {
+            avail.available ="X";
+            this.availstyle="styleNoshow";
+          } else if (avail.available =="X") {
+            avail.available ="I";
+            this.availstyle="styleInjured";
+          } else if (avail.available =="I") {
+            avail.available ="C";
+            this.availstyle="styleClear";
+          }
+          this.updateFixture(game);
+          return  avail.available;
         }
-        this.updateFixture(game);
-
-  /*      console.log("clicked " +player +" " +game.availability[player].id);
-        if(game.availability[player].available =="C") {
-          game.availability[player].available  = "N";
-          this.availstyle="styleNAvail";
-        } else if (game.availability[player].available =="N") {
-          game.availability[player].available ="A";
-          this.availstyle="styleAvail";
-        } else if (game.availability[player].available =="A") {
-          game.availability[player].available ="S";
-          this.availstyle="styleSelected";
-        } else if (game.availability[player].available =="S") {
-          game.availability[player].available ="P";
-          this.availstyle="stylePlayed";
-        } else if (game.availability[player].available =="P") {
-          game.availability[player].available ="£";
-          this.availstyle="styleNoshow";
-        } else if (game.availability[player].available =="£") {
-          game.availability[player].available ="X";
-          this.availstyle="styleNoshow";
-        } else if (game.availability[player].available =="X") {
-          game.availability[player].available ="I";
-          this.availstyle="styleInjured";
-        } else if (game.availability[player].available =="I") {
-          game.availability[player].available ="C";
-          this.availstyle="styleClear";
-        }
-        this.updateFixture(game);
-*/
-        return  avail.available;
     };
 
 
@@ -126,7 +100,9 @@ App.controller('availabilityController', function ($scope, $http, authSvc, prope
           });
     };
 
-
+   self.x = function(game){
+     console.log("Clicker " +game.locked);
+   }
 
     self.getDate = function(date) {
 

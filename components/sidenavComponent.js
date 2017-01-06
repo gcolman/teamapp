@@ -1,8 +1,11 @@
 
 
-function sidenavController($scope, authSvc) {
+function sidenavController($scope, authSvc, properties) {
   var ctrl = this;
   ctrl.auth = authSvc;
+  ctrl.properties = properties;
+
+  console.log(JSON.stringify(properties.selectedTeam));
 
 }
 

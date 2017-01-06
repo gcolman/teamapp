@@ -1,5 +1,5 @@
 
-App.controller('lineupController',function ($scope, $location, $http,  properties, authSvc) {
+App.controller('lineupController',function ($scope, $location, $http, $mdToast, properties, authSvc) {
 
   var self = this;
   self.game;
@@ -57,34 +57,58 @@ for(x in self.alpha) {
               self.game.availability[av].player = self.properties.players[player].Player;
               self.game.availability[av].squadNo = self.properties.players[player].SquadNo;
               //console.log(self.game.availability[av].id +" " +self.game.availability[av].player +" " +self.game.availability[av].squadNo);
-              if(self.game.availability[av].selecter == undefined || self.game.availability[av].selecter[0] == 'v' || self.game.availability[av].selecter[0] == 'i' || self.game.availability[av].selecter[0] == 'j' || self.game.availability[av].selecter[0] == 'x' ) {
+            //  if(self.game.availability[av].selecter == undefined || self.game.availability[av].selecter[0] == 'v' || self.game.availability[av].selecter[0] == 'i' || self.game.availability[av].selecter[0] == 'j' || self.game.availability[av].selecter[0] == 'x' ) {
                   //set the selector based on the availability.
                   switch(self.game.availability[av].available) {
+                    //If the player is set as a C which is not responded, then add to the available section.
                     case 'C':
                       self.game.availability[av].selecter = self.availablePosition[availcount];
                       self.availList[self.game.availability[av].selecter] = self.game.availability[av];
                       availcount++;
                       break;
+                    // If the player is set to availabel, then just set to the available section
                     case 'A':
                       self.game.availability[av].selecter = self.availablePosition[availcount];
                       self.availList[self.game.availability[av].selecter] = self.game.availability[av];
                       availcount++;
                       break;
+                    // If player has been set to selected and position not set, or positioned as "available" or positioned as "sub" or has gone from unavailable to selected then set the position to the next sub position
                     case 'S':
-                      self.game.availability[av].selecter = self.substitutePosition[subcount];
-                      self.subList[self.game.availability[av].selecter] = self.game.availability[av];
-                      subcount++;
-                      break;
+                      if(self.game.availability[av].selecter[0] == undefined || self.game.availability[av].selecter[0] == 'v' || self.game.availability[av].selecter[0] == 'i' || self.game.availability[av].selecter[0] == 'j'|| self.game.availability[av].selecter[0] == 'x') {
+                        //set the position on the fixture acvailability
+                        self.game.availability[av].selecter = self.substitutePosition[subcount];
+                        //add the position to the substitute position hashmap - this is used to quickly identify if a position div is filled in the view.
+                        self.subList[self.game.availability[av].selecter] = self.game.availability[av];
+                        subcount++;
+                        break;
+                      } else {
+                        self.posList[self.game.availability[av].selecter] = self.game.availability[av];
+                        break;
+                      }
                     case 'P':
-                      self.game.availability[av].selecter = self.substitutePosition[subcount];
-                      self.subList[self.game.availability[av].selecter] = self.game.availability[av];
-                      subcount++;
-                      break;
+                      if(self.game.availability[av].selecter[0] == undefined || self.game.availability[av].selecter[0] == 'v' || self.game.availability[av].selecter[0] == 'i' || self.game.availability[av].selecter[0] == 'j'|| self.game.availability[av].selecter[0] == 'x') {
+                        //set the position on the fixture acvailability
+                        self.game.availability[av].selecter = self.substitutePosition[subcount];
+                        //add the position to the substitute position hashmap - this is used to quickly identify if a position div is filled in the view.
+                        self.subList[self.game.availability[av].selecter] = self.game.availability[av];
+                        subcount++;
+                        break;
+                      } else {
+                        self.posList[self.game.availability[av].selecter] = self.game.availability[av];
+                        break;
+                      }
                     case '£':
-                      self.game.availability[av].selecter = self.substitutePosition[subcount];
-                      self.subList[self.game.availability[av].selecter] = self.game.availability[av];
-                      subcount++;
-                      break;
+                      if(self.game.availability[av].selecter[0] == undefined || self.game.availability[av].selecter[0] == 'v' || self.game.availability[av].selecter[0] == 'i' || self.game.availability[av].selecter[0] == 'j'|| self.game.availability[av].selecter[0] == 'x') {
+                        //set the position on the fixture acvailability
+                        self.game.availability[av].selecter = self.substitutePosition[subcount];
+                        //add the position to the substitute position hashmap - this is used to quickly identify if a position div is filled in the view.
+                        self.subList[self.game.availability[av].selecter] = self.game.availability[av];
+                        subcount++;
+                        break;
+                      } else {
+                        self.posList[self.game.availability[av].selecter] = self.game.availability[av];
+                        break;
+                      }
                     case 'N':
                       self.game.availability[av].selecter = self.notavailablePosition[notavailcount];
                       self.naList[self.game.availability[av].selecter] = self.game.availability[av];
@@ -102,23 +126,20 @@ for(x in self.alpha) {
                       break;
                   }
 
-                } else if(self.game.availability[av].selecter != undefined  ) {
+        /*        } else if(self.game.availability[av].selecter != undefined  ) {
                     //set the selector based on the availability.
                     switch(self.game.availability[av].available) {
                       case 'S':
                         self.posList[self.game.availability[av].selecter] = self.game.availability[av];
-                        subcount++;
                         break;
                       case 'P':
                         self.posList[self.game.availability[av].selecter] = self.game.availability[av];
-                        subcount++;
                         break;
                       case '£':
                         self.posList[self.game.availability[av].selecter] = self.game.availability[av];
-                        subcount++;
                         break;
                     }
-                }
+                } */
             }
           }
         }
@@ -132,9 +153,10 @@ for(x in self.alpha) {
     //fixture.DATETIME = new Date("2020-09-10T10:30:00.000Z");
     $http.defaults.headers.post["Content-Type"] = "application/json";
     $http.post("/updateFixture?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, fixture).success(function (fixture, status, headers, config) {
+          $mdToast.show($mdToast.simple().textContent("Game selection Updated").position("top left").hideDelay(1500));
         })
         .error(function (data, status, header, config) {
-          alert(status);
+          $mdToast.show($mdToast.simple().textContent("ERROR in updating game selection! Status: " +status).position("top left").hideDelay(1500));
         });
   };
 

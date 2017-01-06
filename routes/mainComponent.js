@@ -1,9 +1,16 @@
-App.controller('mainController', function($scope, $http, authSvc, properties, hashService, messageService) {
+App.controller('mainController', function($scope, $http, $cookies, authSvc, properties, hashService, messageService) {
     authSvc.setView("no_chat");
     var self = this;
     self.auth = authSvc;
     self.properties = properties;
+    properties.thisview="main";
 
+    properties.username = $cookies.get("user");
+    properties.authrole = $cookies.get("role");
+    properties.userId = $cookies.get("id");
+    properties.myClub = $cookies.get("myClub");
+    properties.myTeam = $cookies.get("myTeam");
+    messageService.getMessages( properties.username, properties.alphaClub, properties.alphaTeam);
 
     var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
     $http.get("/getCollection?collection=clubs").then(function (response) {
@@ -20,7 +27,7 @@ App.controller('mainController', function($scope, $http, authSvc, properties, ha
         club=67;
         team=81;
       }
-      console.log("club " + club +" team  " +team +" clublen " +self.clubs.length);
+      //console.log("club " + club +" team  " +team +" clublen " +self.clubs.length);
       for(clubcount=0;clubcount<self.clubs.length; clubcount++) {
         if(self.clubs[clubcount].clubId == club) {
           properties.clubId = club;

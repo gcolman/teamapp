@@ -5,7 +5,7 @@
   </div> -->
   <md-sidenav style="width:100" md-is-locked-open="$mdMedia('min-width: 1000px')">
 
-      <md-list ng-show="$ctrl.auth.isAuthenticated()">
+      <md-list ng-show="$ctrl.auth.isAuthenticated() && $ctrl.properties.selectedTeam.teamId != undefined">
         <md-list-item class="md-2-line">
           <div class="md-list-item-text" layout="column" style="text-align:center">
             <md-button  ng-href="/index" class="md-fab md-primary" aria-label="FAB" style="padding-top:15px">

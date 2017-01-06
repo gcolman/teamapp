@@ -8,6 +8,15 @@
                 <md-title style="text-align:center;height:40;font-size:18;"><b>{{game.HOMETEAM}}</b></md-title>
                 <md-card-content>
                   <table style="border-collapse: collapse;" border="0">
+                    <tr>
+                        <td align="center" colspan="3">
+                          <md-checkbox class="md-primary" ng-model="game.locked" aria-label="valid" ng-change="ac.updateFixture(game)">Locked
+                            <md-tooltip>
+                              Lock to avoid changing stats for game
+                            </md-tooltip>
+                          </md-checkbox>
+                        </td>
+                    <tr>
                     <tr ng-repeat="player in ac.players">
                       <td ng-click="ac.toggleAvilability(player.IDNumber, game)"  style="padding:0; margin:0;" align="left">
                         <div style="space-between:0" ng-switch="ac.getAvailability(player.IDNumber, game)">
@@ -47,6 +56,15 @@
                 <md-title style="text-align:center;height:35;font-size:18;"><b>{{game.AWAYTEAM}}</b></md-title>
                 <md-card-content>
                   <table style="border-collapse: collapse;" border="0">
+                    <tr>
+                        <td align="center" colspan="3">
+                          <md-checkbox class="md-primary" ng-model="game.locked" aria-label="valid" ng-change="ac.updateFixture(game)">Locked
+                            <md-tooltip>
+                              Lock to avoid changing stats for game
+                            </md-tooltip>
+                          </md-checkbox>
+                        </td>
+                    <tr>
                     <tr ng-repeat="player in ac.players" > <!-- ng-click="ac.toggleAvilability($index+1, game)">-->
                       <td ng-click="ac.toggleAvilability(player.IDNumber, game)"  style="padding:0; margin:0;" align="left">
                         <!--                                  <img class="md-user-avatar" src="images/people/players/player{{player.SquadNo}}.aspx" style="width:25px"/>-->

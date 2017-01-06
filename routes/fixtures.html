@@ -30,22 +30,14 @@
         </div>
         <div  ng-app="myApp" ng-controller="authCtl as auth2">
           <div ng-show="auth2.isAuthenticated()">
-            <md-card-actions layout="row">
-              <!--<md-fab-speed-dial  md-open="false" md-direction="left" md-cloak class="md-scale">
-                <md-fab-trigger>
-                  <md-button aria-label="menu" class="md-fab md-primary md-mini">
-                      <md-icon class="material-icons md-light md-24"> dehaze </md-icon>
-                      <md-tooltip md-direction="top">More Options</md-tooltip>
-                  </md-button>
-                </md-fab-trigger>
-                <md-fab-actions style="width:0px"> -->
-                <md-button aria-label="report" class="md-fab md-raised md-mini md-primary" ng-href="/lineup?gameId={{game.id}}">
-                    <md-icon class="material-icons md-light md-48"> description </md-icon>
-                    <md-tooltip md-direction="top">Edit lineup</md-tooltip>
-                </md-button>
+            <md-card-actions layout="row" >
                 <md-button aria-label="report" class="md-fab md-raised md-mini md-primary" ng-click="fc.showReport[game.id] = !fc.showReport[game.id]">
                     <md-icon class="material-icons md-light md-48"> description </md-icon>
                     <md-tooltip md-direction="top">View match report</md-tooltip>
+                </md-button>
+                <md-button style="padding-top:8" aria-label="report" class="md-fab md-raised md-mini md-primary" ng-click="" ng-href="/lineup?gameId={{game.id}}">
+                    <md-icon class="material-icons md-light md-48"> content_paste </md-icon>
+                    <md-tooltip md-direction="top">Edit lineup</md-tooltip>
                 </md-button>
                   <md-button aria-label="edit" class="md-fab md-raised md-mini md-primary" ng-click="fc.showDialog($event, game)"> <!--fc.openFixtureEdit($event, game)">-->
                       <md-icon class="material-icons md-light md-48"> mode_edit </md-icon>
@@ -55,8 +47,6 @@
                       <md-icon class="material-icons md-light md-48"> clear </md-icon>
                       <md-tooltip md-direction="top">Remove this fixture</md-tooltip>
                   </md-button>
-                <!--</md-fab-actions>
-              </md-fab-speed-dial> -->
             </div>
             <div ng-show="!auth2.isAuthenticated()">
               <md-card-actions layout="column">

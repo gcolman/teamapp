@@ -1,4 +1,4 @@
-App.controller('playerController',  function($scope, $http, $window, ngDialog, authSvc, properties) {
+App.controller('playerController',  function($scope, $http, $window, $mdToast, ngDialog, authSvc, properties) {
 var self = this;
 authSvc.setView("no_chat");
 var authSvc = authSvc;
@@ -52,9 +52,10 @@ self.updatePlayer = function() {
     $http.post("/updatePlayer?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, self.player).success(function (data, status, headers, config) {
               this.player = data;
               self.mode.length=0;
+              $mdToast.show($mdToast.simple().textContent("Player successfully updated").position("top left").hideDelay(1500));
             })
             .error(function (data, status, header, config) {
-              alert(status);
+              $mdToast.show($mdToast.simple().textContent("Error in updating player! Status: " +status).position("top left").hideDelay(1500));
             });
 };
 
@@ -67,9 +68,11 @@ self.addPlayer = function() {
     $http.post("/addPlayer?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, self.player).success(function (data, status, headers, config) {
               this.player = data;
               self.mode.length=0;
+              $mdToast.show($mdToast.simple().textContent("Player successfully added!").position("top left").hideDelay(1500));
             })
             .error(function (data, status, header, config) {
-              alert(status);
+              $mdToast.show($mdToast.simple().textContent("Error in adding player! Status: " +status).position("top left").hideDelay(1500));
+
             });
 };
 
