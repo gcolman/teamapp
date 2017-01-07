@@ -220,11 +220,17 @@ App.config(function($mdThemingProvider) {
       },
       isInTeam : function(team){
         //console.log("IS IN TEAM " + properties.myTeam +properties.teamId);
-        if(properties.myTeam == properties.teamId) {
-          return true;
-        } else {
-          return false;
+        for(i=0;i <team.members.length;i++) {
+          if(properties.myTeam == team.members[i]) {
+            return true;
+          }
         }
+        for(i=0;i <team.administrators.length;i++) {
+          if(properties.myTeam == team.members[i]) {
+            return true;
+          }
+        }
+        return false;
       },
       isTeamAdmin : function(){
         return $cookies.get("ita");

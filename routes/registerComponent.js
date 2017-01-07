@@ -33,6 +33,7 @@ App.controller('registerController', function ($scope, $http, ngDialog, authSvc,
     ctrl.registerTeam = function (team) {
       //console.log("REGISTER " +JSON.stringify(team));
       $http.defaults.headers.post["Content-Type"] = "application/json";
+      team.administrators.push(properties.userid);
       var data = JSON.stringify(team);
       $http.post("/addTeam?userid=" +properties.userid, data).success(function (data, status, headers, config) {
         }).error(function (data, status, header, config) {
