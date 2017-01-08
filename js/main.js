@@ -220,14 +220,16 @@ App.config(function($mdThemingProvider) {
       },
       isInTeam : function(team){
         //console.log("IS IN TEAM " + properties.myTeam +properties.teamId);
-        for(i=0;i <team.members.length;i++) {
-          if(properties.myTeam == team.members[i]) {
-            return true;
+        if(team != undefined && team.members != undefined) {
+          for(i=0;i <team.members.length;i++) {
+            if(properties.myTeam == team.members[i]) {
+              return true;
+            }
           }
-        }
-        for(i=0;i <team.administrators.length;i++) {
-          if(properties.myTeam == team.members[i]) {
-            return true;
+          for(i=0;i <team.administrators.length;i++) {
+            if(properties.myTeam == team.members[i]) {
+              return true;
+            }
           }
         }
         return false;
@@ -336,9 +338,9 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
 
       $http.defaults.headers.post["Content-Type"] = "application/json";
       $http.post("/login", data).success(function (data, status, headers, config) {
-            if(data[0] != null) {
+            if(data[0] != undefined && data[0].username != undefined) {
               //Check if the user is valid for the club and
-              console.log("SUCCESS" +JSON.stringify(data));
+              console.log("SUCCESS" +JSON.stringify(data[0]));
               $cookies.put("a199hhy78327772679hhy", hashService.hash(data[0].username, ""));
               $cookies.put("user", data[0].username);
               $cookies.put("role", data[0].authrole);
