@@ -4,8 +4,8 @@
       <md-card-title-text>
         <span class="md-headline">{{nc.properties.teamName}} Team News</span>
       </md-card-title-text>
-      <md-card-action>
-          <md-button aria-label="Edit" ng-click="nc.edit(nc.news[0])">Edit</md-button>
+      <md-card-action ng-if="nc.authSvc.canEdit()">
+          <md-button aria-label="Edit" class="md-raised md-primary"  ng-click="nc.edit(nc.news[0])">Edit</md-button>
       </md-card-action>
     </md-card-title>
     <md-card-content layout="row" layout-align="space-between">

@@ -1,6 +1,6 @@
 <div ng-app="myApp" ng-controller="playersController as pc">
-  <div layout="row" layout-align="center center">
-    <md-button aria-label="add" class="md-raised md-primary" ng-click="pc.setPlayer(0)" href="/player""> Add Player</md-button>
+  <div layout="row" layout-align="center center" ng-show="pc.authSvc.canEdit()">
+    <md-button aria-label="add" class="md-raised md-primary" ng-click="pc.setPlayer(0)" href="/player"> Add Player</md-button>
   </div>
 <div ng-repeat="player in pc.names" ng-cloak>
   <md-card  md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch style="min-width:450px">
@@ -27,12 +27,12 @@
       </div>
       <md-card-actions layout="row">
 
-        <md-button aria-label="report" class="md-fab md-raised md-mini md-primary"  ng-click="pc.setPlayer(player.IDNumber)" href="/player" >
+        <md-button ng-show="pc.authSvc.canEdit() || pc.authSvc.isMyPlayer(player.IDNumber)" aria-label="report" class="md-fab md-raised md-mini md-primary"  ng-click="pc.setPlayer(player.IDNumber)" href="/player" >
             <md-icon ng-style="{position:'relative', bottom:'-7px'}" class="material-icons md-light md-48"> description </md-icon>
             <md-tooltip md-direction="top">View player details</md-tooltip>
         </md-button>
         &nbsp;
-          <md-button aria-label="remove" class="md-fab md-raised md-mini md-primary" ng-click="pc.deletePlayer($event, player.IDNumber)">
+          <md-button ng-show="pc.authSvc.canEdit()" aria-label="remove" class="md-fab md-raised md-mini md-primary" ng-click="pc.deletePlayer($event, player.IDNumber)">
               <md-icon class="material-icons md-light md-48"> clear </md-icon>
               <md-tooltip md-direction="top">Remove this player</md-tooltip>
           </md-button>

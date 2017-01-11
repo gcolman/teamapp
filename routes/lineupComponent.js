@@ -5,6 +5,7 @@ App.controller('lineupController',function ($scope, $location, $http, $mdToast, 
   self.game;
   self.properties = properties;
   authSvc.setView("no_chat");
+  self.authSvc = authSvc;
 
   self.substitutePosition = ['i2','j2','i3','j3','i4','j4','i5','j5','i6','j6','i7','j7','i8','j8','i9','j9','i10','j10','i11','j11','i12','j12','i13','j13','i14','j14'];
   self.notavailablePosition = ['x1','x2','x3','x4','x5','x6','x7','x8','x13','x14','x15','x16','x17','x18','x19','x20'];

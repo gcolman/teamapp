@@ -80,6 +80,7 @@ App.config(function($mdThemingProvider) {
   * Message Factory
   *****************************************************************/
   App.value('properties',{
+    user: {},
     username: "",
     userid: 00,
     myClub: 00,
@@ -96,7 +97,8 @@ App.config(function($mdThemingProvider) {
     alphaClub: "",
     alphaTeam: "",
     fixtures: {},
-    players: {}
+    players: {},
+    websocketUrl: 'ws://www.graeme.com:8001/msg'
   });
 
 
@@ -108,7 +110,7 @@ App.config(function($mdThemingProvider) {
      // Open a WebSocket connection
      var mailService = {};
      //TODO externalise
-     var dataStream = $websocket('ws://www.graeme.com:8001/msg');
+     var dataStream = $websocket(properties.websocketUrl);
      var chatCollection = [];
      var mailCollection = [];
 
@@ -147,7 +149,7 @@ App.config(function($mdThemingProvider) {
 
      dataStream.onClose(function() {
        //console.log(">>>RECONNECT WS");
-       dataStream = $websocket('ws://www.graeme.com:8001/msg');
+       dataStream = $websocket(properties.websocketUrl);
      });
 
 
@@ -219,8 +221,11 @@ App.config(function($mdThemingProvider) {
         return $cookies.get("role");
       },
       isInTeam : function(team){
-        //console.log("IS IN TEAM " + properties.myTeam +properties.teamId);
+        //console.log("IS IN TEAM " +team + properties.myTeam +properties.teamId);
         if(team != undefined && team.members != undefined) {
+          if(properties.myTeam == properties.teamId) {
+            return true;
+          }
           for(i=0;i <team.members.length;i++) {
             if(properties.myTeam == team.members[i]) {
               return true;
@@ -231,18 +236,64 @@ App.config(function($mdThemingProvider) {
               return true;
             }
           }
+        } else {
+          if(properties.myTeam == properties.teamId) {
+            return true;
+          } else {
+            //console.log("IS IN TEAM = FALSE " +team + properties.myTeam +properties.teamId);
+            return false;
+          }
         }
+      },
+      canEdit : function(){
+        //console.log("CAN EDIT " +JSON.stringify(properties.selectedTeam) +" mw " +properties.userid);
+        //First chech if an editor
+        if(properties.selectedTeam.coaches != undefined) {
+          for(edcnt=0;edcnt<properties.selectedTeam.coaches.length;edcnt++) {
+            if(properties.selectedTeam.coaches[edcnt] == properties.userid) {
+              //console.log("CANEDIT true");
+              return true;
+              break;
+            }
+          }
+        }
+        //Then check if is an administrator
+        if(properties.selectedTeam.administrators != undefined) {
+          for(adcnt=0;adcnt<properties.selectedTeam.administrators.length;adcnt++) {
+            //console.log(properties.selectedTeam.administrators[adcnt].userid +" = " +properties.userid );
+            if(properties.selectedTeam.administrators[adcnt] == properties.userid) {
+              //console.log("CANEDIT true");
+              return true;
+              break;
+            }
+          }
+        }
+        //console.log("CANEDIT false");
         return false;
       },
-      isTeamAdmin : function(){
-        return $cookies.get("ita");
-      },
-      isAppAdmin : function() {
-        if($cookies.get("iaa")>100000) {
-            return true;
-        } else {
-          return false;
+      canAdmin : function(){
+        if(properties.selectedTeam.administrators != undefined) {
+          for(adcnt=0;adcnt<properties.selectedTeam.administrators.length;adcnt++) {
+            if(properties.selectedTeam.administrators[adcnt] == properties.userid) {
+              //console.log("CANADMIN true");
+              return true;
+              break;
+            }
+          }
         }
+        //console.log("CANADMIN false");
+        return false;
+      },
+      isMyPlayer : function(player){
+        // is the player associated wit the user?
+        if(properties.user.players != undefined) {
+          for(px=0;px<properties.user.players.length;px++) {
+            if(player == properties.user.players[px]) {
+              return true;
+            }
+          }
+        }
+        return false;
       },
       getView : function(){
         return self.view;
@@ -329,7 +380,6 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
         credential.password = "pw";
       }
       var data = JSON.stringify(credential);
-      console.log(">>>" +data);
 
       if(credential == undefined) {
         data.userid = "coach";
@@ -348,17 +398,12 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
               $cookies.put("username", data[0].username);
               $cookies.put("myClub", data[0].club);
               $cookies.put("myTeam", data[0].team);
+              properties.user = data[0];
               properties.username=data[0].username;
               properties.myClub = data[0].club;
               properties.myTeam = data[0].team;
               properties.authRole = data[0].authrole;
               properties.userid = data[0].userid;
-              if(data[0].authrole == "teamadmin") {
-                $cookies.put("ita", 900000 );
-              }
-              if(data[0].authrole == "appadmin") {
-                $cookies.put("iaa", 800000);
-              }
               $rootScope.$broadcast('auth', 'login');
             } else {
               console.log("FAIL");

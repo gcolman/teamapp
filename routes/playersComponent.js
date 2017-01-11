@@ -7,6 +7,7 @@ App.controller('playersController', function ($scope, $http, ngDialog, authSvc, 
   self.playerID = {};
   self.player;
   self.showDetails={};
+  self.authSvc = authSvc;
 
   $http.defaults.headers.post["Content-Type"] = "application/json";
   $http.get("/getPlayersWithStats?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {

@@ -1,10 +1,11 @@
 
 
-App.controller('fixtureController', function ($scope, $http, ngDialog, textAngularManager, authService, properties, $mdDialog) {
+App.controller('fixtureController', function ($scope, $http, ngDialog, textAngularManager, authService, authSvc, properties, $mdDialog) {
 
   var self = this;
   var showme = [];
   var month = "NONE";
+  self.authSvc = authSvc;
   self.showmonth;
   self.games;
   self.showReport = {};

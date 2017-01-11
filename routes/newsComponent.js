@@ -3,7 +3,7 @@
 //function newsController($scope, $http, ngDialog, authService, $filter, authSvc) {
 App.controller('newsController', function ($scope, $http, ngDialog, authService, $filter, authSvc, properties, hashService) {
   var self = this;
-  $scope.authSvc = authSvc;
+  self.authSvc = authSvc;
   this.authenticated = authSvc.isAuthenticated();
   count=0;
   self.properties = properties;

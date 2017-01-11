@@ -4,6 +4,7 @@ App.controller('availabilityController', function ($scope, $http, authSvc, prope
   var self = this;
   self.playerID = {};
   self.availstyle;
+  self.authSvc = authSvc;
   authSvc.setView("no_chat");
 
     //Fetch all of the games

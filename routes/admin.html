@@ -115,25 +115,38 @@
 
         <md-content>
           <md-list>
-            <md-list-item class="md-3-line" ng-repeat="user in ac.memberlist">
+            <md-list-item class="md-3-line" ng-repeat="user in ac.members">
               <img ng-src="images/people/{{user.userid}}" class="md-avatar" alt="">
               <div class="md-list-item-text">
                 <h3>{{user.username}}</h3>
                 <div layout="row">
-                  <div flex="40">
+                  <div flex="25">
                     <h4>{{user.firstname}} {{user.surname}}</h4>
                   </div>
-                  <div flex="60">
-                    <md-checkbox ng-model="cb1" aria-label="valid">
+                  <div flex="75">
+                    <md-checkbox ng-model="user.isValid" aria-label="valid">
                       Valid user
                     </md-checkbox>
-                    <md-checkbox ng-model="cb3" aria-label="valid">
+                    <md-checkbox ng-model="user.isCoach" aria-label="valid">
                       Coach
                     </md-checkbox>
-                    <md-checkbox ng-model="cb2" aria-label="valid">
+                    <md-checkbox ng-model="user.isAdmin" aria-label="valid">
                       Teamapp Admin
                     </md-checkbox>
                   </div>
+                </div>
+              </div>
+              <div layout="row" layout-align="end center">
+                <div>
+                  <md-input-container>
+                    <label>Associated players</label>
+                    <md-select aria-label="players" ng-model="user.players" multiple>
+                      <md-option ng-value="player.IDNumber" ng-repeat="player in ac.players">{{player.Player}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+                <div>
+                  <md-button aria-label="Edit" class="md-raised md-primary"  ng-click="ac.updateIndividualUser(user)">Update</md-button>
                 </div>
               </div>
               <md-divider md-inset ng-if="!$last"></md-divider>

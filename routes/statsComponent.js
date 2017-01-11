@@ -103,7 +103,7 @@ App.controller('statsController', function ($scope, $http, authSvc, properties) 
 
     var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
     $http.get("/getPlayersWithStats?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
-      self.scplayers = response.data;
+      self.scplayers = response.data;      
       self.appsData.length=0;
       self.goalsData.length=0;
       self.availData.length=0;
@@ -122,7 +122,7 @@ App.controller('statsController', function ($scope, $http, authSvc, properties) 
 
         //Add graph row for appearances
         var apps = {};
-        apps.c = [{v:self.scplayers[scplayersCount].Player},{v:self.scplayers[scplayersCount].gameStats.Played +self.scplayers[scplayersCount].gameStats.Paid}];
+        apps.c = [{v:self.scplayers[scplayersCount].Player},{v:self.scplayers[scplayersCount].gameStats.Played}];
         self.appsData.push(apps);
 
         //Add graph row for goals

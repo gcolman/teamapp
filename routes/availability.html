@@ -9,12 +9,20 @@
                 <md-card-content>
                   <table style="border-collapse: collapse;" border="0">
                     <tr>
-                        <td align="center" colspan="3">
+                        <td  ng-if="ac.authSvc.canEdit()"  align="center" colspan="3" >
                           <md-checkbox class="md-primary" ng-model="game.locked" aria-label="valid" ng-change="ac.updateFixture(game)">Locked
                             <md-tooltip>
                               Lock to avoid changing stats for game
                             </md-tooltip>
                           </md-checkbox>
+                        </td>
+                        <td  ng-if="!ac.authSvc.canEdit()"  align="center" colspan="3" >
+                          <div ng-show="game.locked">
+                            <md-checkbox class="md-primary" ng-model="game.locked" aria-label="valid" disabled ng-change="ac.updateFixture(game)">Locked
+                            <md-tooltip>
+                              This fixtures has been locked, please contect the team manager if you wish to change.
+                            </md-tooltip>
+                          </div>
                         </td>
                     <tr>
                     <tr ng-repeat="player in ac.players">
@@ -57,12 +65,20 @@
                 <md-card-content>
                   <table style="border-collapse: collapse;" border="0">
                     <tr>
-                        <td align="center" colspan="3">
+                        <td  ng-if="ac.authSvc.canEdit()"  align="center" colspan="3" >
                           <md-checkbox class="md-primary" ng-model="game.locked" aria-label="valid" ng-change="ac.updateFixture(game)">Locked
                             <md-tooltip>
                               Lock to avoid changing stats for game
                             </md-tooltip>
                           </md-checkbox>
+                        </td>
+                        <td  ng-if="!ac.authSvc.canEdit()"  align="center" colspan="3" >
+                          <div ng-show="game.locked">
+                            <md-checkbox class="md-primary" ng-model="game.locked" aria-label="valid" disabled ng-change="ac.updateFixture(game)">Locked
+                            <md-tooltip>
+                              This fixtures has been locked, please contect the team manager if you wish to change.
+                            </md-tooltip>
+                          </div>
                         </td>
                     <tr>
                     <tr ng-repeat="player in ac.players" > <!-- ng-click="ac.toggleAvilability($index+1, game)">-->

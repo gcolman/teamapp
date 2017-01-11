@@ -51,7 +51,7 @@
             <p>Stats</p>
           </div>
         </md-list-item>
-        <md-list-item class="md-2-line">
+        <md-list-item class="md-2-line" ng-show="$ctrl.auth.canEdit()">
           <div class="md-list-item-text" layout="column" style="text-align:center">
             <md-button ng-href="/admin" class="md-fab md-primary" aria-label="FAB"  style="padding-top:15px">
               <md-tooltip md-direction="right">Team Admin</md-tooltip>

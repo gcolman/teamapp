@@ -315,6 +315,7 @@ var getAllStats= function(cb, req, res) {
                   stats[fix.availability[i].id].Available = ++stats[fix.availability[i].id].Available ;
                 }
               }
+              console.log( JSON.stringify(stats) );
             }
 
             for(i=0; i<fix.SCORERS.length; i++) {
