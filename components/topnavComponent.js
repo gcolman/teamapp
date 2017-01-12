@@ -1,6 +1,6 @@
 
 
-function topnavController($scope, $mdDialog, properties, messageService, authSvc) {
+function topnavController($scope, $mdDialog, $http, properties, messageService, authSvc) {
 var ctrl = this;
 ctrl.properties = properties;
 ctrl.messageService = messageService;
@@ -28,8 +28,6 @@ var clubname = properties.clubName;
   ctrl.removeMessage = function(id) {
     messageService.sendMsg("REMOVE="+id);
     $http.get("/removeMessage?id=" +id +"&club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
-        console.log("removing message " +id);
-
       });
   };
 

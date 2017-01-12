@@ -63,6 +63,7 @@ var wsserver = ws.createServer(function (conn) {
     conn.on("text", function (str) {
         // If a new connection then get all of that channel's message history and send through to the channel,
         //checking the clubteam id of the message with the cliubteam sent through in the NEW_CONNECT string
+        console.log("NEWCONNECTION");
         if(str.split(',')[0] == "NEW_CONNECT") {
           id=str.split(',')[1];
           x=0;
@@ -78,7 +79,7 @@ var wsserver = ws.createServer(function (conn) {
             }
           }
         } else {
-          console.log("Received "+str +" number of connections = " +connections.length)
+          //console.log("Received "+str +" number of connections = " +connections.length)
           //Don't store messages that are not plain chats.
           if(str[0] != "{" && str.substring(0,6) != "REMOVE") {
             chatHistory.push(str);
@@ -315,7 +316,7 @@ var getAllStats= function(cb, req, res) {
                   stats[fix.availability[i].id].Available = ++stats[fix.availability[i].id].Available ;
                 }
               }
-              console.log( JSON.stringify(stats) );
+              //console.log( JSON.stringify(stats) );
             }
 
             for(i=0; i<fix.SCORERS.length; i++) {
@@ -453,7 +454,7 @@ app.post('/login', jsonParser, function (req, res) {
       console.log("Login-" +JSON.stringify(req.body));
      findDocumentsByString(db, 'users', req.body, function(docs) {
        if(docs[0] != undefined) {
-         console.log("login:" +docs +" - " +docs[0]);
+         //console.log("login:" +docs +" - " +docs[0]);
          docs[0].lastlogin = new Date();
          delete docs[0]["_id"];
          updateDocument(db,'users', 'userid', docs[0].userid, docs[0], function(docs) {
@@ -602,7 +603,7 @@ var findDocumentsByID = function(db, coll, key, value, callback) {
   var qstr="{ \"" +key  +"\": " +value +" }";
   //var qstr="{ \"IDNumber\" : 607 }";
   var query = JSON.parse(qstr);
-  console.log(qstr);
+  //console.log(qstr);
   collection.find(query).toArray(function(err, docs) {
     assert.equal(err, null);
     //console.log("Found the following records");
@@ -626,10 +627,10 @@ var findDocumentsByString = function(db, collection, qstr, callback) {
   collection.find(qstr).toArray(function(err, docs) {
     assert.equal(err, null);
     if(docs.length >0) {
-      console.log("Found the following records "+docs);
+      //console.log("Found the following records "+docs);
       callback(docs);//JSON.stringify(docs));
     } else {
-      console.log("Empty result set for " +qstr);
+      //console.log("Empty result set for " +qstr);
       callback("");
     }
   });
@@ -646,10 +647,10 @@ var findDocumentsIn = function(db, collection, qstr, callback) {
   collection.find(qstr).toArray(function(err, docs) {
     assert.equal(err, null);
     if(docs.length >0) {
-      console.log("Found the following records "+docs);
+      //console.log("Found the following records "+docs);
       callback(docs);//JSON.stringify(docs));
     } else {
-      console.log("Empty result set for " +qstr);
+      //console.log("Empty result set for " +qstr);
       callback("");
     }
   });
@@ -658,15 +659,12 @@ var findDocumentsIn = function(db, collection, qstr, callback) {
 var updateDocument = function(db, coll, key, value, doc, callback) {
   // Get the documents collection
   var collection = db.collection(coll);
-  console.log(coll +">>" +key +" >> " +value);
   var qstr="{ \"" +key  +"\": " +value +" }";
   var query = JSON.parse(qstr);
-  console.log("replacing data in " +coll +" ID Query " +JSON.stringify(query) +" with " +JSON.stringify(doc));
   //console.log(JSON.stringify(doc));
 
   collection.update( query, doc, function(error, doc){
     if (error) throw error;
-    console.log("data saved");
     callback(doc);
 });
 }
@@ -674,12 +672,10 @@ var updateDocument = function(db, coll, key, value, doc, callback) {
 var updateDocumentByQuery = function(db, coll, query, doc, callback) {
   // Get the documents collection
   var collection = db.collection(coll);
-  console.log("replacing" +JSON.stringify(query) +" with " +JSON.stringify(doc));
   //console.log(JSON.stringify(doc));
 
   collection.update( query, doc, function(error, doc){
     if (error) throw error;
-    console.log("data saved");
     callback(doc);
 });
 }
@@ -694,7 +690,6 @@ var addDocument = function(db, coll, doc, callback) {
       callback(error);
 //      throw error;
     } else {
-    console.log("data saved");
     callback(doc);
   }
   });
@@ -704,12 +699,9 @@ var removeDocument = function(db, coll, key, value, callback) {
   // Get the documents collection
   var collection = db.collection(coll);
   var qstr="{ \"" +key  +"\":"  +value  +"}";
-  console.log(qstr);
   var query = JSON.parse(qstr);
-  console.log(query);
   collection.remove( query, function(error, record){
     if (error) throw error;
-    console.log("data removed");
     callback();
   });
 }
@@ -719,11 +711,9 @@ var removeDocumentById = function(db, coll, key, value, doc, callback) {
   // Get the documents collection
   var collection = db.collection(coll);
   var qstr="{ \"" +key  +"\":"  +value  +"}";
-  console.log("----" +value);
   //collection.remove( "{ _id:ObjectId('582f333621c039390a06bc59')}", function(error, record){
   collection.deleteOne( {_id: new mongodb.ObjectID(value)}, function(error, record){
     if (error) throw error;
-    console.log("data removed");
     callback(doc);
   });
 }

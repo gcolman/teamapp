@@ -58,11 +58,27 @@ div {
 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
+img-crop {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin-top:0!important;
+  margin-left:0!important;
+  canvas{
+    margin: 0!important;
+    margin-top:0!important;
+    margin-left:0!important;
+  }
+}
+
 .cropArea {
     background: #E4E4E4;
     overflow: auto;
     width:400px;
     height:250px;
+}
+.cropArea canvas{
+margin: 0!important;
 }
 form .progress {
     line-height: 15px;

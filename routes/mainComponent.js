@@ -44,6 +44,7 @@ App.controller('mainController', function($scope, $http, $cookies, authSvc, prop
           properties.bg = self.teams[teamcount].bg;
           properties.alphaTeam = hashService.alpha(team);
           properties.selectedTeam = self.teams[teamcount];
+          messageService.loginMail();
         }
       }
     };

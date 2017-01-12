@@ -10,13 +10,15 @@ self.showTactical = true;
 self.showSocial = true;
 self.showPhysical = true;
 self.showPsycological = true;
-
+self.hidePicUpload = true;
+self.imageSrc;
 
 var id = authSvc.getCurrentPlayer();
   // if the id is zero, then we need to add a new player.
   if(id > 0) {
     $http.get("getPlayer?id=" +id +"&club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
       self.player =   response.data;
+      self.imageSrc = "images/people/" +self.player.IDNumber;
     });
   } else {
     $http.get("/data/player.json").then(function (response) {
@@ -24,6 +26,26 @@ var id = authSvc.getCurrentPlayer();
     });
   }
 
+
+  self.updatePhoto = function(dataUrl, picfile){
+    console.log("UPDATIG");
+    var imageData = dataURItoBlob(dataUrl);
+    var fd = new FormData();
+    fd.append('userid', self.player.IDNumber);
+    fd.append('avatar', imageData);
+
+    $http({url: '/uploadPhoto',
+          method: 'POST',
+          data: fd,
+          transformRequest: angular.identity,
+          headers: {'Content-Type': undefined}
+    }).success(function(){
+        console.log("Success");
+        self.imageSrc = "images/people/" +self.player.IDNumber +"?" +Date.now();
+    }).error(function(){
+        console.log("ERROR");
+    });
+  }
 
   $scope.rateFunction = function( rating ) {
      var data = {

@@ -4,16 +4,14 @@ App.controller('userController', function($scope, $http, $mdToast, authSvc, prop
   var self = this;
   $scope.authSvc = authSvc;
   authSvc.setView("no_chat");
-  //$scope.userSvc = userSvc;
-  //var user;
-  //var users;
+
 
   //Fetch all of the news articles
-  var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
+/*  var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
   $http.get("/getNews").then(function (response) {
       self.news = response.data;
     });
-
+*/
     //Fetch user
 
     //Fetch all of the users
@@ -170,4 +168,7 @@ App.controller('userController', function($scope, $http, $mdToast, authSvc, prop
           console.log("ERROR");
         });
     };
+
+
+
 });

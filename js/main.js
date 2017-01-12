@@ -109,24 +109,11 @@ App.config(function($mdThemingProvider) {
   App.factory('messageService', function($websocket, authSvc, $http, properties) {
      // Open a WebSocket connection
      var mailService = {};
-     //TODO externalise
      var dataStream = $websocket(properties.websocketUrl);
      var chatCollection = [];
      var mailCollection = [];
 
-     console.log("Getting the Messages for " +authSvc.getUsername());
-
-  /*   $http.get("/getMessages?to=" +authSvc.getUsername()+"&club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
-         for(i=0;i<response.data.length;i++) {
-           if(response.data[i].to != undefined && response.data[i].to != "") {
-             //console.log("MAILSVC1 PUSHING = " +JSON.stringify(response.data[i]));
-             mailCollection.push(response.data[i]);
-           }
-         }
-       });
-*/
      dataStream.onMessage(function(message) {
-       console.log("msg Received" +message.data);
          if(message.data != undefined && message.data.substring(0,6) == "REMOVE") {
            id=message.data.substring(7,message.data.length);
            for(i=0;i<mailCollection.length;i++) {
@@ -139,12 +126,11 @@ App.config(function($mdThemingProvider) {
            //console.log(JSON.stringify(message.data) +" TO" +x.to +" USERNAME=" +authSvc.getUsername() );
            if(msgObject.to == authSvc.getUsername()) {
                //console.log("MAILSVC2 PUSHING" +JSON.stringify(msgObject));
-             mailCollection.push(JSON.parse(message.data));
+             mailCollection.unshift(JSON.parse(message.data));
            }
          } else if( message.data.split(',')[0] == properties.alphaClub + properties.alphaTeam ){
-           chatCollection.push(message.data);
+           chatCollection.unshift(message.data);
          }
-
      });
 
      dataStream.onClose(function() {
@@ -157,7 +143,6 @@ App.config(function($mdThemingProvider) {
        chatCollection: chatCollection,
        mailCollection: mailCollection,
        get: function(msg) {
-         console.log(dataStream);
          dataStream.send(msg);
        },
        sendMsg: function(msg) {
@@ -172,9 +157,10 @@ App.config(function($mdThemingProvider) {
        logoutMail: function(){
          console.log("LOGOUT MAIL");
          mailCollection.length = 0;
-         //chatCollection.length=0;
+         chatCollection.length = 0;
        },
        loginMail: function(){
+         chatCollection.length=0;
          dataStream.send("NEW_CONNECT," +properties.alphaClub +properties.alphaTeam);
        },
        getMessages: function(to, club, team){
@@ -188,10 +174,8 @@ App.config(function($mdThemingProvider) {
              }
            }
          });
-
       }
      };
-
      return methods;
    });
 
@@ -544,6 +528,7 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
 
  self.login = function(credential) {
     authService.login(credential);
+    console.log("Doing a loginmail");
     messageService.loginMail();
   };
 

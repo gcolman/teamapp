@@ -5,7 +5,6 @@ function sidenavController($scope, authSvc, properties) {
   ctrl.auth = authSvc;
   ctrl.properties = properties;
 
-  console.log(JSON.stringify(properties.selectedTeam));
 
 }
 
