@@ -117,7 +117,11 @@ App.controller('adminController', function ($scope, $http, authSvc, properties) 
   * Update a user
   */
   self.updateIndividualUser = function(user) {
-    //console.log("UPDATE " +JSON.stringify(user) );
+
+    if(properties.selectedTeam.administrators == undefined){properties.selectedTeam.administrators=[];}
+    if(properties.selectedTeam.coaches == undefined){properties.selectedTeam.coaches=[];}
+    if(properties.selectedTeam.validusers == undefined){properties.selectedTeam.validusers=[];}
+
     changed = false;
     // check if either the player or the team memberlists have changed then update either or both.
     changed = changed || self.updateArray(properties.selectedTeam.administrators, user.userid, user.isAdmin);
