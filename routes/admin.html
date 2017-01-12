@@ -27,16 +27,16 @@
                     <td align="center">{{statGame.totalPlayed}}</td>
                     <td align="center">{{statGame.totalPaid}}</td>
                     <td align="center">
-                        <input aria-label="reffee" ng-model="statGame.matchfee" type="text" size="4" ></input>
+                        <input aria-label="reffee" ng-model="statGame.matchfee" ng-blur="ac.updateFixture(statGame)" type="text" size="4" ></input>
                     </td>
                     <td align="center">
                         <input aria-label="reffee" ng-model="statGame.refFee" ng-blur="ac.updateFixture(statGame)" type="text" size="4"/>
                     </td>
                     <td align="center">
-                        <input aria-label="otherfee" ng-model="statGame.otherFee" type="text" size="4"/>
+                        <input aria-label="otherfee" ng-model="statGame.otherFee" ng-blur="ac.updateFixture(statGame)" type="text" size="4"/>
                     </td>
                     <td align="center">
-                        <input aria-label="otherReason" ng-model="statGame.otherReason" type="text" size="10"/>
+                        <input aria-label="otherReason" ng-model="statGame.otherReason" ng-blur="ac.updateFixture(statGame)" type="text" size="10"/>
                     </td>
                     <td align="right"><b>£{{(statGame.matchfee * statGame.totalPaid) -statGame.refFee -statGame.otherFee}}</b></td>
                 </tr>
