@@ -30,7 +30,7 @@ App.config(function($mdThemingProvider) {
           templateUrl : "routes/main.html",
           controller : "mainController"
       })
-      .when("/main", {
+      .when("/main/:msg", {
           templateUrl : "routes/main.html",
           controller : "mainController"
       })
@@ -184,7 +184,7 @@ App.config(function($mdThemingProvider) {
    /*******************************
    * Auth Factory Service
    ********************************/
-   App.factory('authSvc', function($rootScope, $cookies, hashService, properties) {
+   App.factory('authSvc', function($rootScope, $cookies, utils, properties) {
      var view = "news_view";
      var currentPlayer = "0";
     return {
@@ -195,7 +195,7 @@ App.config(function($mdThemingProvider) {
         return $cookies.get("id");
       },
       isAuthenticated : function() {
-        if(($cookies.get("a199hhy78327772679hhy") != null) && ($cookies.get("a199hhy78327772679hhy") == hashService.hash($cookies.get("user")))) {
+        if(($cookies.get("a199hhy78327772679hhy") != null) && ($cookies.get("a199hhy78327772679hhy") == utils.hash($cookies.get("user")))) {
           return true;
         } else {
           return false;
@@ -207,21 +207,21 @@ App.config(function($mdThemingProvider) {
       isInTeam : function(team){
         //console.log("IS IN TEAM " +team + properties.myTeam +properties.teamId);
         if(team != undefined && team.members != undefined) {
-          if(properties.myTeam == properties.teamId) {
-            return true;
-          }
-          for(i=0;i <team.members.length;i++) {
-            if(properties.myTeam == team.members[i]) {
+          //If the user needs to be in the validated uaers group then they must exist as valid users.
+          //console.log("VM" +properties.selectedTeam.validatedMembers);
+          if(properties.selectedTeam.validatedMembers) {
+            if(utils.isInArray(team.validusers, properties.userid)) {return true;}
+          } else {
+            //If the team does not need to have validated users then check the usual lists.
+            if(properties.myTeam == properties.teamId) {
               return true;
             }
-          }
-          for(i=0;i <team.administrators.length;i++) {
-            if(properties.myTeam == team.members[i]) {
-              return true;
-            }
+            if(utils.isInArray(team.members, properties.userid)) {return true;}
+            if(utils.isInArray(team.administrators, properties.userid)) {return true;}
           }
         } else {
-          if(properties.myTeam == properties.teamId) {
+          //If I am not in members but it's myteam
+          if(properties.myTeam == properties.selectedTeam.teamId) {
             return true;
           } else {
             //console.log("IS IN TEAM = FALSE " +team + properties.myTeam +properties.teamId);
@@ -301,7 +301,6 @@ App.config(function($mdThemingProvider) {
         $cookies.remove("myTeam");
         $rootScope.$broadcast('auth', 'logout');
       }
-
     }
   });
 
@@ -314,7 +313,7 @@ App.config(function($mdThemingProvider) {
 * Service to hash a username
 * -- this should be seeded with something config based.
 */
-App.service('hashService', function () {
+App.service('utils', function () {
     this.hash = function(orig,seed) {
         if(orig == null || orig =="") {
           return null;
@@ -335,7 +334,55 @@ App.service('hashService', function () {
         return res;
     };
 
+    this.isInArray = function(array, value) {
+      if(array != undefined) {
+        for(x=0;x<array.length;x++) {
+          if(array[x] == value) {
+            return true;
+            break;
+          }
+        }
+      }
+      return false;
+    }
+
+    this.posInArray = function(array, value) {
+      if(array != undefined) {
+        for(x=0;x<array.length;x++) {
+          if(array[x] == value) {
+            return x;
+            break;
+          }
+        }
+      }
+      return -1;
+    }
+
+    /**
+    * Update an array either add an element or remove the element addme=true/false
+    **/
+    this.updateArray = function(array, val, addme) {
+      change=false;
+      pos = this.posInArray(array, val);
+      if(addme) {
+        if(pos < 0 ) {
+          //if not in array then add
+          array.push(val);
+          change = true;
+        }
+      } else {
+        if(pos >= 0 ) {
+          //remove from array
+          array.splice(pos, 1);
+          change = true;
+        }
+      }
+      return change;
+    }
+
 });
+
+
 
 
 /**
@@ -353,7 +400,7 @@ App.service('helpService', function ($mdDialog, properties) {
 * Auth Service
 *
 */
-App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashService, messageService, properties) {
+App.service('authService', function($rootScope, $http, $cookies, ngDialog, utils, messageService, properties) {
 
   this.login = function(credential) {
       if(credential != undefined) {
@@ -375,7 +422,7 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
             if(data[0] != undefined && data[0].username != undefined) {
               //Check if the user is valid for the club and
               console.log("SUCCESS" +JSON.stringify(data[0]));
-              $cookies.put("a199hhy78327772679hhy", hashService.hash(data[0].username, ""));
+              $cookies.put("a199hhy78327772679hhy", utils.hash(data[0].username, ""));
               $cookies.put("user", data[0].username);
               $cookies.put("role", data[0].authrole);
               $cookies.put("id", data[0].userid);
@@ -402,7 +449,7 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
   };
 
   this.isAuthenticated = function() {
-    if(($cookies.get("a199hhy78327772679hhy") != null) && ($cookies.get("a199hhy78327772679hhy") == hashService.hash($cookies.get("user")))) {
+    if(($cookies.get("a199hhy78327772679hhy") != null) && ($cookies.get("a199hhy78327772679hhy") == utils.hash($cookies.get("user")))) {
       return true;
     } else {
       return false;
@@ -426,7 +473,7 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, hashS
 /****************************************************************************
 ** Main app controler
 *****************************************************************************/
-  App.controller('appCtrl', function ($scope, $location, $cookies, properties, authSvc, hashService) {
+  App.controller('appCtrl', function ($scope, $location, $cookies, properties, authSvc, utils) {
   var self = this;
   self.properties = properties;
   self.authSvc = authSvc;
@@ -519,7 +566,7 @@ App.controller('newsCtl', function ($scope, $http, ngDialog, properties) {
 /***********************
 * AUTH CONTROLLER.
 ************************/
-App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ngDialog, hashService, messageService) {
+App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ngDialog, utils, messageService) {
   var self = this;
 
   self.dologin = function(credential) {
@@ -547,7 +594,7 @@ App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ng
 
 
   self.isAdmin = function() {
-    if(($cookies.get("a199hhy78327772679hhy") == hashService.hash($cookies.get("user"))) && ($cookies.get("role") == "admin")) {
+    if(($cookies.get("a199hhy78327772679hhy") == utils.hash($cookies.get("user"))) && ($cookies.get("role") == "admin")) {
       console.log("admin");
       return true;
     } else {

@@ -357,6 +357,8 @@ app.post('/addClub', jsonParser, function (req, res) {
 
 app.post('/addTeam', jsonParser, function (req, res) {
   req.body.administrators = [];
+  req.body.members = [];
+  req.body.validatedMembers = [];
   user = req.query.userid;
   req.body.administrators[0] = user;
   console.log("REGISTER TEAM " +JSON.stringify(req.body));
@@ -380,6 +382,26 @@ app.post('/updateTeam', jsonParser, function (req, res) {
     });
 })
 
+
+app.post('/updateTeamMember', jsonParser, function (req, res) {
+      console.log( "/updateTeamMember : "+req.query.team +" with member " +req.query.userid );
+      var qstr='{"teamId":' +req.query.team +'}';
+      findDocumentsByString(db, 'teams', JSON.parse(qstr), function(docs) {
+        if(docs[0].members == undefined) {docs[0].members = [];}
+        docs[0].members.push(Number(req.query.userid));
+        delete docs[0]["_id"];
+
+        x=JSON.stringify(docs[0]);
+//console.log("jjjjjj" +x);
+        //team = JSON.parse(docs[0]);
+        //console.log(">>>>>> " +team);
+        updateDocument(db, "teams" , 'teamId', req.query.team, docs[0], function(ret) {
+          console.log("RET1");
+          res.end();
+        });
+        res.end( docs );
+      });
+})
 
 app.post('/addMessage', jsonParser, function (req, res) {
      //addDocument(db, req.query.club +"_" +req.query.team +'_mail', req.body, function(docs) {
@@ -657,14 +679,18 @@ var findDocumentsIn = function(db, collection, qstr, callback) {
 }
 
 var updateDocument = function(db, coll, key, value, doc, callback) {
+  console.log("llllllllllll" +doc);
   // Get the documents collection
   var collection = db.collection(coll);
   var qstr="{ \"" +key  +"\": " +value +" }";
   var query = JSON.parse(qstr);
-  //console.log(JSON.stringify(doc));
+  console.log("fffffffff"+qstr);
 
   collection.update( query, doc, function(error, doc){
-    if (error) throw error;
+    if (error){
+      console.log("ERROR "+ error);
+      throw error;
+    }
     callback(doc);
 });
 }

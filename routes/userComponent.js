@@ -1,18 +1,11 @@
 
 
-App.controller('userController', function($scope, $http, $mdToast, authSvc, properties) {
+App.controller('userController', function($scope, $http, $mdToast, $location, authSvc, properties, utils) {
   var self = this;
   $scope.authSvc = authSvc;
   authSvc.setView("no_chat");
+  self.teams;
 
-
-  //Fetch all of the news articles
-/*  var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
-  $http.get("/getNews").then(function (response) {
-      self.news = response.data;
-    });
-*/
-    //Fetch user
 
     //Fetch all of the users
     $http.get("/getUsers?club=" +properties.alphaClub +"&team=" +properties.alphaTeam).then(function (response) {
@@ -21,6 +14,7 @@ App.controller('userController', function($scope, $http, $mdToast, authSvc, prop
 
         $http.get("/getCollection?collection=teams").then(function (response) {
             self.teams = response.data;
+            console.log("lllddd " +self.teams);
           });
 
           $http.get("/getCollection?collection=clubs").then(function (response) {
@@ -43,20 +37,46 @@ App.controller('userController', function($scope, $http, $mdToast, authSvc, prop
 
 
     self.save = function(dataUrl, picfile){
-        //console.log("User Saved:" +JSON.stringify(self.user));
-        $http.defaults.headers.post["Content-Type"] = "application/json";
-        //self.user.club = properties.clubId;
-        //self.user.team = properties.teamId;
-
         if(picfile == undefined) {
           self.user.avatarUploaded=false;
         } else {
           self.user.avatarUploaded=true;
         }
-
         var data = JSON.stringify(self.user);
-
+        $http.defaults.headers.post["Content-Type"] = "application/json";
         $http.post("/addUser?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, data).success(function (data, status, headers, config) {
+
+        /*  $http.get("/updateTeamMember?team=" +data.team +"&userid=" +data.userid).success(function (team, status, headers, config) {
+            })
+            .error(function (data, status, header, config) {
+              alert(status);
+            });*/
+
+         //Update the selected team to add the user id as a member.
+         //console.log(" 1 << " +data.team);
+         //console.log(" >> 2 >>"+self.teams);
+         //theteam = self.teams[utils.posInArray(self.teams, data.team)];
+
+         for(h=0;h<self.teams.length;h++){
+           if(self.teams[h].teamId == data.team){
+             myteam =  self.teams[h];
+           }
+         }
+
+         console.log(myteam);
+          delete myteam["_id"];
+          delete myteam["$$hashKey"]
+          if(myteam.members == undefined) {myteam.members = [];}
+          utils.updateArray(myteam.members, data.userid, true);
+          //var team = JSON.stringify(theteam);
+          console.log("ST " +JSON.stringify(myteam));
+          $http.post("/updateTeam?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, JSON.stringify(myteam)).success(function (team, status, headers, config) {
+            })
+            .error(function (data, status, header, config) {
+              alert(status);
+            });
+
+
               if(typeof data.username != 'undefined') {
                 var imageData = dataURItoBlob(dataUrl);
                 var fd = new FormData();
@@ -73,6 +93,9 @@ App.controller('userController', function($scope, $http, $mdToast, authSvc, prop
                 }).error(function(){
                     console.log("ERROR");
                 });
+
+                $location.path("/main/100");
+
             } else {
               if(data.code == 11000) {
                 $mdToast.show($mdToast.simple()

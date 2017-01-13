@@ -166,7 +166,7 @@
             </md-list-item>
             <md-list-item class="md-3-line" >
               <div class="md-list-item-text">
-                <md-checkbox ng-model="ta1" aria-label="valid">
+                <md-checkbox ng-model="ac.properties.selectedTeam.nonMemberAccess" aria-label="valid">
                   Allow non members to view your main pages
                 </md-checkbox>
               </div>
@@ -175,7 +175,7 @@
           </md-list-item>
           <md-list-item class="md-3-line" >
             <div class="md-list-item-text">
-              <md-checkbox ng-model="ta2" aria-label="valid">
+              <md-checkbox ng-model="ac.properties.selectedTeam.validatedMembers" aria-label="valid">
                 Validate new members bfore they can use the chat functions
               </md-checkbox>
             </div>
@@ -184,22 +184,17 @@
         </md-list-item>
         <md-list-item class="md-3-line" >
           <div class="md-list-item-text">
-            <md-checkbox ng-model="ta3" aria-label="valid">
+            <md-checkbox ng-model="ac.properties.selectedTeam.playerStatsVisible" aria-label="valid">
               Allow any member to view player stats
             </md-checkbox>
           </div>
           <md-divider md-inset></md-divider>
         </md-list-item>
       </md-list-item>
-      <md-list-item class="md-3-line" >
-        <div class="md-list-item-text">
-          <md-checkbox ng-model="ta4" aria-label="valid">
-            Allow coaches to update player stats
-          </md-checkbox>
-        </div>
-        <md-divider md-inset></md-divider>
-      </md-list-item>
           </md-list>
+          <div>
+            <md-button aria-label="Edit" class="md-raised md-primary"  ng-click="ac.updateTeamOnly(ac.properties.selectedTeam)">Update</md-button>
+          </div>
         </md-content>
       </md-tab>
     </md-tabs>

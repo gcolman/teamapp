@@ -1,7 +1,7 @@
 
 
 //function newsController($scope, $http, ngDialog, authService, $filter, authSvc) {
-App.controller('newsController', function ($scope, $http, ngDialog, authService, $filter, authSvc, properties, hashService) {
+App.controller('newsController', function ($scope, $http, ngDialog, authService, $filter, authSvc, properties ) {
   var self = this;
   self.authSvc = authSvc;
   this.authenticated = authSvc.isAuthenticated();

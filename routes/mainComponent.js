@@ -1,9 +1,10 @@
-App.controller('mainController', function($scope, $http, $cookies, authSvc, properties, hashService, messageService) {
+App.controller('mainController', function($scope, $http, $cookies, $mdToast, $routeParams, authSvc, properties, messageService, utils) {
     authSvc.setView("no_chat");
     var self = this;
     self.auth = authSvc;
     self.properties = properties;
     properties.thisview="main";
+    self.msg = $routeParams.msg;
 
     properties.username = $cookies.get("user");
     properties.authrole = $cookies.get("role");
@@ -11,6 +12,18 @@ App.controller('mainController', function($scope, $http, $cookies, authSvc, prop
     properties.myClub = $cookies.get("myClub");
     properties.myTeam = $cookies.get("myTeam");
     messageService.getMessages( properties.username, properties.alphaClub, properties.alphaTeam);
+
+    console.log(self.msg);
+    if(self.msg != undefined) {
+      if(self.msg == 100 ) {
+        self.msg = "Congratulations, you have registerd you user. Now you can login with your username and password."
+      }
+      $mdToast.show($mdToast.simple()
+          .textContent(self.msg)
+          .position('top left' )
+          .hideDelay(6000)
+      );
+    }
 
     var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
     $http.get("/getCollection?collection=clubs").then(function (response) {
@@ -32,7 +45,7 @@ App.controller('mainController', function($scope, $http, $cookies, authSvc, prop
         if(self.clubs[clubcount].clubId == club) {
           properties.clubId = club;
           properties.clubName = self.clubs[clubcount].clubName;
-          properties.alphaClub = hashService.alpha(club);
+          properties.alphaClub = utils.alpha(club);
           properties.selectedClub = self.clubs[clubcount];
         }
       }
@@ -42,7 +55,7 @@ App.controller('mainController', function($scope, $http, $cookies, authSvc, prop
           properties.teamName = self.teams[teamcount].teamName;
           properties.ageGroup = self.teams[teamcount].ageGroup;
           properties.bg = self.teams[teamcount].bg;
-          properties.alphaTeam = hashService.alpha(team);
+          properties.alphaTeam = utils.alpha(team);
           properties.selectedTeam = self.teams[teamcount];
           messageService.loginMail();
         }

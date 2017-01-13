@@ -1,7 +1,7 @@
 
 
 //function newsController($scope, $http, ngDialog, authService, $filter, authSvc) {
-App.controller('adminController', function ($scope, $http, authSvc, properties) {
+App.controller('adminController', function ($scope, $http, authSvc, properties, utils) {
   self = this;
   self.properties = properties;
   self.acgames;
@@ -44,19 +44,19 @@ App.controller('adminController', function ($scope, $http, authSvc, properties) 
           user.players = response.data[i].players;
 
           // now add the is valid, is coach and is admin flags.
-         if(self.isInArray(properties.selectedTeam.administrators, user.userid)) {
+         if(utils.isInArray(properties.selectedTeam.administrators, user.userid)) {
             user.isAdmin = true;
           } else {
             user.isAdmin = false;
           }
           // now add the is valid, is coach and is admin flags.
-          if(self.isInArray(properties.selectedTeam.coaches, user.userid)) {
+          if(utils.isInArray(properties.selectedTeam.coaches, user.userid)) {
             user.isCoach = true;
           } else {
             user.isCoach = false;
           }
           // now add the is valid, is coach and is admin flags.
-          if(self.isInArray(properties.selectedTeam.validusers, user.userid)) {
+          if(utils.isInArray(properties.selectedTeam.validusers, user.userid)) {
             user.isValid = true;
           } else {
             user.isValid = false;
@@ -67,51 +67,7 @@ App.controller('adminController', function ($scope, $http, authSvc, properties) 
         //console.log(JSON.stringify(self.members));
       });
 
-  self.isInArray = function(array, value) {
-    if(array != undefined) {
-      for(x=0;x<array.length;x++) {
-        if(array[x] == value) {
-          return true;
-          break;
-        }
-      }
-    }
-    return false;
-  }
 
-  self.posInArray = function(array, value) {
-    if(array != undefined) {
-      for(x=0;x<array.length;x++) {
-        if(array[x] == value) {
-          return x;
-          break;
-        }
-      }
-    }
-    return -1;
-  }
-
-  /**
-  * Update an array either add an element or remove the element addme=true/false
-  **/
-  self.updateArray = function(array, val, addme) {
-    change=false;
-    pos = self.posInArray(array, val);
-    if(addme) {
-      if(pos < 0 ) {
-        //if not in array then add
-        array.push(val);
-        change = true;
-      }
-    } else {
-      if(pos >= 0 ) {
-        //remove from array
-        array.splice(pos, 1);
-        change = true;
-      }
-    }
-    return change;
-  }
 
   /**
   * Update a user
@@ -124,9 +80,9 @@ App.controller('adminController', function ($scope, $http, authSvc, properties) 
 
     changed = false;
     // check if either the player or the team memberlists have changed then update either or both.
-    changed = changed || self.updateArray(properties.selectedTeam.administrators, user.userid, user.isAdmin);
-    changed = changed || self.updateArray(properties.selectedTeam.coaches, user.userid, user.isCoach);
-    changed = changed || self.updateArray(properties.selectedTeam.validusers, user.userid, user.isValid);
+    changed = changed || utils.updateArray(properties.selectedTeam.administrators, user.userid, user.isAdmin);
+    changed = changed || utils.updateArray(properties.selectedTeam.coaches, user.userid, user.isCoach);
+    changed = changed || utils.updateArray(properties.selectedTeam.validusers, user.userid, user.isValid);
 
     if(changed) {
       delete properties.selectedTeam["_id"];
@@ -255,6 +211,17 @@ App.controller('adminController', function ($scope, $http, authSvc, properties) 
         for(x=0;x<properties.selectedTeam.banking.length;x++) {
           self.cashBalance -= properties.selectedTeam.banking[x].bankedAmount;
         }
+        })
+        .error(function (data, status, header, config) {
+          alert(status);
+        });
+    };
+
+    self.updateTeamOnly = function(team) {
+      delete team["_id"];
+      var data= JSON.stringify(team);
+      $http.defaults.headers.post["Content-Type"] = "application/json";
+      $http.post("/updateTeam?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, team).success(function (team, status, headers, config) {
         })
         .error(function (data, status, header, config) {
           alert(status);
