@@ -22,6 +22,7 @@ var id = authSvc.getCurrentPlayer();
     });
   } else {
     $http.get("/data/player.json").then(function (response) {
+      self.newplayer = true;
       self.player = response.data;
     });
   }
@@ -86,7 +87,7 @@ self.addPlayer = function() {
     $http.defaults.headers.post["Content-Type"] = "application/json";
     self.player.IDNumber = Number(self.player.IDNumber);
     var data = JSON.stringify(self.player);
-
+    console.log(" Adding PLayer " +properties.alphaClub +"&team=" +properties.alphaTeam);
     $http.post("/addPlayer?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, self.player).success(function (data, status, headers, config) {
               this.player = data;
               self.mode.length=0;
