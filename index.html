@@ -74,12 +74,12 @@
       </div>
 
       <!-- the chat component -->
-      <div ng-hide="!main.auth.isInTeam(main.properties.selectedTeam) || main.authSvc.getView() == 'no_chat'" flex-xs="auto" flex-gt-xs="25" layout-sm="column" >
+      <div ng-hide="!main.auth.isInTeam(main.properties.selectedTeam) || main.auth.getView() == 'no_chat'" flex-xs="auto" flex-gt-xs="25" layout-sm="column" >
           <chat></chat>
       </div>
 
       <!-- the Who's online component -->
-      <div ng-hide="!main.auth.isInTeam(main.properties.selectedTeam) || main.authSvc.getView() == 'no_chat'" flex-xs="" flex-gt-xs="20" layout-sm="column">
+      <div ng-hide="!main.auth.isInTeam(main.properties.selectedTeam) || main.auth.getView() == 'no_chat'" flex-xs="" flex-gt-xs="20" layout-sm="column">
         <div >
           <online></online>
         </div>
