@@ -205,25 +205,41 @@ App.config(function($mdThemingProvider) {
         return $cookies.get("role");
       },
       isInTeam : function(team){
+
         //console.log("IS IN TEAM " +team + properties.myTeam +properties.teamId);
+        //console.log("xx"+team);
         if(team != undefined && team.members != undefined) {
           //If the user needs to be in the validated uaers group then they must exist as valid users.
           //console.log("VM" +properties.selectedTeam.validatedMembers);
           if(properties.selectedTeam.validatedMembers) {
-            if(utils.isInArray(team.validusers, properties.userid)) {return true;}
+            if(utils.isInArray(team.validusers, properties.userid)) {
+              //console.log("11111");
+              return true;
+            } else {
+              return false;
+            }
           } else {
             //If the team does not need to have validated users then check the usual lists.
             if(properties.myTeam == properties.teamId) {
+                //console.log("2222222222");
+                return true;
+              } else if(utils.isInArray(team.members, properties.userid)) {
+                //console.log("333333333333");
+                return true;
+            } else if(utils.isInArray(team.administrators, properties.userid)) {
+              //console.log("44444444444444");
               return true;
+            } else {
+              return false;
             }
-            if(utils.isInArray(team.members, properties.userid)) {return true;}
-            if(utils.isInArray(team.administrators, properties.userid)) {return true;}
           }
         } else {
           //If I am not in members but it's myteam
           if(properties.myTeam == properties.selectedTeam.teamId) {
+            //console.log("555555555555555");
             return true;
           } else {
+            //console.log("6666666666666");
             //console.log("IS IN TEAM = FALSE " +team + properties.myTeam +properties.teamId);
             return false;
           }
@@ -300,6 +316,18 @@ App.config(function($mdThemingProvider) {
         $cookies.remove("myClub");
         $cookies.remove("myTeam");
         $rootScope.$broadcast('auth', 'logout');
+        properties.user=  {};
+        properties.username= "";
+        properties.userid= 00;
+        properties.myClub= 00;
+        properties.myTeam= 00;
+        properties.selectedTeam = {};
+        properties.myTeam = 00;
+        properties.selectedTeam.teamId = -100;
+        properties.teamName = "";
+        properties.ageGroup = "";
+        properties.clubName = "";
+
       }
     }
   });
@@ -566,7 +594,7 @@ App.controller('newsCtl', function ($scope, $http, ngDialog, properties) {
 /***********************
 * AUTH CONTROLLER.
 ************************/
-App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ngDialog, utils, messageService) {
+App.controller('authCtl', function($scope, $rootScope, $cookies, authService, ngDialog, utils, messageService, properties) {
   var self = this;
 
   self.dologin = function(credential) {
