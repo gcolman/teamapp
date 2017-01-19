@@ -342,7 +342,7 @@ app.post('/addClub', jsonParser, function (req, res) {
   user = req.query.userid;
   req.body.administrators[0] = user;
   //console.log("REGISTER CLUB " +JSON.stringify(req.body));
-  getNextSeq("userid", function(id) {
+  gtNextSeq("userid", function(id) {
     req.body.clubId=id;
        addDocument(db, 'clubs', req.body, function(docs,err) {
           if(err) {
