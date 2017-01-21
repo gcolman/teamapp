@@ -31,40 +31,33 @@
                         </div>
                         <div ng-switch-when="true" layout="column" layout-align="center center" style="text-align:center">
                           <div>
-                            <h3>Welcome back {{mc.properties.username}}!
-                            <br/>
-                            Select your club below and then pick your team<h3>
+                            <h3>Welcome back {{mc.properties.username}}! So... what next? </h3>
                           </div>
-                          <md-input-container>
-                            <label>Select your club</label>
-                            <md-select ng-model="mc.clubselect">
-                              <md-option ng-value="club.clubId" ng-repeat="club in mc.clubs" >{{ club.clubName }}</md-option>
-                            </md-select>
-                          </md-input-container>
+                          <div>
+                            <div style="text-align:center">
+                                <h3>If your team has already been set up, then go straight to your team pages by selecting your club and team below.<h3>
+                            </div>
+                          </div>
+                          <div layout="row" layout-align="end center">
+                            <md-input-container>
+                              <label>Club</label>
+                              <md-select ng-model="clubselect">
+                                <md-option ng-value="club.clubId" ng-repeat="club in mc.clubs" >{{ club.clubName }}</md-option>
+                              </md-select>
+                            </md-input-container>
+                            &nbsp;|&nbsp;
+                            <md-input-container>
+                              <label>Team</label>
+                              <md-select ng-model="teamselect">
+                                <md-option ng-value="team.teamId" ng-repeat="team in mc.teams" >{{ team.teamName }}</md-option>
+                              </md-select>
+                            </md-input-container>
+                            <md-input-container>
+                              <md-button class=" md-raised md-mini md-primary" ng-click="mc.setTeam(clubselect, teamselect)" ng-href="/index">Go</md-button>
+                            </md-input-container>
+                          </div>
                         </div>
                     </div>
-                  </div>
-
-                  <div ng-show="mc.auth.isAuthenticated()">
-
-                    <div ng-repeat="team in mc.teams track by $index">
-                      <md-card ng-if="team.clubId == mc.clubselect" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="" style="width:100%">
-                        <md-card-content ng-click="mc.setTeam(team.clubId, team.teamId)">
-                          <div layout="row" layout-align="center center" class="md-title">{{team.teamName}} {{team.teamAge}} {{team.teamBG}}</div>
-                          <div layout="row" layout-align="center center" ng-if="team.badgeUploaded">
-                            <img class="md-user-avatar" style="height:75px" src="images/people/TeamBadge{{team.teamId}}"/>
-                          </div>
-                          <div layout="row" layout-align="center center" ng-if="!team.badgeUploaded">
-                            <img class="md-user-avatar" style="height:75px" src="images/people/TeamBadge00"/>
-                          </div>
-                        </md-card-content>
-                      </md-card>
-                    </div>
-
-                  </div>
-
-
-                  <div layout="column" ng-switch="mc.auth.isAuthenticated()">
                     <div ng-switch-when="false">
                       <div layout="row" layout-align="end center" ng-app="myApp" ng-controller="authCtl as ac">
                         <p>Please login first or register for an account to use your teamapp.</p>&nbsp;
@@ -73,6 +66,7 @@
                       </div>
                     </div>
                     <div ng-switch-when="true">
+
                       <div>
                         <div layout="row">
                           <div style="text-align:center">

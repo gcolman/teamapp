@@ -1,0 +1,183 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/node_modules/angular-material/angular-material.min.css">
+  <link rel="stylesheet" href="/node_modules/angular-material/angular-material.css">
+  <style type="text/css" media="all">@import "/node_modules/ng-dialog/css/ngDialog.css";</style>
+  <style type="text/css" media="all">@import "/node_modules/ng-dialog/css/ngDialog-theme-default.css";</style>
+  <link rel='stylesheet' href='/node_modules/textangular/dist/textAngular.css'>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
+  <link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/node_modules/angular-percent-circle-directive/dist/percent-circle.css">
+  <link rel="stylesheet" type="text/css" href="/node_modules/angular-dragula/dist/dragula.min.css">
+  <link rel="stylesheet" href="/prediction/prediction.css"/>
+  <base href="/">
+</head>
+
+<body  layout="column" style="height:6000px" ng-cloak="" ng-app="myApp" ng-controller="appCtrl as pc">
+  <script src="/node_modules/angular/angular.min.js"></script>
+  <script src="/node_modules/ng-dialog/js/ngDialog.js"></script>
+  <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
+  <script src="/node_modules/angular-aria/angular-aria.min.js"></script>
+  <script src="/node_modules/angular-messages/angular-messages.min.js"></script>
+  <script src="/node_modules/angular-route/angular-route.min.js"></script>
+  <script src="/node_modules/angular-material-icons/angular-material-icons.min.js"></script>
+  <script src="/node_modules/angular-material/angular-material.min.js"></script>
+
+  <script src="/node_modules/ng-file-upload/dist/ng-file-upload-shim.js"></script> <!-- for no html5 browsers support -->
+  <script src="/node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
+  <script src="/node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+
+	<script src="/node_modules/angular-cookies/angular-cookies.js"></script>
+  <script src='/node_modules/textangular/dist/textAngular-rangy.min.js'></script>
+  <script src='/node_modules/textangular/dist/textAngular-sanitize.min.js'></script>
+  <script src='/node_modules/textangular/dist/textAngular.min.js'></script>
+  <script src='/node_modules/angular-websocket/dist/angular-websocket.js'></script>
+  <script src='/node_modules/angular-google-chart/ng-google-chart.js'></script>
+  <script src="/node_modules/angular-percent-circle-directive/dist/percent-circle-directive.js"></script>
+  <script src="/node_modules/angular-dragula/dist/angular-dragula.js"></script>
+
+  <script src="/prediction/prediction.js"></script>
+  <script src="/js/diget.js"></script>
+
+  <md-toolbar style="position:relative">
+    <div layout="row">
+      <div layout="row" flex ng-app="myApp"  ng-switch="true">
+          <div flex="100" layout="row">
+            <div flex="70">
+              <span class="md-toolbar-tools">
+                  6 Nations Prediction League
+              </span>
+            </div>
+          </div>
+          <span class="md-toolbar-tools">
+
+            <div ng-show="!pc.loggedin">
+                  <input ng-model="pc.loginName" size="10" value="username" ng-click="pc.loginName=''" style="color:black;font-size: 14px;font-style: inherit;font-variant: inherit;font-family: inherit;"></input>
+                  <input ng-model="pc.loginPassword" size="10" value="password" ng-click="pc.loginPassword=''" type="password" style="color:black;font-size: 14px;font-style: inherit;font-variant: inherit;font-family: inherit;"></input>
+                 <md-button  ng-click="pc.login()" class=" md-raised md-mini md-primary" aria-label="FAB" style="padding-top:8px">Login
+                    <md-tooltip md-direction="right">login</md-tooltip>
+                  </md-button>
+
+            </div>
+            <div ng-show="pc.loggedin">
+              Logged in as: {{pc.loggedinUser}}
+            </div>
+          </span>
+        </div>
+      </div>
+  </md-toolbar>
+  <div layout="row">
+    <div>
+      <div layout="column">
+        <md-content class="md-padding" layout="column" layout-align="center center" layout-wrap="">
+            <md-card>
+              <md-card-header>
+                <span style="font-size:22px">Sign up now!</span>
+              </md-card-header>
+              <md-card-content layout="column">
+                <md-input-container style="margin:5px" >
+                  <label>username</label>
+                  <input ng-model="pc.username" size="20"  type="text"/>
+                </md-input-container>
+                <md-input-container style="margin:5px" >
+                  <label>Email Address</label>
+                  <input ng-model="pc.email" size="20"  type="text"/>
+                </md-input-container>
+                <md-input-container style="margin:5px" >
+                  <label>Password</label>
+                  <input ng-model="pc.password" size="20"  type="password"/>
+                </md-input-container>
+                <md-button class=" md-raised md-mini md-primary" ng-click="pc.register()">Register</md-button>
+              </md-card-content>
+            </md-card>
+        </md-content>
+      </div>
+    </div>
+    <div>
+      <div layout="row" layout-align="center center">
+        <div>
+          <img src="/prediction/images/RBS-6-Nations-Logo-Header.png" alt="">
+        </div>
+      </div>
+      <div ng-cloak="" style="width:1000px">
+        <md-content class="md-padding" layout="row" layout-align="center center" layout-wrap="">
+  <!--          <md-card>
+              <md-card-content>
+                <table border="0">
+                  <tr align="center"  style="font-weight:bold">
+                    <td align="center" width="110px" class="tablehead">Player</td>
+                    <td align="left" width="110px" class="tablehead">Correct Results</td>
+                    <td align="left" width="110px" class="tablehead">Score Diff</td>
+                    <td align="left" width="110px" class="tablehead">Points</td>
+                  </tr>
+                  <tr ng-repeat="player in pc.players track by $index">
+                    <td align="left" class="tablerow">{{player.username}}</td>
+                    <td align="center" class="tablerow">1</td>
+                    <td align="center" class="tablerow">13</td>
+                    <td align="center" class="tablerow">3</td>
+                  </tr>
+                </table>
+              </md-card-content>
+            </md-card>-->
+            <md-card >
+              <md-card-content>
+                <md-tabs md-center-tabs md-swipe-content md-dynamic-height md-border-bottom>
+                  <md-tab  class="md-primary"  label="Leaderboard">
+                    <table border="0">
+                      <tr align="center"  style="font-weight:bold">
+                        <td align="center" width="110px" class="tablehead">Player</td>
+                        <td align="left" width="110px" class="tablehead">Correct Results</td>
+                        <td align="left" width="110px" class="tablehead">Score Diff</td>
+                        <td align="left" width="110px" class="tablehead">Points</td>
+                      </tr>
+                      <tr ng-repeat="player in pc.players track by $index">
+                        <td align="left" class="tablerow">{{player.username}}</td>
+                        <td align="center" class="tablerow">0</td>
+                        <td align="center" class="tablerow">0</td>
+                        <td align="center" class="tablerow">0</td>
+                      </tr>
+                    </table>
+                  </md-tab>
+                  <md-tab  class="md-primary"  label="Six Nations Table">
+                  </md-tab>
+                  <md-tab  class="md-primary"  label="Fixtures">
+                  </md-tab>
+                </md-tabs>
+              </md-card-content>
+            </md-card>
+        </md-content>
+      </div>
+    </div>
+</div>
+<div ng-if="pc.loggedin" ng-cloak="" style="width:1250px">
+  <md-content class="md-padding" layout="row" layout-align="start center" layout-wrap="">
+      <md-card>
+        <md-card-content>
+          <table class="foo" border="0">
+            <tr>
+              <td class="tablehead" style="font-size:24px">&nbsp;&nbsp;&nbsp;What are your predictions?&nbsp;&nbsp;&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><md-button class=" md-raised md-mini md-primary" ng-click="pc.savePredictions()">Save my predictions</md-button></td>
+            </tr>
+            <tr ng-repeat="fixture in pc.user.fixtures track by $index">
+              <td align="left" class="predfix">{{fixture.date}}&nbsp;&nbsp;&nbsp;{{fixture.time}}</td>
+              <td align="center" class="predfix"><img src="prediction/images/{{fixture.hometeam}}.png" width="30px" alt="">&nbsp;&nbsp;&nbsp;<b>{{fixture.hometeam}}</td>
+              <td><input ng-model="fixture.homescore" size="2"/>&nbsp;&nbsp;V&nbsp;&nbsp;<input ng-model="fixture.awayscore" size="2"/></td>
+              <td class="predfix" style="align:right"><b>{{fixture.awayteam}}&nbsp;&nbsp;&nbsp;</b><img src="prediction/images/{{fixture.awayteam}}.png" width="30px"  alt=""></b></td>
+              <td align="left" class="predfix">&nbsp;</td>
+              <td align="left" class="predfix">{{fixture.venue}}</td>
+            </tr>
+          </table>
+        </md-card-content>
+      </md-card>
+  </md-content>
+</div>
+</body>
+</html>

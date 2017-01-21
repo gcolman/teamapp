@@ -121,6 +121,17 @@ MongoClient.connect("mongodb://localhost:27017/teamapp", function(err, database)
 
 
 /**
+* generic add collection
+*/
+app.post('/add', jsonParser, function (req, res) {
+     //addDocument(db, req.query.club +"_" +req.query.team +'_mail', req.body, function(docs) {
+       addDocument(db, req.query.collection, req.body, function(docs) {
+        res.end(JSON.stringify(docs));
+      //res.end(docs);
+    });
+})
+
+/**
 * generic get all documents from a collection using the quiery param "collection"
 */
 app.get('/getCollection', function (req, res) {
@@ -143,8 +154,8 @@ app.get('/getInCollection', function (req, res) {
 })
 
 app.post('/updateCollection', jsonParser, function (req, res) {
-    console.log("/updateColection: " +req.query.collection +" " +req.query.key +" = " +req.query.id);
-      updateDocument(db, req.query.collection, req.query.key, +req.query.id, req.body, function(docs) {
+    console.log("/updateColection: " +req.query.collection +" " +req.query.key +" = " +req.query.id +"\n" +JSON.stringify(req.body));
+      updateDocument(db, req.query.collection, req.query.key, req.query.id, req.body, function(docs) {
         res.end(JSON.stringify(docs));
     });
 })
@@ -679,13 +690,16 @@ var findDocumentsIn = function(db, collection, qstr, callback) {
 }
 
 var updateDocument = function(db, coll, key, value, doc, callback) {
-  console.log("llllllllllll" +doc);
+  console.log("KEY" +key +" - VAL " +value);
   // Get the documents collection
   var collection = db.collection(coll);
-  var qstr="{ \"" +key  +"\": " +value +" }";
+  if(isNaN(value)) {
+    var qstr="{ \"" +key  +"\": \"" +value +"\" }";
+  } else {
+    var qstr="{ \"" +key  +"\": " +value +" }";
+  }
   var query = JSON.parse(qstr);
-  console.log("fffffffff"+qstr);
-
+  console.log(query);
   collection.update( query, doc, function(error, doc){
     if (error){
       console.log("ERROR "+ error);

@@ -72,7 +72,11 @@ App.config(function($mdThemingProvider) {
       .when("/lineup", {
           templateUrl : "routes/lineup.html",
 
-    });
+      })
+      .when("/prediction", {
+          templateUrl : "prediction/prediction.html",
+
+      });
   });
 
 
