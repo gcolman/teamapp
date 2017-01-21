@@ -42,10 +42,15 @@ var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDia
      self.user.username = self.username;
      self.user.email=self.email;
      self.user.password=self.password;
+     self.user.fixtures = self.fixtures;
      var data = JSON.stringify(self.user);
      console.log("SAVE " +data);
      $http.post("/add?collection=prediction.users", data).success(function (data, status, headers, config) {
-         $mdToast.show($mdToast.simple().textContent("Welcome " +self.username +". Ready to go!").position("top left").hideDelay(3000));
+       $http.get("getCollection?collection=prediction.users&sorted=true&sortfield=totalpoints&ascdesc=desc").then(function (response) {
+         self.players = response.data;
+         $mdToast.show($mdToast.simple().textContent("Welcome " +self.username +". Now just login in over there to start!").position("top left").hideDelay(3000));
+       });
+
        })
        .error(function (data, status, header, config) {
          $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
