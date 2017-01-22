@@ -134,7 +134,7 @@
                         <td align="left" width="110px" class="tablehead">Score Diff</td>
                         <td align="left" width="110px" class="tablehead">Points</td>
                       </tr>
-                      <tr ng-repeat="player in pc.players track by $index">
+                      <tr ng-repeat="player in pc.players track by $index" ng-click="pc.viewUser(player)">
                         <td align="left" class="tablerow">{{player.username}}</td>
                         <td align="center" class="tablerow">0</td>
                         <td align="center" class="tablerow">0</td>

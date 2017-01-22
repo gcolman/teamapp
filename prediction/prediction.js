@@ -64,6 +64,7 @@ var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDia
             this.loggedin = true;
             this.loggedinUser = this.loginName;
             this.user = self.players[x];
+            self.fixtures = this.user.fixtures;
             $mdToast.show($mdToast.simple().textContent("Logged in as " +self.loggedinUser).position("top right").hideDelay(3000));
           } else {
             $mdToast.show($mdToast.simple().textContent("Ooh, wrong password... " +self.loginName).position("top right").hideDelay(3000));
@@ -93,6 +94,10 @@ var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDia
 
 
     }
+
+  self.viewUser = function(player) {
+    $mdToast.show($mdToast.simple().textContent("Woohoo " +player.username).position("top left").hideDelay(3000));
+  }
 
 
  });
