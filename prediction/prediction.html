@@ -49,7 +49,7 @@
           <div flex="100" layout="row">
             <div flex="70">
               <span class="md-toolbar-tools">
-                  6 Nations Prediction League
+                  John & Graeme's 6 Nations Prediction League
               </span>
             </div>
           </div>
@@ -71,7 +71,7 @@
       </div>
   </md-toolbar>
   <div layout="row">
-    <div>
+    <div ng-if="!pc.loggedin">
       <div layout="column">
         <md-content class="md-padding" layout="column" layout-align="center center" layout-wrap="">
             <md-card>
@@ -153,23 +153,29 @@
       </div>
     </div>
 </div>
-<div ng-if="pc.loggedin" ng-cloak="" style="width:1250px">
+<div  ng-cloak="" style="width:1250px">
   <md-content class="md-padding" layout="row" layout-align="start center" layout-wrap="">
       <md-card>
+
         <md-card-content>
-          <table class="foo" border="0">
+<!--          <table class="foo" border="0">
             <tr>
-              <td class="tablehead" style="font-size:24px">&nbsp;&nbsp;&nbsp;What are your predictions?&nbsp;&nbsp;&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td><md-button class=" md-raised md-mini md-primary" ng-click="pc.savePredictions()">Save my predictions</md-button></td>
+              <td class="tablehead" style="font-size:24px;" colspan="3">&nbsp;&nbsp;&nbsp;{{pc.displayedUser.username}}'s predictions&nbsp;&nbsp;&nbsp;</td>
+              <td class="tablehead"><md-button ng-show="pc.displayedUser.username == pc.loggedinUser" class=" md-raised md-mini md-secondary" ng-click="pc.savePredictions()">Save my predictions</md-button></td>
             </tr>
-            <tr ng-repeat="fixture in pc.user.fixtures track by $index">
-              <td align="left" class="predfix">{{fixture.date}}&nbsp;&nbsp;&nbsp;{{fixture.time}}</td>
+          </table>-->
+          <table border="0">
+            <tr>
+              <td class="tablehead"  />
+              <td class="tablehead" style="font-size:24px;" colspan="3">&nbsp;&nbsp;&nbsp;{{pc.displayedUser.username}}'s predictions&nbsp;&nbsp;&nbsp;</td>
+              <td class="tablehead" />
+              <td class="tablehead" ><md-button ng-show="pc.displayedUser.username == pc.loggedinUser" class=" md-raised md-mini md-primary" ng-click="pc.savePredictions()">Save my predictions</md-button></td>
+            </tr>
+            <tr ng-repeat="fixture in pc.displayedUser.fixtures track by $index">
+              <td align="left" style="width:300px" class="predfix">{{fixture.date}}&nbsp;&nbsp;&nbsp;{{fixture.time}}</td>
               <td align="center" class="predfix"><img src="prediction/images/{{fixture.hometeam}}.png" width="30px" alt="">&nbsp;&nbsp;&nbsp;<b>{{fixture.hometeam}}</td>
-              <td><input ng-model="fixture.homescore" size="2"/>&nbsp;&nbsp;V&nbsp;&nbsp;<input ng-model="fixture.awayscore" size="2"/></td>
+              <td ng-if="pc.displayedUser.username == pc.loggedinUser"><input ng-model="fixture.homescore" size="2"/>&nbsp;&nbsp;V&nbsp;&nbsp;<input ng-model="fixture.awayscore" size="2"/></td>
+              <td ng-if="pc.displayedUser.username != pc.loggedinUser" class="predfix">{{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}} </td>
               <td class="predfix" style="align:right"><b>{{fixture.awayteam}}&nbsp;&nbsp;&nbsp;</b><img src="prediction/images/{{fixture.awayteam}}.png" width="30px"  alt=""></b></td>
               <td align="left" class="predfix">&nbsp;</td>
               <td align="left" class="predfix">{{fixture.venue}}</td>

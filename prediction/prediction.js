@@ -11,6 +11,7 @@ var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDia
   self.email;
   self.password;
   self.user = {};
+  self.displayedUser = {};
   self.loggedin = false;
   self.loggedinUser;
   self.loginName="username";
@@ -27,6 +28,7 @@ var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDia
    //db, collection, sorted, sortfield, ascdesc
    $http.get("getCollection?collection=prediction.users&sorted=true&sortfield=totalpoints&ascdesc=desc").then(function (response) {
      self.players = response.data;
+     self.displayedUser = self.players[0];
      console.log(JSON.stringify(self.players));
    });
 
@@ -65,6 +67,7 @@ var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDia
             this.loggedinUser = this.loginName;
             this.user = self.players[x];
             self.fixtures = this.user.fixtures;
+            self.displayedUser = this.user;
             $mdToast.show($mdToast.simple().textContent("Logged in as " +self.loggedinUser).position("top right").hideDelay(3000));
           } else {
             $mdToast.show($mdToast.simple().textContent("Ooh, wrong password... " +self.loginName).position("top right").hideDelay(3000));
@@ -96,6 +99,12 @@ var App = angular.module('myApp',['ngMaterial', 'ngMessages', 'ngMdIcons','ngDia
     }
 
   self.viewUser = function(player) {
+    /*for(q=0;q<self.players.length;q++) {
+      if(self.players[q].username == player.username) {
+        displayUser = player;
+      }
+    }*/
+    self.displayedUser = player;
     $mdToast.show($mdToast.simple().textContent("Woohoo " +player.username).position("top left").hideDelay(3000));
   }
 
