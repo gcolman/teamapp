@@ -49,19 +49,19 @@
           <div flex="100" layout="row">
             <div flex="70">
               <span class="md-toolbar-tools">
-                  John & Graeme's 6 Nations Prediction League
+                    <img src="/prediction/images/RBS-6-Nations-Logo-Header.png" alt=""> <h4>Prediction League</h4>
               </span>
             </div>
           </div>
           <span class="md-toolbar-tools">
 
             <div ng-show="!pc.loggedin">
+                  Login:
                   <input ng-model="pc.loginName" size="10" value="username" ng-click="pc.loginName=''" style="color:black;font-size: 14px;font-style: inherit;font-variant: inherit;font-family: inherit;"></input>
                   <input ng-model="pc.loginPassword" size="10" value="password" ng-click="pc.loginPassword=''" type="password" style="color:black;font-size: 14px;font-style: inherit;font-variant: inherit;font-family: inherit;"></input>
                  <md-button  ng-click="pc.login()" class=" md-raised md-mini md-primary" aria-label="FAB" style="padding-top:8px">Login
                     <md-tooltip md-direction="right">login</md-tooltip>
                   </md-button>
-
             </div>
             <div ng-show="pc.loggedin">
               Logged in as: {{pc.loggedinUser}}
@@ -71,58 +71,11 @@
       </div>
   </md-toolbar>
   <div layout="row">
-    <div ng-if="!pc.loggedin">
-      <div layout="column">
-        <md-content class="md-padding" layout="column" layout-align="center center" layout-wrap="">
-            <md-card>
-              <md-card-header>
-                <span style="font-size:22px">Sign up now!</span>
-              </md-card-header>
-              <md-card-content layout="column">
-                <md-input-container style="margin:5px" >
-                  <label>username</label>
-                  <input ng-model="pc.username" size="20"  type="text"/>
-                </md-input-container>
-                <md-input-container style="margin:5px" >
-                  <label>Email Address</label>
-                  <input ng-model="pc.email" size="20"  type="text"/>
-                </md-input-container>
-                <md-input-container style="margin:5px" >
-                  <label>Password</label>
-                  <input ng-model="pc.password" size="20"  type="password"/>
-                </md-input-container>
-                <md-button class=" md-raised md-mini md-primary" ng-click="pc.register()">Register</md-button>
-              </md-card-content>
-            </md-card>
-        </md-content>
-      </div>
-    </div>
+
+
     <div>
-      <div layout="row" layout-align="center center">
-        <div>
-          <img src="/prediction/images/RBS-6-Nations-Logo-Header.png" alt="">
-        </div>
-      </div>
-      <div ng-cloak="" style="width:1000px">
+      <div ng-cloak="" style="width:600px;height:430px;max-height:430px;max-width:800px;overflow:auto">
         <md-content class="md-padding" layout="row" layout-align="center center" layout-wrap="">
-  <!--          <md-card>
-              <md-card-content>
-                <table border="0">
-                  <tr align="center"  style="font-weight:bold">
-                    <td align="center" width="110px" class="tablehead">Player</td>
-                    <td align="left" width="110px" class="tablehead">Correct Results</td>
-                    <td align="left" width="110px" class="tablehead">Score Diff</td>
-                    <td align="left" width="110px" class="tablehead">Points</td>
-                  </tr>
-                  <tr ng-repeat="player in pc.players track by $index">
-                    <td align="left" class="tablerow">{{player.username}}</td>
-                    <td align="center" class="tablerow">1</td>
-                    <td align="center" class="tablerow">13</td>
-                    <td align="center" class="tablerow">3</td>
-                  </tr>
-                </table>
-              </md-card-content>
-            </md-card>-->
             <md-card >
               <md-card-content>
                 <md-tabs md-center-tabs md-swipe-content md-dynamic-height md-border-bottom>
@@ -152,8 +105,81 @@
         </md-content>
       </div>
     </div>
+    <div ng-if="!pc.loggedin">
+      <div layout="column">
+        <md-content class="md-padding" layout="column" layout-align="center center" layout-wrap="">
+            <md-card>
+              <md-card-header>
+                <span style="font-size:22px">Sign up now!</span>
+              </md-card-header>
+              <md-card-content layout="column">
+                <md-input-container style="margin:5px" >
+                  <label>username</label>
+                  <input ng-model="pc.username" size="20"  type="text"/>
+                </md-input-container>
+                <md-input-container style="margin:5px" >
+                  <label>Email Address</label>
+                  <input ng-model="pc.email" size="20"  type="text"/>
+                </md-input-container>
+                <md-input-container style="margin:5px" >
+                  <label>Password</label>
+                  <input ng-model="pc.password" size="20"  type="password"/>
+                </md-input-container>
+                <md-button class=" md-raised md-mini md-primary" ng-click="pc.register()">Register</md-button>
+              </md-card-content>
+            </md-card>
+        </md-content>
+      </div>
+    </div>
+    <div  ng-if="pc.loggedin">
+      <div>
+  <!--      <md-card  md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+          <md-card-content layout="row" >
+            <md-input-container class="md-block">
+              <label>Message:</label>
+              <form ng-submit="pc.sendChat(chatText)">
+                <div layout="row">
+                  <div>
+                    <input ng-model="chatText" max-rows="2" size="40" md-select-on-focus></input>
+                  </div>
+                  <div>
+                    <a ng-click="pc.sendChat(chatText)">Send</a>
+                  </div>
+                </div>
+              </form>
+            </md-input-container>
+          </md-card-content>
+        </md-card>
+-->
+        <div  style="height:320px;padding:10px;" >
+          <div md-whiteframe="4" style="height:410px">
+            <md-toolbar><h4>&nbsp;Predictions Chat...</h4></md-toolbar>
+            <md-input-container style="height:20px" class="md-block">
+              <label>Enter a chat message:</label>
+              <form ng-submit="pc.sendChat(chatText)">
+                <div layout="row">
+                  <div>
+                    <input ng-model="chatText" max-rows="2" size="30" md-select-on-focus></input>
+                  </div>
+                  <div>
+                    <a ng-click="pc.sendChat(chatText)">Send</a>
+                  </div>
+                </div>
+              </form>
+            </md-input-container>
+            <div style="width:400px;max-height:270px;max-width:400px;overflow:auto">
+              <ul ng-repeat="data in pc.messageService.chatCollection track by $index" >
+                <li>
+                  <span><b>{{data.split(',')[1]}}:</b><span style="font-size:12px">({{data.split(',')[2]}})</span></br>{{data.split(',')[3]}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
 </div>
-<div  ng-cloak="" style="width:1250px">
+<div  ng-cloak="" style="width:1200px">
   <md-content class="md-padding" layout="row" layout-align="start center" layout-wrap="">
       <md-card>
 
@@ -173,16 +199,17 @@
             </tr>
             <tr ng-repeat="fixture in pc.displayedUser.fixtures track by $index">
               <td align="left" style="width:300px" class="predfix">{{fixture.date}}&nbsp;&nbsp;&nbsp;{{fixture.time}}</td>
-              <td align="center" class="predfix"><img src="prediction/images/{{fixture.hometeam}}.png" width="30px" alt="">&nbsp;&nbsp;&nbsp;<b>{{fixture.hometeam}}</td>
+              <td align="right" class="predfix"><img src="prediction/images/{{fixture.hometeam}}.png" width="30px" alt="">&nbsp;&nbsp;&nbsp;<b>{{fixture.hometeam}}</td>
               <td ng-if="pc.displayedUser.username == pc.loggedinUser"><input ng-model="fixture.homescore" size="2"/>&nbsp;&nbsp;V&nbsp;&nbsp;<input ng-model="fixture.awayscore" size="2"/></td>
               <td ng-if="pc.displayedUser.username != pc.loggedinUser" class="predfix">{{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}} </td>
-              <td class="predfix" style="align:right"><b>{{fixture.awayteam}}&nbsp;&nbsp;&nbsp;</b><img src="prediction/images/{{fixture.awayteam}}.png" width="30px"  alt=""></b></td>
+              <td class="predfix" style="align:left"><b>{{fixture.awayteam}}&nbsp;&nbsp;&nbsp;</b><img src="prediction/images/{{fixture.awayteam}}.png" width="30px"  alt=""></b></td>
               <td align="left" class="predfix">&nbsp;</td>
               <td align="left" class="predfix">{{fixture.venue}}</td>
             </tr>
           </table>
         </md-card-content>
       </md-card>
+
   </md-content>
 </div>
 </body>
