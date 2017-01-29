@@ -47,10 +47,10 @@
     <img src="../images/blank.png" style="height:20px">
   </div>
 
-  <md-toolbar style="position:relative">
+  <md-toolbar >
     <div layout="row">
       <div layout="row" flex ng-app="myApp"  ng-switch="true">
-          <div flex="100" layout="row">
+          <div ng-show="pc.loggedin" flex="100" layout="row">
             <div flex="70">
               <span class="md-toolbar-tools">
                     <img src="/prediction/images/RBS-6-Nations-Logo-Header.png" alt="">
@@ -187,7 +187,7 @@
                   <div>
                     {{fixture.date}}&nbsp;&nbsp;&nbsp;{{fixture.time}}&nbsp;&nbsp;&nbsp;
                   </div>
-                  <div style="width:200px" layout="row" layout-align="start center">
+                  <div style="width:150px" layout="row" layout-align="start center">
                     <img  src="prediction/images/{{fixture.hometeam}}.png" width="30px" alt="">&nbsp;&nbsp;&nbsp;<b>{{fixture.hometeam}}</b>
                   </div>
                   <div ng-if="pc.displayedUser.username == pc.loggedinUser">
@@ -196,7 +196,7 @@
                   <div ng-if="pc.displayedUser.username != pc.loggedinUser" >
                     {{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}}
                   </div>
-                  <div style="width:200px" layout="row" layout-align="end center">
+                  <div style="width:150px" layout="row" layout-align="end center">
                     <b>{{fixture.awayteam}}&nbsp;&nbsp;&nbsp;</b><img src="prediction/images/{{fixture.awayteam}}.png" width="30px"  alt="">&nbsp;&nbsp;&nbsp;</b>
                   </div>
                   <div>
