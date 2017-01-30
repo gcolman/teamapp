@@ -158,7 +158,8 @@ App.controller('userController', function($scope, $http, $mdToast, $location, au
                     .textContent('Sorry, that username has already been taken. Choose another!')
                     .position('top left' )
                     .hideDelay(6000)
-                );                  } else {
+                );
+              } else {
                 console.log("Error in updating image");
                 $mdToast.show($mdToast.simple()
                     .textContent('An Error occured in updating the user. Plesae contact your Teamapp Administrator.')

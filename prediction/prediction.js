@@ -100,6 +100,7 @@ App.factory('messageService', function($websocket, $http) {
    //db, collection, sorted, sortfield, ascdesc
    $http.get("getCollection?collection=prediction.fixtures&sorted=true&sortfield=gameid&ascdesc=assc").then(function (response) {
      self.fixtures = response.data;
+     self.results = response.data;
      //console.log(JSON.stringify(self.fixtures));
    });
 
@@ -115,13 +116,42 @@ App.factory('messageService', function($websocket, $http) {
      $http.post("/add?collection=prediction.users", data).success(function (data, status, headers, config) {
        $http.get("getCollection?collection=prediction.users&sorted=true&sortfield=totalpoints&ascdesc=desc").then(function (response) {
          self.players = response.data;
-         $mdToast.show($mdToast.simple().textContent("Welcome " +self.username +". Now just login in over there to start!").position("top left").hideDelay(3000));
+         //$mdToast.show($mdToast.simple().textContent("Welcome " +self.username +". Now just login in over there to start!").position("top left").hideDelay(3000));
          self.sendChat(self.username +" has just registerd to play.");
+
+         if(data.code == 11000) {
+           $mdToast.show($mdToast.simple()
+               .textContent('Sorry, that username has already been taken. Choose another!')
+               .position('top left' )
+               .hideDelay(6000)
+           );
+         } else {
+           $mdToast.show($mdToast.simple().textContent("Welcome " +self.username +". Now just login in over there to start!").position("top left").hideDelay(3000));
+         }
+
+
+
        });
+
+
+
 
        })
        .error(function (data, status, header, config) {
-         $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
+//         $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
+
+         if(data.code == 11000) {
+           $mdToast.show($mdToast.simple()
+               .textContent('Sorry, that username has already been taken. Choose another!')
+               .position('top left' )
+               .hideDelay(6000)
+           );
+         } else {
+           $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
+         }
+
+
+
          });
     }
 
