@@ -79,8 +79,9 @@ App.factory('messageService', function($websocket, $http) {
   self.displayedUser = {};
   self.loggedin = false;
   self.loggedinUser;
-  self.loginName="Graeme";
-  self.loginPassword="pw";
+  self.loginName="";
+  self.loginPassword="";
+  self.table = [];
   var s = $location.search();
 
    var originatorEv;
@@ -95,14 +96,120 @@ App.factory('messageService', function($websocket, $http) {
      self.players = response.data;
      self.displayedUser = self.players[0];
      //console.log(JSON.stringify(self.players));
+
+     //db, collection, sorted, sortfield, ascdesc
+     $http.get("getCollection?collection=prediction.fixtures&sorted=true&sortfield=gameid&ascdesc=assc").then(function (response) {
+       self.fixtures = response.data;
+       self.results = response.data;
+       //console.log(JSON.stringify(self.fixtures));
+       self.calcTable();
+     });
+
    });
 
-   //db, collection, sorted, sortfield, ascdesc
-   $http.get("getCollection?collection=prediction.fixtures&sorted=true&sortfield=gameid&ascdesc=assc").then(function (response) {
-     self.fixtures = response.data;
-     self.results = response.data;
-     //console.log(JSON.stringify(self.fixtures));
-   });
+
+
+   this.calcTable = function() {
+     //iterate through the users calculating the points
+     // empty the array
+     self.table.length = 0;
+     var Row = function Row() {
+     }
+
+
+
+     for(player in self.players) {
+       var row = new Row();
+       row.player =  self.players[player].username;
+       row.wins=0;
+       row.exactscores=0;
+       row.scoredif=0;
+      //for each player, iterate through the results and work out points and
+       for ( fixture in self.players[player].fixtures) {
+         var result = self.getResult(self.players[player].fixtures[fixture].gameid);
+         // got the result for this fixture. calculate result homewin or away win.
+         //console.log(result.homescore +" - " +result.awayscore);
+         if(result.homescore > result.awayscore) {
+           if(self.players[player].fixtures[fixture].homescore > self.players[player].fixtures[fixture].awayscore) {
+             // correct result
+             //console.log("CORRECT SCORE FOR " +self.players[player].username);
+              row.wins = row.wins+1;
+              row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
+              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+           } else {
+
+             row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+             console.log(row.player +"   " +row.scoredif);
+           }
+         } else if(result.homescore < result.awayscore){
+           if(self.players[player].fixtures[fixture].homescore < self.players[player].fixtures[fixture].awayscore) {
+             // correct result
+             row.wins = row.wins+1;
+             row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
+             row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+           } else {
+             row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+           }
+         }
+       }
+       row.totalpoints = (row.wins*3) + (row.exactscores*3) ;
+         if(self.table.length <= 0) {
+           //if the first entry then just add to array
+           self.table[0] = row;
+         } else {
+           for(pos=0;pos<self.table.length;pos++){
+             if(self.table[pos].totalpoints < row.totalpoints) {
+                  //if more points than pos then add to that index and shift right
+                 self.table.splice(pos, 0, row)
+                 break;
+             } else if(pos+1 == self.table.length) {
+               //last element?
+                 self.table[pos+1]=row;
+                 break;
+             }else if (self.table[pos].totalpoints == row.totalpoints){
+               if(self.table[pos].scoredif > row.scoredif) {
+                 self.table.splice(pos+1, 0, row)
+                 break;
+               } else if (self.table[pos+1].totalpoints != row.totalpoints) {
+                 self.table.splice(pos+1, 0, row)
+                 break;
+               }
+             }
+             if(pos+1 == self.table.length) {
+               self.table[pos+1] = row;
+               break;
+             }
+         }
+
+       }
+       //console.log(self.table[player]);
+     }
+     console.log(JSON.stringify(self.table));
+   };
+
+
+   this.getResult = function(id) {
+     for(game in self.results){
+       if(self.results[game].gameid == id) {
+         return self.results[game];
+       }
+     }
+   }
+
+   this.corectScores = function(fix, result){
+     if(result.homescore == fix.homescore && result.awayscore == fix.awayscore) {
+       return 1;
+     } else {
+       return 0;
+     }
+   }
+
+   this.scoredif = function(fix, result){
+     a = Math.abs(result.homescore - fix.homescore);
+     b = Math.abs(result.awayscore - fix.awayscore);
+     console.log(fix.username +"SCOREDIF  " +result.homescore +"-" +result.awayscore +" ---- "  +fix.homescore +"-" +fix.awayscore +" = " +a +" / "+b);
+     return a+b;
+   }
 
 
    this.register = function() {
@@ -128,14 +235,7 @@ App.factory('messageService', function($websocket, $http) {
          } else {
            $mdToast.show($mdToast.simple().textContent("Welcome " +self.username +". Now just login in over there to start!").position("top left").hideDelay(3000));
          }
-
-
-
        });
-
-
-
-
        })
        .error(function (data, status, header, config) {
 //         $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
@@ -149,8 +249,6 @@ App.factory('messageService', function($websocket, $http) {
          } else {
            $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
          }
-
-
 
          });
     }
@@ -191,17 +289,33 @@ App.factory('messageService', function($websocket, $http) {
         .error(function (data, status, header, config) {
           $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
           });
+    }
+
+    this.saveResults = function() {
+      for(result in self.results) {
+        r = self.results[result];
+        delete r._id;
+        data = JSON.stringify(r);
+        $http.defaults.headers.post["Content-Type"] = "application/json";
+        $http.post("/updateCollection?collection=prediction.fixtures&key=gameid&id=" +r.gameid, data).success(function (data, status, headers, config) {
+            $mdToast.show($mdToast.simple().textContent("Results have been updated").position("top left").hideDelay(3000));
+            self.sendChat(self.loggedinUser +" has just updated the results.");
+          })
+          .error(function (data, status, header, config) {
+            $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
+          });
+      }
 
 
     }
 
-  self.viewUser = function(player) {
-    /*for(q=0;q<self.players.length;q++) {
-      if(self.players[q].username == player.username) {
-        displayUser = player;
+  self.viewUser = function(username) {
+    for(q=0;q<self.players.length;q++) {
+      if(self.players[q].username == username) {
+        self.displayedUser = self.players[q];
       }
-    }*/
-    self.displayedUser = player;
+    }
+    //self.displayedUser = player;
     //$mdToast.show($mdToast.simple().textContent("Woohoo " +player.username).position("top left").hideDelay(3000));
   }
 

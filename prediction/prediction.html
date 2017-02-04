@@ -89,13 +89,15 @@
                           <td align="center" width="110px" class="tablehead">Player</td>
                           <td align="left" width="110px" class="tablehead">Correct Results</td>
                           <td align="left" width="110px" class="tablehead">Score Diff</td>
+                          <td align="left" width="110px" class="tablehead">Correct Score Bonus</td>
                           <td align="left" width="110px" class="tablehead">Points</td>
                         </tr>
-                        <tr ng-repeat="player in pc.players track by $index" ng-click="pc.viewUser(player)">
-                          <td align="left" class="tablerow">{{player.username}}</td>
-                          <td align="center" class="tablerow">0</td>
-                          <td align="center" class="tablerow">0</td>
-                          <td align="center" class="tablerow">0</td>
+                        <tr ng-repeat="player in pc.table track by $index" ng-click="pc.viewUser(player.player)">
+                          <td align="left" class="tablerow">{{player.player}}</td>
+                          <td align="center" class="tablerow">{{player.wins}}</td>
+                          <td align="center" class="tablerow">{{player.scoredif}}</td>
+                          <td align="center" class="tablerow">{{player.exactscores*3}}</td>
+                          <td align="center" class="tablerow">{{player.totalpoints}}</td>
                         </tr>
                       </table>
                     </md-tab>
@@ -104,7 +106,13 @@
                     <md-tab  class="md-primary"  label="Fixtures">
                       <md-card>
                         <md-card-content layout="column">
-
+                          <md-card-header>
+                            <div layout="row">
+                              <div>
+                                <md-button ng-show="pc.loggedinUser == 'Graeme'" class=" md-raised md-mini md-primary" ng-click="pc.saveResults()">Save Results</md-button>
+                              </div>
+                            </div>
+                          </md-card-header>
                           <div layout="column">
                             <div class="predfix" layout="row" ng-repeat="fixture in pc.results track by $index">
                               <div>
@@ -113,10 +121,10 @@
                               <div style="width:150px" layout="row" layout-align="start center">
                                 <img  src="prediction/images/{{fixture.hometeam}}.png" width="30px" alt="">&nbsp;&nbsp;&nbsp;<b>{{fixture.hometeam}}</b>
                               </div>
-                              <div ng-if="pc.displayedUser.username == pc.loggedinUser">
+                              <div ng-if="pc.loggedinUser == 'Graeme'">
                                 <input ng-model="fixture.homescore" size="2"/>&nbsp;&nbsp;V&nbsp;&nbsp;<input ng-model="fixture.awayscore" size="2"/>
                               </div>
-                              <div ng-if="pc.displayedUser.username != pc.loggedinUser" >
+                              <div ng-if="pc.loggedinUser != 'Graeme'" >
                                 {{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}}
                               </div>
                               <div style="width:150px" layout="row" layout-align="end center">
@@ -203,9 +211,9 @@
                   <div style="width:400px">
                     <span style="font-size:22px;font-weight:700">{{pc.displayedUser.username}}'s Predictions</span>
                   </div>
-                  <div>
+                  <!--<div>
                     <md-button ng-show="pc.displayedUser.username == pc.loggedinUser" class=" md-raised md-mini md-primary" ng-click="pc.savePredictions()">Save my predictions</md-button>
-                  </div>
+                  </div> -->
                 </div>
               </md-card-header>
               <md-card-content layout="column">
@@ -218,10 +226,11 @@
                     <div style="width:150px" layout="row" layout-align="start center">
                       <img  src="prediction/images/{{fixture.hometeam}}.png" width="30px" alt="">&nbsp;&nbsp;&nbsp;<b>{{fixture.hometeam}}</b>
                     </div>
-                    <div ng-if="pc.displayedUser.username == pc.loggedinUser">
+                  <!--  <div ng-if="pc.displayedUser.username == pc.loggedinUser">
                       <input ng-model="fixture.homescore" size="2"/>&nbsp;&nbsp;V&nbsp;&nbsp;<input ng-model="fixture.awayscore" size="2"/>
                     </div>
-                    <div ng-if="pc.displayedUser.username != pc.loggedinUser" >
+                    <div ng-if="pc.displayedUser.username == pc.loggedinUser" >-->
+                      <div>
                       {{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}}
                     </div>
                     <div style="width:150px" layout="row" layout-align="end center">
