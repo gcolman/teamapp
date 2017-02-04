@@ -108,15 +108,12 @@ App.factory('messageService', function($websocket, $http) {
    });
 
 
-
    this.calcTable = function() {
      //iterate through the users calculating the points
      // empty the array
      self.table.length = 0;
      var Row = function Row() {
      }
-
-
 
      for(player in self.players) {
        var row = new Row();
@@ -128,21 +125,22 @@ App.factory('messageService', function($websocket, $http) {
        for ( fixture in self.players[player].fixtures) {
          var result = self.getResult(self.players[player].fixtures[fixture].gameid);
          // got the result for this fixture. calculate result homewin or away win.
-         //console.log(result.homescore +" - " +result.awayscore);
-         if(result.homescore > result.awayscore) {
-           if(self.players[player].fixtures[fixture].homescore > self.players[player].fixtures[fixture].awayscore) {
+         //console.log(self.players[player].username +" - " +result.hometeam   +" " +result.homescore +" - " +result.awayscore +" --- " +self.players[player].fixtures[fixture].homescore +" v " +self.players[player].fixtures[fixture].awayscore);
+         if(Number(result.homescore) > Number(result.awayscore)) {
+           //console.log("tick "+self.players[player].fixtures[fixture].homescore  +" "+self.players[player].fixtures[fixture].awayscore +(Number(self.players[player].fixtures[fixture].homescore) > Number(self.players[player].fixtures[fixture].awayscore)));
+           if(Number(self.players[player].fixtures[fixture].homescore) > Number(self.players[player].fixtures[fixture].awayscore)) {
              // correct result
-             //console.log("CORRECT SCORE FOR " +self.players[player].username);
+             //console.log("CORRECT SCORE FOR " +self.players[player].username +" " +self.players[player].fixtures[fixture].homescore +" v " +self.players[player].fixtures[fixture].awayscore );
               row.wins = row.wins+1;
               row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
               row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
            } else {
 
              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
-             console.log(row.player +"   " +row.scoredif);
+             //console.log(row.player +"   " +row.scoredif);
            }
-         } else if(result.homescore < result.awayscore){
-           if(self.players[player].fixtures[fixture].homescore < self.players[player].fixtures[fixture].awayscore) {
+         } else if(Number(result.homescore) < Number(result.awayscore)){
+           if(Number(self.players[player].fixtures[fixture].homescore) < Number(self.players[player].fixtures[fixture].awayscore)) {
              // correct result
              row.wins = row.wins+1;
              row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
@@ -152,40 +150,51 @@ App.factory('messageService', function($websocket, $http) {
            }
          }
        }
+       //console.log(JSON.stringify(row));
+
        row.totalpoints = (row.wins*3) + (row.exactscores*3) ;
-         if(self.table.length <= 0) {
-           //if the first entry then just add to array
-           self.table[0] = row;
-         } else {
-           for(pos=0;pos<self.table.length;pos++){
-             if(self.table[pos].totalpoints < row.totalpoints) {
-                  //if more points than pos then add to that index and shift right
-                 self.table.splice(pos, 0, row)
-                 break;
-             } else if(pos+1 == self.table.length) {
-               //last element?
-                 self.table[pos+1]=row;
-                 break;
-             }else if (self.table[pos].totalpoints == row.totalpoints){
-               if(self.table[pos].scoredif > row.scoredif) {
-                 self.table.splice(pos+1, 0, row)
-                 break;
-               } else if (self.table[pos+1].totalpoints != row.totalpoints) {
-                 self.table.splice(pos+1, 0, row)
-                 break;
-               }
-             }
-             if(pos+1 == self.table.length) {
-               self.table[pos+1] = row;
+
+       if(self.table.length <= 0) {
+         //if the first entry then just add to array at pos 0
+         //console.log("dropped " +row.player +" to top");
+         self.table[0] = row;
+       } else {
+         for(pos=0;pos<self.table.length;pos++){
+           //console.log(row.player +" = " +row.totalpoints +" last = " +self.table[pos].totalpoints);
+           if(row.totalpoints > self.table[pos].totalpoints ) {
+                //if more points than pos then add to that index and shift right
+                //console.log("more points - Adding " +row.player +" before current");
+               self.table.splice(pos, 0, row)
+               break;
+           } else if(row.totalpoints == self.table[pos].totalpoints) {
+              //ah we are equal on points, if I have a lower scoredif then insrt me before.
+              if(row.scoredif < self.table[pos].scoredif) {
+                //console.log("equal points lower score - Adding " +row.player +" before current");
+                self.table.splice(pos, 0, row)
+                break;
+              } else if(self.table.length == pos+1){
+                //console.log("dropped " +row.player +" to here");
+                self.table.push(row);
+                //self.table.splice(pos, 0, row)
+                break;
+              }
+           } else if(self.table.length == pos+1) {
+             //ok... so we need to look at the next emeent in table, unless the tabel element was the last one. It it was the last one then add to the end of the array
+             if(self.table.length == pos+1) {
+               //console.log("Adding " +row.player +" to the end");
+               self.table.push(row);
                break;
              }
-         }
-
+           } else {
+             // not the last so what to do?
+           }
        }
-       //console.log(self.table[player]);
+
      }
+    }
      console.log(JSON.stringify(self.table));
    };
+
 
 
    this.getResult = function(id) {
@@ -207,7 +216,7 @@ App.factory('messageService', function($websocket, $http) {
    this.scoredif = function(fix, result){
      a = Math.abs(result.homescore - fix.homescore);
      b = Math.abs(result.awayscore - fix.awayscore);
-     console.log(fix.username +"SCOREDIF  " +result.homescore +"-" +result.awayscore +" ---- "  +fix.homescore +"-" +fix.awayscore +" = " +a +" / "+b);
+     //console.log(fix.username +"SCOREDIF  " +result.homescore +"-" +result.awayscore +" ---- "  +fix.homescore +"-" +fix.awayscore +" = " +a +" / "+b);
      return a+b;
    }
 
