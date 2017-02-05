@@ -82,6 +82,7 @@ App.factory('messageService', function($websocket, $http) {
   self.loginName="";
   self.loginPassword="";
   self.table = [];
+  self.inPlay=true;
   var s = $location.search();
 
    var originatorEv;
@@ -278,7 +279,7 @@ App.factory('messageService', function($websocket, $http) {
             self.fixtures = this.user.fixtures;
             self.displayedUser = this.user;
             messageService.loginMail();
-            self.sendChat(self.loggedinUser +" just logged in.");
+            //self.sendChat(self.loggedinUser +" just logged in.");
             $mdToast.show($mdToast.simple().textContent("Logged in as " +self.loggedinUser).position("top right").hideDelay(3000));
           } else {
             $mdToast.show($mdToast.simple().textContent("Ooh, wrong password... " +self.loginName).position("top right").hideDelay(3000));
@@ -299,7 +300,7 @@ App.factory('messageService', function($websocket, $http) {
       $http.defaults.headers.post["Content-Type"] = "application/json";
       $http.post("/updateCollection?collection=prediction.users&key=username&id=" +self.user.username, data).success(function (data, status, headers, config) {
           $mdToast.show($mdToast.simple().textContent("Your predctions have been updated").position("top left").hideDelay(3000));
-          self.sendChat(self.loggedinUser +" has just updated his predictions.");
+          //self.sendChat(self.loggedinUser +" has just updated his predictions.");
         })
         .error(function (data, status, header, config) {
           $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
@@ -314,7 +315,7 @@ App.factory('messageService', function($websocket, $http) {
         $http.defaults.headers.post["Content-Type"] = "application/json";
         $http.post("/updateCollection?collection=prediction.fixtures&key=gameid&id=" +r.gameid, data).success(function (data, status, headers, config) {
             $mdToast.show($mdToast.simple().textContent("Results have been updated").position("top left").hideDelay(3000));
-            self.sendChat(self.loggedinUser +" has just updated the results.");
+            //self.sendChat(self.loggedinUser +" has just updated the results.");
           })
           .error(function (data, status, header, config) {
             $mdToast.show($mdToast.simple().textContent("Whoops! Something went wrong... it'll be John's fault!  " +status).position("top left").hideDelay(3000));
