@@ -85,6 +85,8 @@ App.factory('messageService', function($websocket, $http) {
   self.inPlay=true;
   var s = $location.search();
 
+messageService.loginMail();
+
    var originatorEv;
    this.openMenu = function($mdOpenMenu, ev) {
      //console.log("open");
