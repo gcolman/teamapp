@@ -134,9 +134,11 @@ App.factory('messageService', function($websocket, $http) {
               row.wins = row.wins+1;
               row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
               row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+              self.players[player].fixtures[fixture].result="win";
            } else {
-
              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+             self.players[player].fixtures[fixture].result="lose";
+
              //console.log(row.player +"   " +row.scoredif);
            }
          } else if(Number(result.homescore) < Number(result.awayscore)){
@@ -145,8 +147,12 @@ App.factory('messageService', function($websocket, $http) {
              row.wins = row.wins+1;
              row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+             self.players[player].fixtures[fixture].result="win";
+
            } else {
              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
+             self.players[player].fixtures[fixture].result="lose";
+
            }
          }
        }

@@ -217,9 +217,15 @@
                 </div>
               </md-card-header>
               <md-card-content layout="column">
-
                 <div layout="column">
                   <div class="predfix" layout="row" ng-repeat="fixture in pc.displayedUser.fixtures track by $index">
+                <!--    <div ng-if="fixture.result == 'win'" style="background-color:#30ee48">
+                      {{fixture.date}}&nbsp;&nbsp;&nbsp;WIN&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div ng-if="fixture.result == 'lose'" style="background-color:#d65757">
+                      {{fixture.date}}&nbsp;&nbsp;&nbsp;LOSE&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div ng-if="fixture.result != 'win' && fixture.result != 'lose'" >-->
                     <div>
                       {{fixture.date}}&nbsp;&nbsp;&nbsp;{{fixture.time}}&nbsp;&nbsp;&nbsp;
                     </div>
@@ -230,9 +236,16 @@
                       <input ng-model="fixture.homescore" size="2"/>&nbsp;&nbsp;V&nbsp;&nbsp;<input ng-model="fixture.awayscore" size="2"/>
                     </div>
                     <div ng-if="pc.displayedUser.username == pc.loggedinUser" >-->
-                      <div>
+                    <div ng-if="fixture.result == 'win'" style="background-color:#30ee48">
                       {{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}}
                     </div>
+                    <div ng-if="fixture.result == 'lose'" style="background-color:#d65757">
+                      {{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}}
+                    </div>
+                    <div ng-if="fixture.result != 'win' && fixture.result != 'lose'">
+                      {{fixture.homescore}}&nbsp;&nbsp;V&nbsp;&nbsp;{{fixture.awayscore}}
+                    </div>
+
                     <div style="width:150px" layout="row" layout-align="end center">
                       <b>{{fixture.awayteam}}&nbsp;&nbsp;&nbsp;</b><img src="prediction/images/{{fixture.awayteam}}.png" width="30px"  alt="">&nbsp;&nbsp;&nbsp;</b>
                     </div>
