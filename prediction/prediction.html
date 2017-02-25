@@ -96,8 +96,8 @@
                           <td align="left" class="tablerow">{{player.player}}</td>
                           <td align="center" class="tablerow">{{player.wins}}</td>
                           <td align="center" class="tablerow">{{player.scoredif}}</td>
-                          <td align="center" class="tablerow">{{player.exactscores*3}}</td>
-                          <td align="center" class="tablerow">{{player.totalpoints}}</td>
+                          <td align="center" class="tablerow">{{((player.exactscores*3)+(player.singlescores))}}</td>
+                          <td align="center" class="tablerow">{{player.totalpoints + ((player.exactscores*3)+(player.singlescores))}}</td>
                         </tr>
                       </table>
                     </md-tab>

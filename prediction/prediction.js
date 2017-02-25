@@ -124,6 +124,7 @@ messageService.loginMail();
        row.wins=0;
        row.exactscores=0;
        row.scoredif=0;
+       row.singlescores=0;
       //for each player, iterate through the results and work out points and
        for ( fixture in self.players[player].fixtures) {
          var result = self.getResult(self.players[player].fixtures[fixture].gameid);
@@ -135,28 +136,35 @@ messageService.loginMail();
              // correct result
              //console.log("CORRECT SCORE FOR " +self.players[player].username +" " +self.players[player].fixtures[fixture].homescore +" v " +self.players[player].fixtures[fixture].awayscore );
               row.wins = row.wins+1;
-              row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
+              //row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
               row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
               self.players[player].fixtures[fixture].result="win";
            } else {
              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
              self.players[player].fixtures[fixture].result="lose";
-
              //console.log(row.player +"   " +row.scoredif);
            }
          } else if(Number(result.homescore) < Number(result.awayscore)){
            if(Number(self.players[player].fixtures[fixture].homescore) < Number(self.players[player].fixtures[fixture].awayscore)) {
              // correct result
              row.wins = row.wins+1;
-             row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
+             //row.exactscores = row.exactscores +this.corectScores(self.players[player].fixtures[fixture], result);
              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
              self.players[player].fixtures[fixture].result="win";
 
            } else {
              row.scoredif += this.scoredif(self.players[player].fixtures[fixture], result);
              self.players[player].fixtures[fixture].result="lose";
-
            }
+         }
+
+         //check for correct scores
+         if(Number(self.players[player].fixtures[fixture].homescore) == Number(result.homescore) && Number(self.players[player].fixtures[fixture].awayscore) == Number(result.awayscore) ) {
+           row.exactscores = row.exactscores +1;
+         } else if(Number(self.players[player].fixtures[fixture].homescore) == Number(result.homescore)) {
+           row.singlescores = row.singlescores +1;
+         } else if(Number(self.players[player].fixtures[fixture].awayscore) == Number(result.awayscore)) {
+           row.singlescores = row.singlescores +1;
          }
        }
        //console.log(JSON.stringify(row));
