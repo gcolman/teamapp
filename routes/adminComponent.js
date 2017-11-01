@@ -1,7 +1,7 @@
 
 
 //function newsController($scope, $http, ngDialog, authService, $filter, authSvc) {
-App.controller('adminController', function ($scope, $http, authSvc, properties, utils) {
+App.controller('adminController', function ($scope, $http, authSvc, properties, utils, $mdToast) {
   self = this;
   self.properties = properties;
   self.acgames;
@@ -240,5 +240,27 @@ App.controller('adminController', function ($scope, $http, authSvc, properties, 
           alert(status);
         });
     };
+
+
+
+    self.cloneNewSeason = function(team, newSeason, newAgeGroup, $mdToast) {
+      delete team["_id"];
+      team.season = newSeason;
+      team.teamAge = "U"+newAgeGroup;
+      var data= JSON.stringify(team);
+      $http.defaults.headers.post["Content-Type"] = "application/json";
+      $http.post("/cloneTeam?club=" +properties.alphaClub +"&team=" +properties.alphaTeam, team).success(function (team, status, headers, config) {
+        $mdToast.show($mdToast.simple()
+            .textContent('Your profile has been updated!')
+            .position('top left' )
+            .hideDelay(3000)
+        );
+        })
+        .error(function (data, status, header, config) {
+          alert(status);
+        });
+    };
+
+
 
 });

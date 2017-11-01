@@ -197,6 +197,54 @@
           </div>
         </md-content>
       </md-tab>
+
+      <md-tab label="New Season">
+        <md-content>
+          <md-list>
+            <md-list-item class="md-3-line" >
+              <div class="md-list-item-text">
+                <h3>Your {{ac.properties.selectedTeam.teamAge}} team is currently assigned to the {{ac.properties.selectedTeam.season}} season. To move this team to a new season, change the age group and then hit the "Clone to New Season" button.</h3>
+              </div>
+              <md-divider md-inset></md-divider>
+            </md-list-item>
+          </md-list>
+          <div>
+            <md-input-container>
+              <label>Season</label>
+              <md-select ng-model="ac.properties.cloneSeason">
+                <md-option ng-value="2016" >2016/17</md-option>
+                <md-option ng-value="2017" >2017/18</md-option>
+                <md-option ng-value="2018" >2018/19</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div>
+            <md-input-container>
+              <label>AgeGroup</label>
+              <md-select ng-model="ac.properties.cloneAge">
+                <md-option ng-value="5" >U5</md-option>
+                <md-option ng-value="6" >U6</md-option>
+                <md-option ng-value="7" >U7</md-option>
+                <md-option ng-value="8" >U8</md-option>
+                <md-option ng-value="9" >U9</md-option>
+                <md-option ng-value="10" >U10</md-option>
+                <md-option ng-value="11" >U11</md-option>
+                <md-option ng-value="12" >U12</md-option>
+                <md-option ng-value="13" >U13</md-option>
+                <md-option ng-value="14" >U14</md-option>
+                <md-option ng-value="15" >U15</md-option>
+                <md-option ng-value="16" >U16</md-option>
+                <md-option ng-value="17" >U17</md-option>
+                <md-option ng-value="18" >U18</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div>
+            <md-button aria-label="Edit" class="md-raised md-primary"  ng-click="ac.cloneNewSeason(ac.properties.selectedTeam, ac.properties.cloneSeason, ac.properties.cloneAge)">Clone to new season</md-button>
+          </div>
+        </md-content>
+      </md-tab>
+
     </md-tabs>
   </md-content>
 </div>

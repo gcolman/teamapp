@@ -35,12 +35,23 @@
                             <br/>
                             Select your club below and then pick your team<h3>
                           </div>
+                          <div>
                           <md-input-container>
-                            <label>Select your club</label>
+                            <label>Club</label>
                             <md-select ng-model="mc.clubselect">
                               <md-option ng-value="club.clubId" ng-repeat="club in mc.clubs" >{{ club.clubName }}</md-option>
                             </md-select>
                           </md-input-container>
+
+                          <md-input-container>
+                            <label>Season</label>
+                            <md-select ng-model="mc.seasonselect">
+                              <md-option ng-value="2016" >2016/17</md-option>
+                              <md-option ng-value="2017" >2017/18</md-option>
+                              <md-option ng-value="2018" >2018/19</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
                         </div>
                     </div>
                   </div>
@@ -48,7 +59,7 @@
                   <div ng-show="mc.auth.isAuthenticated()">
 
                     <div ng-repeat="team in mc.teams track by $index">
-                      <md-card ng-if="team.clubId == mc.clubselect" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="" style="width:100%">
+                      <md-card ng-if="team.season == mc.seasonselect && team.clubId == mc.clubselect" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="" style="width:100%">
                         <md-card-content ng-click="mc.setTeam(team.clubId, team.teamId)">
                           <div layout="row" layout-align="center center" class="md-title">{{team.teamName}} {{team.teamAge}} {{team.teamBG}}</div>
                           <div layout="row" layout-align="center center" ng-if="team.badgeUploaded">

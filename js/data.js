@@ -374,7 +374,6 @@ app.post('/addTeam', jsonParser, function (req, res) {
   req.body.administrators[0] = user;
   console.log("REGISTER TEAM " +JSON.stringify(req.body));
   getNextSeq("userid", function(id) {
-
     req.body.teamId=id;
        addDocument(db, 'teams', req.body, function(docs,err) {
           if(err) {
@@ -382,8 +381,44 @@ app.post('/addTeam', jsonParser, function (req, res) {
           }
           res.end(JSON.stringify(docs));
       });
-
   });
+})
+
+/**
+* Cloning the team expects a full team JSON populated from an existing team along with noew sesaon and age group
+* After cloning, we then need to clone the players table.
+*/
+app.post('/cloneTeam', jsonParser, function (req, res) {
+  console.log("CLONE TEAM " +JSON.stringify(req.body));
+  oldTeamId = req.body.teamId;
+  getNextSeq("userid", function(id) {
+    req.body.teamId=id;
+       addDocument(db, 'teams', req.body, function(docs,err) {
+          if(err) {
+              console.log("ERROR IN addUser");
+          }
+
+          // now copy the polayers table from the existing
+          //wow, this is copied from the utils functions not sure how to add to the node piece for now.
+          str = id.toString();
+          team = "";
+          for(alphacount=0;alphacount<str.length;alphacount++) {
+            team = team + String.fromCharCode(97 + parseInt(str[alphacount]));
+          }
+          club = req.query.club;
+          oldteam = req.query.team;
+          console.log(team +"_"+club +"_players");
+          console.log(team);
+          console.log(club);
+          cloneCollection(db, club +"_"+oldteam +"_players", club +"_"+team +"_players" , function(docs,err) {
+             if(err) {
+                 console.log("ERROR IN addUser");
+             }
+
+          res.end(JSON.stringify(docs));
+      });
+  });
+})
 })
 
 app.post('/updateTeam', jsonParser, function (req, res) {
@@ -732,6 +767,16 @@ var addDocument = function(db, coll, doc, callback) {
     } else {
     callback(doc);
   }
+  });
+}
+
+
+var cloneCollection = function(db, coll, newColl, callback) {
+
+  var collection = db.collection(coll);
+  collection.aggregate([ { $match: {} }, { $out: newColl } ],function(error, record){
+    if (error) throw error;
+    callback();
   });
 }
 
