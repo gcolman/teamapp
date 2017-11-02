@@ -3,7 +3,7 @@
     <tr>
       <td ng-repeat="game in ac.games" valign="top">
           <div ng-show="true" flex-xs="" flex-gt-xs="100" flex="100" layout="column">
-            <md-card  style="width:150" ng-if="game.AWAYTEAM.indexOf('Chippenham') >= 0" md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
+            <md-card  style="width:150" ng-if="game.HOMEAWAY =='Away'" md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
               <md-toolbar class="md-primary md-hue-1" style="text-align:center">A<br/>{{ac.getDate(game.FIXTUREDATE)}}</md-toolbar>
                 <md-title style="text-align:center;height:40;font-size:18;"><b>{{game.HOMETEAM}}</b></md-title>
                 <md-card-content>
@@ -59,7 +59,7 @@
                   </table>
               </md-card-content>
               </md-card>
-              <md-card  style="width:150" ng-if="game.AWAYTEAM.indexOf('Chippenham') < 0" md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
+              <md-card  style="width:150" ng-if="game.HOMEAWAY =='Home'" md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch="">
                 <md-toolbar style="text-align:center">H<br/>{{ac.getDate(game.FIXTUREDATE)}}</md-toolbar>
                 <md-title style="text-align:center;height:35;font-size:18;"><b>{{game.AWAYTEAM}}</b></md-title>
                 <md-card-content>
