@@ -439,8 +439,8 @@ App.service('authService', function($rootScope, $http, $cookies, ngDialog, utils
         delete credential["_id"];
       } else {
         credential = {};
-        credential.username = "coach";
-        credential.password = "pw";
+        //credential.username = "";
+        //credential.password = "";
       }
       var data = JSON.stringify(credential);
 
