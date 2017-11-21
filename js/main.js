@@ -352,7 +352,7 @@ App.service('utils', function () {
         } else {
           hash = orig.split('').map(function (char) {return char.charCodeAt(0);}).reduce(function (current, previous) {return previous + current;});
           d = new Date();
-          day = d.getYear() + d.getMonth() +d.getDate() +d.getHours();
+          day = d.getYear() + d.getMonth() +d.getDate();// +d.getHours();
           return hash*day;
         }
     };
